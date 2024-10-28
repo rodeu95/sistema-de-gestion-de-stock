@@ -1,0 +1,29 @@
+.navbar-nav .nav-link:hover{
+    background: #d7f5dd !important;
+}
+
+.navbar-nav .nav-item .nav-link {
+    transition: transform 0.2s ease; /* Transición suave */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    transform: scale(1.1); /* Aumenta el tamaño al 110% */
+}
+
+#logo img{
+    float: left;
+    width: auto;
+    height: 60px;
+    padding-left:10px ;
+    /* padding-right:5px; */
+}
+#logo{
+    display: block;
+}
+@media (max-width: 576px) {
+    #logo {
+        display: none !important; /* Ocultar el logo */
+    }
+}
+
+
