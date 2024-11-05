@@ -26,13 +26,12 @@ class UpdateProductRequest extends FormRequest
             'nombre' => 'required|string|max:250',
             'descripcion' => 'nullable|string|max:1000',
             'fchVto' => 'required|date',
-            'precio' => [
-                'required',
-                'numeric',
-                'regex:/^\d+(\.\d{1,2})?$/',
-            ],
-            'stock' => 'required|integer',
-            'total_vendido' => 'integer|nullable',
+            // 'precio' => [
+            //     'required',
+            //     'numeric',
+            //     'regex:/^\d+(\.\d{1,2})?$/',
+            // ],
+            'precio_venta' => 'required|numeric',
         ];
     }
 }

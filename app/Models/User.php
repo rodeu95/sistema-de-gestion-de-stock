@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\RegisterNotification;
 
 class User extends Authenticatable
 {
@@ -53,6 +54,9 @@ class User extends Authenticatable
         ];
     }
 
-
+    public function sendRegistrationNotification($token){
+        $url = route('inicio', $token);
+        $this->notify(new RegisterNotification($url));
+    }
     
 }

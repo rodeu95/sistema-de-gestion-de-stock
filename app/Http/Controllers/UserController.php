@@ -20,9 +20,10 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['create', 'store']);
+        $this->middleware('auth:web');
+        $this->middleware('permission:agregar-usuario', ['only' => ['create','store']]);
         $this->middleware('permission:eliminar-usuario', ['only' => ['destroy']]);
-        $this->middleware('permission:editar-usuario',['only'=>['edit']]);
+        // $this->middleware('permission:editar-usuario',['only'=>['edit', 'update']]);
     }
     
     public function index()
@@ -61,30 +62,40 @@ class UserController extends Controller
 
 
         $user = User::create($input);
-        Auth::login($user);
-        
-        $roleIds = $request->validated(['roles']); // Obtén todos los IDs de los roles
+        if(Auth::check()){
+            $roleIds = $request->validated(['roles']); // Obtén todos los IDs de los roles
 
-        foreach ($roleIds as $roleId) {
-            $role = Role::findOrFail($roleId); // Busca el rol por ID
-            $user->assignRole($role->name); // Asigna el rol usando el nombre
-        }
-        // $user->assignRole($request->validated(['roles']));
-
-        if ($user->hasRole('Cajero') && $request->has('permissions')) {
-            $permissions = Permission::whereIn('id', $request->input('permissions'))->get();
-            
-            if($permissions){
-                $user->syncPermissions($permissions);
+            foreach ($roleIds as $roleId) {
+                $role = Role::findOrFail($roleId); // Busca el rol por ID
+                $user->assignRole($role->name); // Asigna el rol usando el nombre
             }
-        }
-        // dd($user->getDirectPermissions());
-        if ($user->hasRole('Administrador')) {
-            $user->syncPermissions(Permission::all());
+            // $user->assignRole($request->validated(['roles']));
+
+            if ($user->hasRole('Cajero') && $request->has('permissions')) {
+                $permissions = Permission::whereIn('id', $request->input('permissions'))->get();
+                
+                if($permissions){
+                    $user->syncPermissions($permissions);
+                }
+            }
+            // dd($user->getDirectPermissions());
+            if ($user->hasRole('Administrador')) {
+                $user->syncPermissions(Permission::all());
+            }
+
+        
+        }else{
+            Auth::login($user);
         }
 
-        return redirect()->route('users.index')
-                ->withSuccess('New user is added successfully.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Agregado',
+            'text' => 'Nuevo usuario agregado'
+        ]);
+
+        return redirect()->route('users.index');
+                // ->withSuccess('New user is added successfully.');
     }
 
     /**
@@ -102,8 +113,14 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if ($user->id !== Auth::user()->id && !Auth::user()->hasRole('Administrador')) {
+            abort(403, 'NO TIENES PERMISO PARA EDITAR ESTE USUARIO');
+        }
+
+        $roles = Role::all();
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
+        $permissions = Permission::all();
 
         if ($user->hasRole('Administrador')){
             if($user->id != Auth::user()->id){
@@ -113,9 +130,10 @@ class UserController extends Controller
 
         return view('users.edit', [
             'user' => $user,
-            'roles' => Role::pluck('name')->all(),  
+            'roles' => $roles,  
             'userRoles' => $user->getRoleNames()->all(),
-            'cajaAbierta' => $cajaAbierta  
+            'cajaAbierta' => $cajaAbierta,  
+            'permissions' => $permissions,
         ]);
     }
 
@@ -124,30 +142,50 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $input = $request->all();
-        $validatedData = $request->validated($input);
-        if(!empty($request->password)){
-            $input['password'] = Hash::make($request->password);
-        }else{
-            $input = $request->except('password');
-        }
-        
-        $user->update($input);
 
-        $user->syncRoles($request->role);
-
-        if ($user->hasRole('Cajero') && isset($validated['permissions'])) {
-            // Asignar los permisos seleccionados
-            $user->syncPermissions($validatedData['permissions']);
+        if ($user->id !== Auth::user()->id && !Auth::user()->hasRole('Administrador')) {
+            abort(403, 'NO TIENES PERMISO PARA EDITAR ESTE USUARIO');
         }
 
-        // Si el usuario tiene el rol "Administrador", asignar todos los permisos
-        if ($user->hasRole('Administrador')) {
-            $user->syncPermissions(Permission::all());
+        $attributesToUpdate = ['usuario', 'email'];
+
+        foreach($attributesToUpdate as $attribute){
+            if ($request->filled($attribute) && $request->input($attribute) !== $user->$attribute) {
+                $user->$attribute = $request->input($attribute);
+            }
+        }
+        // Si se proporciona una nueva contraseña, actualízala
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
         }
 
-        return redirect()->back()
-                ->withSuccess('User is updated successfully.');
+        if (Auth::user()->hasRole('Administrador')) {
+
+            $roleIds = $request->validated(['roles']); // Obtén todos los IDs de los roles
+
+            foreach ($roleIds as $roleId) {
+                $role = Role::findOrFail($roleId); // Busca el rol por ID
+                $user->syncRoles($role->name); // Asigna el rol usando el nombre
+            }
+
+            if ($request->has('permissions')) {
+                $permissions = Permission::whereIn('id', $request->input('permissions'))->get();
+                
+                if($permissions){
+                    $user->syncPermissions($permissions);
+                }
+            }
+        }
+
+        $user->update($request->all());
+   
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Actualizado',
+            'text' => 'Usuario actualizado correctamente'
+        ]);
+        // Redirecciona con un mensaje de éxito
+        return redirect()->route('users.index');
     }
     
 
@@ -163,7 +201,14 @@ class UserController extends Controller
 
         $user->syncRoles([]);
         $user->delete();
-        return redirect()->route('users.index')
-                ->withSuccess('User is deleted successfully.');
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Eliminado',
+            'text' => 'Usuario eliminado correctamente'
+        ]);
+
+        return redirect()->route('users.index');
+                
     }
 }

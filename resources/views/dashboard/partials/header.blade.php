@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-lg-12">     
-                <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #aed6b5;">
+                <nav class="navbar shadow navbar-expand-lg navbar-dark" style="background-color: #aed6b5;">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -17,12 +17,14 @@
                             <ul class="navbar-nav">
                                 <!-- Resumen -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('inicio') }}" style="color: #000;"><i class="fas fa-home"></i> Inicio</a>
+                                    <a class="nav-link" href="{{ route('inicio') }}" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
+                                        <i class="fas fa-home"></i> Inicio
+                                    </a>
                                 </li>
                                 
                                 <!-- Gestión de Productos -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                         <i class="fa-solid fa-boxes-stacked"></i> Productos
                                     </a>
                                     <ul class="dropdown-menu">
@@ -41,7 +43,7 @@
                                 
                                 <!-- Registro y Historial de Ventas -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                         <i class="fas fa-coins"></i> Ventas
                                     </a>
                                     <ul class="dropdown-menu">
@@ -50,34 +52,34 @@
                                                 <a class="dropdown-item" href="{{ route('ventas.create') }}">Registrar venta</a>
                                             @endcan
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Historial de ventas</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('ventas.index') }}">Historial de ventas</a></li>
                                     </ul>
                                 </li>
 
                                 <!-- Control de Inventario -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                         <i class="fas fa-warehouse"></i> Inventario
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Control de stock</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Control de stock</a></li>
                                         <li><a class="dropdown-item" href="#">Actualizar inventario</a></li>
                                     </ul>
                                 </li>
 
                                 <!-- Exportación de Datos -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                      <i class="fas fa-file-export"></i> Exportar
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Exportar Excel <i class="fa-solid fa-file-excel"></i> </a></li>
-                                        <li><a class="dropdown-item" href="#">Exportar PDF <i class="fa-solid fa-file-pdf"></i> </a></li>
+                                        <li><a class="dropdown-item" href="{{ route('productos.export') }}">Exportar Excel <i class="fa-solid fa-file-excel"></i> </a></li>
+                                        <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar PDF <i class="fa-solid fa-file-pdf"></i> </a></li>
                                     </ul>
                                 </li>
 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                         <i class="fas fa-users"></i> Usuarios
                                     </a>
                                     <ul class="dropdown-menu">
@@ -88,7 +90,7 @@
 
                                 @canany(['abrir-caja', 'cerrar-caja'])
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #000;">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                             <i class="fas fa-cash-register"></i>
                                             @if($cajaAbierta)
                                                 Caja Abierta
@@ -133,7 +135,7 @@
                                 @endcanany
                                 <!-- Perfil o Logout -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#000;">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
                                         <i class="fas fa-user-circle"></i> {{ Auth::user()->usuario }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">

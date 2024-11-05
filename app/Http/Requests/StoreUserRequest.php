@@ -24,11 +24,12 @@ class StoreUserRequest extends FormRequest
         return [
             'usuario' => 'required|string|max:100',
             'name' => 'required|string|max:250',
-            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
+            'email' => 'required|email|max:250|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'roles' => 'required|array', 
             'permissions' => 'sometimes|array',
             'permissions.*' => 'sometimes|integer|exists:permissions,id',
+           
         ];
     }
 }

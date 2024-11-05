@@ -11,6 +11,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\CajaController;
+use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\PDFController;
 
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
@@ -28,6 +30,7 @@ Route::resources([
     'users' => UserController::class,
     'productos' => ProductoController::class,
     'ventas' => VentasController::class,
+    'inventario' => InventarioController::class,
 ]);
 
 Route::middleware('auth')->group(function () {
@@ -42,6 +45,12 @@ Route::middleware(['auth', 'permission:cerrar-caja'])->group(function () {
     Route::post('/caja/cerrar', [CajaController::class, 'cerrar'])->name('caja.cerrar');
 });
 
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
+
+Route::controller(ProductoController::class)->group(function(){
+    Route::get('/productos', 'index')->name('productos.index');
+    Route::get('/productos-export', 'export')->name('productos.export');
+});
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

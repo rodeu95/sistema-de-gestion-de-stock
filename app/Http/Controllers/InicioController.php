@@ -7,24 +7,39 @@ use App\Models\Producto;
 use App\Models\Venta;
 use App\Models\Caja;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class InicioController extends Controller
 {
     public function index()
     {
 
-        $totalVentasHoy = Venta::whereDate('created_at', now())->count();
-        $montoTotalHoy = Venta::whereDate('created_at', now())->sum('monto_total');
- 
-        $ventas = Venta::selectRaw('DATE(created_at) as date, SUM(monto_total) as total')
-                            ->groupBy('date')
-                            ->orderBy('date', 'desc')
-                            ->limit(7)
-                            ->get();
-
+        $today = Carbon::now()->startOfDay();
+        $endOfToday = Carbon::now()->endOfDay();
         
-        $labels = $ventas->isEmpty() ? ['Día 1', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6', 'Día 7'] : $ventas->pluck('date');
-        $data = $ventas->isEmpty() ? [0, 0, 0, 0, 0, 0, 0] : $ventas->pluck('total');
+        // Contar las ventas de hoy y calcular el monto total de hoy
+        $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->count();
+        $montoTotalHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->sum('monto_total');
+ 
+        $sevenDaysAgo = Carbon::now()->subDays(6)->startOfDay();
+        $ventas = Venta::whereBetween('fecha_venta', [$sevenDaysAgo, $endOfToday])
+                       ->selectRaw('DATE(fecha_venta) as date, SUM(monto_total) as total')
+                       ->groupBy('date')
+                       ->orderBy('date', 'desc')
+                       ->get();
+        
+        // Crear labels y datos para el gráfico de los últimos 7 días
+        $labels = collect();
+        $data = collect();
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::now()->subDays($i)->toDateString();
+            $labels->push($date);
+
+            // Buscar la venta para la fecha actual
+            $venta = $ventas->firstWhere('date', $date);
+            $data->push($venta ? $venta->total : 0);
+        }
 
         $bajoStock = Producto::where('stock', '<=', 10)->get();
         $caja = Caja::find(1);

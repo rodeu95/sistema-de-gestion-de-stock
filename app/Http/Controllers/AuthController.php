@@ -8,6 +8,9 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
+
 
 class AuthController extends Controller
 {
@@ -39,6 +42,9 @@ class AuthController extends Controller
         ]);
         $user->assignRole('User');
         Auth::login($user);
+
+        Mail::to($user->email)->send(new WelcomeMail($user));
+        
         return redirect()->route('users.index')->with('success', 'Usuario registrado exitosamente.');
     }
 
@@ -72,7 +78,7 @@ class AuthController extends Controller
         $request->session()->invalidate(); // Invalida la sesión actual
         $request->session()->regenerateToken(); // Regenera el token CSRF
 
-        return redirect('/login')->with('success', 'Sesión cerrada correctamente.');
+        return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 
 }

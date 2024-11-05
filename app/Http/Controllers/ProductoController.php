@@ -10,6 +10,10 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Caja;
 use Spatie\Permission\Contracts\Permission;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Lote;
+
 
 class ProductoController extends Controller
 {
@@ -22,12 +26,20 @@ class ProductoController extends Controller
         $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
     }
      
-    public function index(){
+    public function index(Request $request){
 
-        $productos = Producto::all();
+        $search = $request->input('search');
+
+    // Filtramos los productos según el término de búsqueda
+        $productos = Producto::when($search, function ($query, $search) {
+            return $query->where('nombre', 'like', '%' . $search . '%');
+        })->get();
+
+        // Obtenemos el estado de la caja
         $caja = Caja::find(1);
-        $cajaAbierta = $caja ? $caja->estado:false;
-        return view('productos.index',compact('productos', 'cajaAbierta'));
+        $cajaAbierta = $caja ? $caja->estado : false;
+
+        return view('productos.index', compact('productos', 'cajaAbierta'));
         
     }
     public function create(){
@@ -41,21 +53,35 @@ class ProductoController extends Controller
     public function store(StoreProductRequest $request)
     {
 
-        $data = $request->all();
-        $data['descripcion'] = $data['descripcion'] ?? '';
-
+        $lote = Lote::create([
+            'numero_lote' => $request->numero_lote,
+            'fecha_vencimiento' => $request->fchVto,
+        ]);
+        // dd($request->all());
         $producto = new Producto();
         $producto->codigo = $request->codigo;
         $producto->nombre = $request->nombre;
-        $producto->descripcion = $request->descripcion;
-        $producto->precio = $request->precio;
-        $producto->stock = $request->stock;
-        $producto->fchVto = $request->fchVto;
+        $producto->unidad = $request->unidad;
+        $producto->numero_lote = $lote->numero_lote;
+        $producto->fchVto = $lote->fecha_vencimiento;
+        $producto->precio_costo = $request->precio_costo;
+        $producto->precio_venta = $request->precio_venta;
+        $producto->iva = $request->iva;
+        $producto->utilidad = $request->utilidad;
+        $producto->descripcion = $request->descripcion ?? '';
         $producto->categoria_id = $request->categoria_id;
-        
+        $producto->stock = $request->stock;
+
         $producto->save();
-        return redirect()->route('productos.index')
-                ->withSuccess('New product is added successfully.');
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Nuevo producto',
+            'text' => 'Producto agregado'
+        ]);
+        
+        return redirect()->route('productos.index');
+               
     }
 
     public function show(Producto $producto){
@@ -69,25 +95,42 @@ class ProductoController extends Controller
     }
 
     public function edit(Producto $producto){
+        $categorias = Categoria::all();
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
 
         return view('productos.edit', [
-            'product' => $producto,
+            'producto' => $producto,
             'cajaAbierta' => $cajaAbierta,
+            'categorias' => $categorias
         ]);
     }
 
     public function update(UpdateProductRequest $request, Producto $producto){
         $producto->update($request->all());
-        return redirect()->back()
-                ->withSuccess('Product is updated successfully.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Actualizado',
+            'text' => 'Producto actualizado correctamente'
+        ]);
+        return redirect()->back();
+                // ->withSuccess('Product is updated successfully.');
 
     }
 
     public function destroy(Producto $producto){
         $producto->delete();
-        return redirect()->route('productos.index')
-                ->withSuccess('Product is deleted successfully.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Eliminado',
+            'text' => 'Producto eliminado correctamente'
+        ]);
+        return redirect()->route('productos.index');
+                // ->withSuccess('Product is deleted successfully.');
     }
+
+    public function export(){
+        return Excel::download(new ProductsExport, 'productos.xlsx');
+    }
+        
 }

@@ -6,6 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Pagination\Paginator;
 use Route;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Events\Registered;
+use App\Models\User;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        
     }
 
     /**
@@ -28,4 +33,6 @@ class AppServiceProvider extends ServiceProvider
         
         Paginator::useBootstrapFive();
     }
+
+
 }

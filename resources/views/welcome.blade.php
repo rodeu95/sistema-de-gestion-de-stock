@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
+    <!-- <style>
         body {
             font-family: 'Dosis', sans-serif;
             background-color: #f0f8ff;
@@ -32,7 +34,7 @@
         .btn-custom:hover {
             background-color: #d7f5dd;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <!-- Navbar -->
@@ -48,7 +50,9 @@
     <!-- Contenido principal -->
     <div class="container">
         <div class="welcome-content">
-            <h1 class="display-4">Sistema de Gestión de Stock</h1>
+            <h1 class="display-4">
+                <i class="fa-solid fa-boxes-stacked"></i> Sistema de Gestión de Stock <i class="fa-solid fa-dolly"></i>
+            </h1>
             <p class="lead">Seleccione una opción para comenzar.</p>
             <a href="{{ route('login') }}" class="btn btn-custom">Iniciar Sesión</a>
             <a href="{{ route('register') }}" class="btn btn-custom">Registrarse</a>

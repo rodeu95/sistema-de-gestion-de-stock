@@ -1,28 +1,12 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-    <title>Lista de Usuarios</title>
-</head>
-@include('dashboard.partials.header')
+@extends('layouts.app')
 
-<body>
+@section('content')
     <div class="container mt-5">
-        <h2 class="text-center">Lista de Usuarios</h2>
+        <h1 class="text-center my-4" style="margin:2%;">Lista de Usuarios</h2>
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table shadow table-bordered table-hover ">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -60,24 +44,28 @@
                                 @endif
                             </td>
                             <td class="col-2 text-center">
-                                <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
 
-                                    @role('Administrador')
-            
+                                    @if(Auth::user()->hasRole('Administrador') || $user->id === Auth::user()->id)
+                                    
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i> Editar
                                         </a>
+                                    @endif
 
                                         {{-- Evitar que el administrador se elimine a sí mismo --}}
+                                    @if(Auth::user()->hasRole('Administrador') && $user->id !== Auth::user()->id)
+                                        
+
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Deseas eliminar este usuario?');">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="confirmDelete('{{$user->id}}')">
                                                 <i class="fa-solid fa-trash-can"></i> Eliminar
                                             </button>
                                         @endif
-                                    @endrole
+                                    @endif
 
                                 </form>
                                 
@@ -93,6 +81,24 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    @push('js')
+    <script>
+        function confirmDelete(userId) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "No podrás volver atrás",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Eliminar de todas formas",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + userId).submit();
+                }
+            });
+        }
+    </script>
+    @endpush
+@endsection

@@ -13,18 +13,24 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table){
             $table->id();
-            $table->string('codigo');
+            $table->string('codigo')->unique();
             $table->string('nombre');
-            $table->text('descripcion')->nullable()->change;
+            $table->text('descripcion')->nullable();
+            $table->string('unidad');
+            $table->string('numero_lote', 50); // Cambia el nombre si es necesario
             $table->date('fchVto');
-            $table->decimal('precio', 10,2);
+            $table->decimal('precio_costo', 10, 2);
+            $table->decimal('precio_venta', 10, 2);
+            $table->decimal('iva');
+            $table->decimal('utilidad');
             $table->integer('stock');
             $table->integer('total_vendido')->default(0);
             $table->unsignedBigInteger('categoria_id');
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->timestamps();
+            
+            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->foreign('numero_lote')->references('numero_lote')->on('lotes')->onDelete('cascade');
+            
         });
     }
 

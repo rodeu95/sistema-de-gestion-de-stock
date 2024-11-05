@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para agregar un producto a la lista
     function addProductToList(productId, productName, productPrice, quantity) {
+        if (!productId || quantity <= 0) return;
         console.log(`Agregando producto: ${productName}, ID: ${productId}, Cantidad: ${quantity}`);
         const container = document.getElementById('product-list');
         const listItem = document.createElement('li');
@@ -90,4 +91,25 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', validateForm);
     }
+
+    document.getElementById('ventasForm').addEventListener('submit', function(event) {
+        const productoInputs = document.querySelectorAll('input[name="producto_id[]"]');
+        const cantidadInputs = document.querySelectorAll('input[name="cantidad[]"]');
+
+        // Elimina valores vacíos o nulos
+        
+        productoInputs.forEach((input, index) => {
+            if (!input.value || !cantidadInputs[index].value || cantidadInputs[index].value <= 0) {
+                input.remove();
+                cantidadInputs[index].remove();
+            }
+        });
+
+        // Si no hay productos válidos, cancela el envío y muestra un mensaje
+        if (document.querySelectorAll('input[name="producto_id[]"]').length === 0) {
+            event.preventDefault();
+            alert("Debe agregar al menos un producto con cantidad válida.");
+        }
+    });
+    
 });

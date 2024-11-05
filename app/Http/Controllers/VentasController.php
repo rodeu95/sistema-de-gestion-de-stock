@@ -7,6 +7,7 @@ use App\Models\Venta;
 use App\Models\Caja;
 use App\Models\MetodoDePago;
 use App\Models\Producto;
+use Illuminate\Support\Carbon;
 
 class VentasController extends Controller
 {
@@ -15,8 +16,22 @@ class VentasController extends Controller
         $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
     }
 
-    public function index(){
-        return view('ventas.index');
+    public function index(Request $request){
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
+
+        $fecha = $request->input('fecha_venta')? Carbon::parse($request->input('fecha'))->format('Y-m-d') : null;
+
+    // Si hay una fecha, filtrar las ventas por esa fecha, sino obtener todas las ventas
+        $ventas = Venta::when($fecha, function ($query) use ($fecha) {
+            $query->whereDate('fecha_venta', $fecha);
+        })->with('productos', 'metodopago')->get();
+
+        return view('ventas.index', [
+            'ventas' => $ventas,
+            'cajaAbierta' => $cajaAbierta,
+            'fecha' => $fecha
+        ]);
     }
 
     public function create(){
@@ -42,51 +57,96 @@ class VentasController extends Controller
 
         $validatedData = $request->validate([
             'producto_id' => 'required|array',
-            'producto_id.*' => 'exists:productos,id',
+            'producto_id.*' => 'required|exists:productos,id',
             'cantidad' => 'required|array',
-            'cantidad.*' => 'integer|min:1',
+            'cantidad.*' => 'required|integer|min:1',
             'monto_total' => 'required|numeric|min:0',
-            'metodo_pago' => 'required|exists:metodos_de_pago,id', // si tu tabla de métodos de pago se llama 'metodos_de_pago'
+            'metodo_pago_id' => 'required|exists:metodos_de_pago,id', 
             'fecha_venta' => 'nullable|date',
         ]);
 
         $venta = Venta::create([
             'monto_total' => $validatedData['monto_total'],
-            'metodo_pago' => $validatedData['metodo_pago'],
+            'metodo_pago_id' => $validatedData['metodo_pago_id'],
             'fecha_venta' => $validatedData['fecha_venta'] ?? now(),
         ]);
 
-        $productos = $request->input('producto_id');
-        $cantidades = $request->input('cantidad');
+        $productos = $validatedData['producto_id'];
+        $cantidades = $validatedData['cantidad'];
 
         foreach ($productos as $index => $producto_id) {
-            $venta->productos()->attach($producto_id, ['cantidad' => $cantidades[$index]]);
+
+            $cantidad = $cantidades[$index];
+            $producto = Producto::findOrFail($producto_id);
+            
+            if ($producto->stock >= $cantidad) {
+                // Disminuye el stock total del producto
+                $producto->stock -= $cantidad;
+                $producto->save();
+        
+                // Asocia el producto a la venta con la cantidad vendida
+                $venta->productos()->syncWithoutDetaching($producto_id, ['cantidad' => $cantidad]);
+            } else {
+                // Maneja el caso en el que no hay suficiente stock
+                return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
+            }
         }
 
         $venta->save();
-        return response()->json([
-            'message' => 'Venta creada con éxito',
-            'venta' => $venta,
-        ], 201);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Nueva venta',
+            'text' => 'Venta agregada'
+        ]);
+
+        return redirect()->route('ventas.create');
+                
 
     }
 
     public function show(Venta $venta){
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
 
+        return view('ventas.show', [
+            'venta' => $venta,
+            'cajaAbierta' => $cajaAbierta
+        ]);
     }
 
     public function edit(Venta $venta){
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
+        $productos = Producto::all();
 
+        return view('ventas.edit', [
+            'venta' => $venta,
+            'cajaAbierta' => $cajaAbierta,
+            'productos' => $productos
+        ]);
     }
 
-    public function update(Request $request){
-
+    public function update(Request $request, Venta $venta){
+        $venta->update($request->all());
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Actualizado',
+            'text' => 'Venta actualizado correctamente'
+        ]);
+        return redirect()->back();
+                // ->withSuccess('Venta actualizada.');
     }
 
     public function destroy(Venta $venta){
         $venta->delete();
-        return redirect()->route('ventas.index')
-                ->withSuccess('La venta fue eliminada exitosamente.');
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Eliminado',
+            'text' => 'Venta eliminada correctamente'
+        ]);
+        return redirect()->route('ventas.index');
+                // ->withSuccess('La venta fue eliminada exitosamente.');
     }
 }
 

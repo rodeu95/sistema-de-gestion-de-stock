@@ -6,12 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^3.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
+        "maatwebsite/excel": "^3.1",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.2",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",

@@ -27,7 +27,7 @@ class CajaController extends Controller
         
         Caja::updateOrCreate(['id' => 1], ['estado' => true]);
 
-        return redirect()->route('inicio')->with('alert', 'Caja abierta')->with('user', Auth::user());
+        return redirect()->route('inicio')->with('info', 'Caja abierta')->with('user', Auth::user());
 
     }
 
@@ -37,7 +37,7 @@ class CajaController extends Controller
     // Cambiar el estado de la caja
         Caja::updateOrCreate(['id' => 1], ['estado' => false]);
 
-        return redirect()->route('inicio')->with('alert', 'Caja cerrada. No puede registrar más ventas.')->with('user', Auth::user());
+        return redirect()->route('inicio')->with('info', 'Caja cerrada. No puede registrar más ventas.')->with('user', Auth::user());
 
         }
 

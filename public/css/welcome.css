@@ -1,0 +1,99 @@
+body {
+    font-family: 'Dosis', sans-serif;
+    background-color: #f0f8ff;
+}
+.fa-cash-register, .fa-dolly {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.fa-cash-register, .fa-dolly {
+    position: relative;
+}
+
+.fa-cash-register::after,
+.fa-dolly::after {
+    content: "";
+    position: absolute;
+    bottom: -15px; /* Ajusta la distancia de la sombra debajo del icono */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px; /* Tamaño de la sombra, ajusta según el tamaño del icono */
+    height: 5px; /* Grosor de la sombra */
+    background-color: rgba(0, 0, 0, 0.3); /* Color de la sombra con transparencia */
+    border-radius: 50%; /* Hace que la sombra sea ovalada */
+    filter: blur(3px); /* Aplica un desenfoque para suavizar la sombra */
+    z-index: -1;
+}
+.btn{
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
+}
+.navbar {
+    margin-bottom: 30px;
+}
+
+.navbar-brand{
+    color:white;
+    font-size: larger;
+    font-weight: bold;
+}
+.container {
+    position: relative;
+    z-index: 2;
+    margin-top: 50px;
+    text-align: center;
+    color: #000;
+}
+.welcome-content {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    padding: 30px;
+    border-radius: 10px;
+}
+.carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.carousel-inner {
+    height: 100vh; /* Altura completa de la pantalla */
+}
+.carousel-item {
+    height: 100vh; /* Altura completa de la pantalla */
+    background-size: cover;
+    background-position: center;
+}
+.carousel-caption {
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+.btn-custom {
+    background-color: #aed6b5;
+    border: none;
+    padding: 10px 20px;
+    color: #000;
+    margin: 10px;
+    transition: background-color 0.3s;
+}
+.btn-custom:hover {
+    background-color: #d7f5dd;
+}
+
+#logo img{
+float: left;
+width: auto;
+height: 80px;
+padding-left:10px ;
+/* padding-right:5px; */
+}
+#logo{
+    display: block;
+}
+@media (max-width: 576px) {
+    #logo {
+        display: none !important; /* Ocultar el logo */
+    }
+}

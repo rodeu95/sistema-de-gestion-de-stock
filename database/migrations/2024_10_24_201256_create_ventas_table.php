@@ -14,15 +14,14 @@ return new class extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('producto_id'); // ID del producto vendido (relación con la tabla productos)
-            $table->integer('cantidad'); // Cantidad vendida del producto
             $table->decimal('monto_total', 10, 2);
-            $table->string('metodo_pago'); // Monto total de la venta
+            $table->unsignedBigInteger('metodo_pago_id'); 
             $table->date('fecha_venta')->default(DB::raw('CURRENT_DATE')); // Fecha de la venta
             $table->timestamps();
-
-            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
+            $table->foreign('metodo_pago_id')->references('id')->on('metodos_de_pago')->onDelete('cascade');
         });
+
+        
     }
 
     /**

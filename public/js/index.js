@@ -22,6 +22,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 }]
             },
             options: {
+                animation: {
+                    duration: 1500,  // Duración de la animación en milisegundos
+                    easing: 'easeInOutBounce' // Efecto de animación
+                },
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true

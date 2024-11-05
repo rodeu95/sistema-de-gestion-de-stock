@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Lote;
+
 
 class Producto extends Model
 {
@@ -17,7 +19,13 @@ class Producto extends Model
         'fchVto',
         'precio',
         'stock',
-        'total_vendido'
+        'total_vendido',
+        'unidad',
+        'precio_costo',
+        'precio_venta',
+        'numero_lote',
+        'iva',
+        'utilidad'
     ];
 
     public function ventas()
@@ -25,5 +33,9 @@ class Producto extends Model
         return $this->belongsToMany(Venta::class, 'venta_producto', 'producto_id', 'venta_id')
                     ->withPivot('cantidad')
                     ->withTimestamps();
+    }
+
+    public function lotes(){
+        return $this->hasMany(Lote::class, 'numero_lote', 'numero_lote');
     }
 }
