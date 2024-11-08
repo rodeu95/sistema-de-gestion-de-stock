@@ -8,7 +8,7 @@
         <div class="table-responsive">
             <table class="table shadow table-bordered table-hover ">
                 <thead>
-                    <tr>
+                    <tr class="table-warning text-center">
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
@@ -50,7 +50,7 @@
 
                                     @if(Auth::user()->hasRole('Administrador') || $user->id === Auth::user()->id)
                                     
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn shadow btn-primary btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i> Editar
                                         </a>
                                     @endif
@@ -61,7 +61,7 @@
 
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="confirmDelete('{{$user->id}}')">
+                                            <button type="submit" class="btn shadow btn-danger btn-sm" onclick="confirmDelete('{{$user->id}}')">
                                                 <i class="fa-solid fa-trash-can"></i> Eliminar
                                             </button>
                                         @endif

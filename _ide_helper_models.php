@@ -131,8 +131,7 @@ namespace App\Models{
 /**
  * 
  *
- * @property int $id
- * @property string $codigo
+ * @property int $codigo
  * @property string $nombre
  * @property string|null $descripcion
  * @property string $unidad
@@ -142,11 +141,11 @@ namespace App\Models{
  * @property string $precio_venta
  * @property string $iva
  * @property string $utilidad
- * @property int $stock
- * @property int $total_vendido
+ * @property float $stock
  * @property int $categoria_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Categoria $categoria
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Lote> $lotes
  * @property-read int|null $lotes_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Venta> $ventas
@@ -159,14 +158,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereFchVto($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereNombre($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereNumeroLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto wherePrecioCosto($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto wherePrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereStock($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereTotalVendido($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUtilidad($value)

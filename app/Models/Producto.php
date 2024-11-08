@@ -12,6 +12,8 @@ class Producto extends Model
     use HasFactory;
     
     protected $table = 'productos';
+    protected $primaryKey = 'codigo';
+
     protected $fillable=[
         'codigo',
         'nombre',
@@ -30,12 +32,16 @@ class Producto extends Model
 
     public function ventas()
     {
-        return $this->belongsToMany(Venta::class, 'venta_producto', 'producto_id', 'venta_id')
+        return $this->belongsToMany(Venta::class, 'venta_producto', 'producto_cod', 'venta_id')
                     ->withPivot('cantidad')
                     ->withTimestamps();
     }
 
     public function lotes(){
         return $this->hasMany(Lote::class, 'numero_lote', 'numero_lote');
+    }
+
+    public function categoria(){
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 }

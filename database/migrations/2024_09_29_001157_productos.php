@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('productos', function (Blueprint $table){
-            $table->id();
-            $table->string('codigo')->unique();
+            $table->string('codigo');
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->string('unidad');
@@ -23,13 +22,13 @@ return new class extends Migration
             $table->decimal('precio_venta', 10, 2);
             $table->decimal('iva');
             $table->decimal('utilidad');
-            $table->integer('stock');
-            $table->integer('total_vendido')->default(0);
+            $table->float('stock');
             $table->unsignedBigInteger('categoria_id');
             $table->timestamps();
             
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->foreign('numero_lote')->references('numero_lote')->on('lotes')->onDelete('cascade');
+            $table->primary('codigo');
             
         });
     }

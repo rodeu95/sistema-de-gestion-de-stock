@@ -12,41 +12,50 @@ class InventarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:gestionar-inventario', ['only' => ['index', 'updateStock']]);
+        $this->middleware('permission:gestionar-inventario', ['only' => ['index']]);
     }
 
     public function index()
     {
+        
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
-        $productos = Producto::with('lotes')->get();
+        $productos = Producto::with('lotes', 'categoria')->get();
+        // dd($productos);
         return view('inventario.index', compact('productos', 'cajaAbierta'));
     }
 
-    public function updateStock(Request $request, $id)
-    {
-        $request->validate([
-            'stock' => 'required|integer|min:0'
+    public function edit(){
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
+        $productos = Producto::all();
+
+        return view('inventario.edit', compact('productos', 'cajaAbierta'));
+    }
+
+    public function update(Request $request){
+
+        $validatedData = $request->validate([
+            'producto_cod' => 'required|array',
+            'producto_cod.*' => 'exists:productos,codigo',
+            'cantidad' => 'required|array',
+            'cantidad.*' => 'numeric|min:0.01'
         ]);
-
-        $producto = Producto::findOrFail($id);
-        
-        $producto->save();
-
-        return redirect()->route('inventario.index')->with('success', 'Stock actualizado exitosamente.');
-    }
-
     
-    public function reduceStock($productoId, $cantidadVendida)
-    {
-        $producto = Producto::findOrFail($productoId);
-
-        if ($producto->stock >= $cantidadVendida) {
-            $producto->stock -= $cantidadVendida;
+        foreach ($validatedData['producto_cod'] as $index => $productoCod) {
+            $cantidad = $validatedData['cantidad'][$index];
+            $producto = Producto::find($productoCod);
+    
+            // Update the product's stock
+            $producto->stock += $cantidad;
             $producto->save();
-            return response()->json(['message' => 'Stock reducido exitosamente'], 200);
-        } else {
-            return response()->json(['error' => 'Stock insuficiente'], 400);
         }
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Actualizado',
+            'text' => 'Inventario actualizado correctamente'
+        ]);
+        return redirect()->back();
     }
+    
 }

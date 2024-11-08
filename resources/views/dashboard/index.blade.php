@@ -31,7 +31,11 @@
                                         @foreach ($bajoStock as $producto)
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 {{ $producto->nombre }}
-                                                <span class="badge text-bg-danger ">{{ $producto->stock }} unidades</span>
+                                                @if($producto->unidad === 'UN')
+                                                    <span class="badge text-bg-danger ">{{ $producto->stock }} unidades</span>
+                                                @else
+                                                    <span class="badge text-bg-danger ">{{ $producto->stock }} kg.</span>
+                                                @endif
                                             </li>
                                         @endforeach
                                     </ul>
@@ -72,16 +76,16 @@
                     </div>
                     <div class="card-body d-flex justify-content-around">
                         @can('registrar-venta')
-                            <a href="{{ route('ventas.create') }}" class="btn btn-success shadow-sm" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <a href="{{ route('ventas.create') }}" class="btn shadow btn-success" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                                 <i class="fas fa-cash-register me-2"></i>Registrar Venta
                             </a>
                         @endcan
                         @can('agregar-producto')
-                            <a href="{{ route('productos.create') }}" class="btn btn-primary shadow-sm" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <a href="{{ route('productos.create') }}" class="btn shadow btn-primary" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                                 <i class="fas fa-plus-circle me-2"></i>Agregar Producto
                             </a>
                         @endcan
-                        <a href="{{ route('ventas.index') }}" class="btn btn-warning shadow-sm" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        <a href="{{ route('ventas.index') }}" class="btn shadow btn-warning" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                             <i class="fas fa-history me-2"></i>Ver Historial de Ventas
                         </a>
                     </div>

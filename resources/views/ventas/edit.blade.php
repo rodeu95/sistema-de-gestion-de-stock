@@ -25,10 +25,10 @@
 
                                 <div class="mb-3">
                                     <label for="producto-select" class="form-label">Producto</label>
-                                    <select id="producto-select" class="form-select" name="producto_id[]">
+                                    <select id="producto-select" class="form-select" name="producto_cod[]">
                                         <option value="" disabled selected>Seleccione un producto</option>
                                         @foreach($productos as $producto)
-                                            <option value="{{ $producto->id }}" data-precio="{{ $producto->precio }}">
+                                            <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio }}">
                                                 {{ $producto->nombre }} - ${{ $producto->precio }}
                                             </option>
                                         @endforeach
@@ -51,7 +51,7 @@
                                             {{ $producto->nombre }} - {{ $producto->pivot->cantidad }} x ${{ $producto->precio }} 
                                             = ${{ number_format($producto->pivot->cantidad * $producto->precio, 2) }}
                                             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-                                            <input type="hidden" name="producto_id[]" value="{{ $producto->id }}">
+                                            <input type="hidden" name="producto_cod[]" value="{{ $producto->codigo }}">
                                             <input type="hidden" name="cantidad[]" value="{{ $producto->pivot->cantidad }}">
                                         </li>
                                     @endforeach

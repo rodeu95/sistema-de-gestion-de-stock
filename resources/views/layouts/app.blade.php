@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+        <!-- <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" /> -->
         <link href="{{ asset('css/index.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cards.css') }}" rel="stylesheet">
     </head>
@@ -37,8 +39,12 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+        <!-- <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script> -->
+        <script src="{{ mix('js/app.js') }}"></script>
         <script src="{{ asset('js/ventas.js') }}"></script>
         <script src="{{ asset('js/index.js') }}"></script>
         <script src="{{ asset('js/login.js') }}"></script>
@@ -61,5 +67,6 @@
                 Swal.fire({!! json_encode(session('swal')) !!});
             </script>
         @endif
+
     </body>
 </html>

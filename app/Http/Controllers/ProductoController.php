@@ -28,18 +28,14 @@ class ProductoController extends Controller
      
     public function index(Request $request){
 
-        $search = $request->input('search');
-
-    // Filtramos los productos según el término de búsqueda
-        $productos = Producto::when($search, function ($query, $search) {
-            return $query->where('nombre', 'like', '%' . $search . '%');
-        })->get();
-
+        $productos = Producto::all();
+        $categorias = Categoria::all();
+        $producto = $request->producto;
         // Obtenemos el estado de la caja
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado : false;
 
-        return view('productos.index', compact('productos', 'cajaAbierta'));
+        return view('productos.index', compact('productos', 'producto','cajaAbierta', 'categorias'));
         
     }
     public function create(){
@@ -76,8 +72,8 @@ class ProductoController extends Controller
 
         session()->flash('swal', [
             'icon' => 'success',
-            'title' => 'Nuevo producto',
-            'text' => 'Producto agregado'
+            'title' => '¡Producto agregado!',
+            'text' => 'el producto agregado se ha agregado correctamente'
         ]);
         
         return redirect()->route('productos.index');

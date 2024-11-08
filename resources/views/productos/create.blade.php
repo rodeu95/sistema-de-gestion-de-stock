@@ -44,7 +44,7 @@
 
                                     <div class="mb-3">
                                         <label for="unidad" class="form-label">Unidad</label>
-                                        <select class="form-select" id="unidad" name="unidad" required>
+                                        <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
                                             <option value="" selected disabled></option>
                                             <option value="UN">UN</option>
                                             <option value="KG">KG</option>
@@ -64,17 +64,24 @@
                                     <!-- Campo Stock -->
                                     <div class="mb-3">
                                         <label for="stock" class="form-label">Stock</label>
-                                        <input type="number" class="form-control" id="stock" name="stock" placeholder="Ingrese la cantidad de stock disponible" required>
+                                        <input 
+                                            type="number" 
+                                            class="form-control" 
+                                            id="stock" 
+                                            name="stock" 
+                                            placeholder="Ingrese la cantidad de stock disponible"
+                                            required
+                                        >
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="numero_lote" class="form-label">Numero de Lote</label>
-                                        <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote" required>
+                                        <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="fchVto" class="form-label">Fecha de Vencimiento</label>
-                                        <input type="date" class="form-control" id="fchVto" name="fchVto" required>
+                                        <input type="date" class="form-control" id="fchVto" name="fchVto">
                                     </div>
 
                                     <!-- Campo Categoría -->
@@ -110,12 +117,12 @@
             title: 'Ingresar detalles del precio',
             html:
                 `<label>Precio Costo:</label><input type="number" id="precioCosto" class="swal2-input" step="0.01" placeholder="Precio Costo" required>
-                <label>IVA (%):</label><input type="number" id="iva" class="swal2-input" step="0.01" placeholder="IVA" required>
+                <label>IVA (%):</label><input type="number" id="iva" class="swal2-input" step="0.01" placeholder="21%" readonly required>
                 <label>% de Utilidad:</label><input type="number" id="utilidad" class="swal2-input" step="0.01" placeholder="% Utilidad" required>`,
             focusConfirm: false,
             preConfirm: () => {
                 const precioCosto = parseFloat(document.getElementById('precioCosto').value);
-                const iva = parseFloat(document.getElementById('iva').value) / 100;
+                const iva = 21 / 100;
                 const utilidad = parseFloat(document.getElementById('utilidad').value) / 100;
 
                 if (isNaN(precioCosto) || isNaN(iva) || isNaN(utilidad)) {
@@ -136,6 +143,16 @@
             showCancelButton: true,
             confirmButtonText: 'OK'
         })
+    }
+    function updateStockStep() {
+        const unidad = document.getElementById('unidad').value;
+        const stockInput = document.getElementById('stock');
+
+        if (unidad === 'KG') {
+            stockInput.step = '0.01';
+        } else {
+            stockInput.step = '1';
+        }
     }
 </script>
 

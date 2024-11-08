@@ -26,13 +26,13 @@ class StoreProductRequest extends FormRequest
             'nombre' => 'required|string|max:250',
             'descripcion' => 'nullable|string|max:1000',
             'unidad' => 'required|string',
-            'fchVto' => 'required|date',
-            'stock' => 'required|integer',
+            'fchVto' => 'date',
+            'stock' => 'required|numeric',
             'precio_costo' => 'required|numeric',
             'iva' => 'required|numeric',
             'utilidad' => 'required|numeric',
             'precio_venta' => 'required|numeric',
-            'numero_lote' => 'required|string|max:50'
+            'numero_lote' => 'max:50'
         ];
     }
 }

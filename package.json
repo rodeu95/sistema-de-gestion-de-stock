@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "chart.js": "^4.4.5",
+        "gridjs": "^6.2.0",
         "sweetalert2": "^11.14.4"
     }
 }

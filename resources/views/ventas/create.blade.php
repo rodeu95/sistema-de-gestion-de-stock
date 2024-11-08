@@ -33,10 +33,10 @@
                                     
                                     <div class="mb-3">
                                         <label for="producto-select" class="form-label">Producto</label>
-                                        <select id="producto-select" class="form-select" name="producto_id[]" >
+                                        <select id="producto-select" class="form-select" name="producto_cod[]" >
                                             <option value="" disabled selected>Seleccione un producto</option>
                                             @foreach($productos as $producto)
-                                                <option value="{{ $producto->id }}" data-precio="{{ $producto->precio_venta }}">
+                                                <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
                                                     {{ $producto->nombre }} - ${{ $producto->precio_venta }}
                                                 </option>
                                             @endforeach
@@ -45,7 +45,15 @@
 
                                     <div class="mb-3">
                                         <label for="cantidad-input" class="form-label">Cantidad</label>
-                                        <input type="number" id="cantidad-input" class="form-control" name="cantidad[]" min="1">
+                                        <input 
+                                            type="number" 
+                                            id="cantidad-input" 
+                                            class="form-control" 
+                                            name="cantidad" 
+                                            value="" 
+                                            @if ($producto->unidad === 'KG')step="0.01" @endif
+                                            min="1"
+                                        >
                                     </div>
 
                                     <button type="button" id="add-product" class="btn btn-secondary mb-3" @if(!$cajaAbierta) disabled @endif>Agregar Producto</button>

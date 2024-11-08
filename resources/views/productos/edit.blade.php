@@ -19,7 +19,7 @@
                                 </div>
                             @endif
 
-                            <form action="{{ route('productos.update', $producto->id) }}" method="POST">
+                            <form action="{{ route('productos.update', $producto->codigo) }}" method="POST">
                                 @csrf
                                 @method('PUT') <!-- Método PUT para la actualización -->
 

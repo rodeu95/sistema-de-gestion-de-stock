@@ -8,6 +8,8 @@ use App\Models\Caja;
 use App\Models\MetodoDePago;
 use App\Models\Producto;
 use Illuminate\Support\Carbon;
+use App\Exports\VentasExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VentasController extends Controller
 {
@@ -20,7 +22,7 @@ class VentasController extends Controller
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
 
-        $fecha = $request->input('fecha_venta')? Carbon::parse($request->input('fecha'))->format('Y-m-d') : null;
+        $fecha = $request->input('fecha_venta')? Carbon::parse($request->input('fecha_venta'))->format('Y-m-d') : null;
 
     // Si hay una fecha, filtrar las ventas por esa fecha, sino obtener todas las ventas
         $ventas = Venta::when($fecha, function ($query) use ($fecha) {
@@ -47,7 +49,7 @@ class VentasController extends Controller
     }
 
     public function store(Request $request){
-        dd($request->all());
+        // dd($request->all());
         $caja = Caja::first();
 
     // Validar si la caja está cerrada
@@ -56,10 +58,10 @@ class VentasController extends Controller
         }
 
         $validatedData = $request->validate([
-            'producto_id' => 'required|array',
-            'producto_id.*' => 'required|exists:productos,id',
-            'cantidad' => 'required|array',
-            'cantidad.*' => 'required|integer|min:1',
+            'producto_cod' => 'required|array',
+            'producto_cod.*' => 'required|exists:productos,codigo',
+            'cantidad' => 'required|array|min:1',
+            'cantidad.*' => 'required|numeric|min:0.01',
             'monto_total' => 'required|numeric|min:0',
             'metodo_pago_id' => 'required|exists:metodos_de_pago,id', 
             'fecha_venta' => 'nullable|date',
@@ -71,13 +73,13 @@ class VentasController extends Controller
             'fecha_venta' => $validatedData['fecha_venta'] ?? now(),
         ]);
 
-        $productos = $validatedData['producto_id'];
+        $productos = $validatedData['producto_cod'];
         $cantidades = $validatedData['cantidad'];
 
-        foreach ($productos as $index => $producto_id) {
+        foreach ($productos as $index => $producto_cod) {
 
-            $cantidad = $cantidades[$index];
-            $producto = Producto::findOrFail($producto_id);
+            $cantidad = (float) $cantidades[$index];
+            $producto = Producto::findOrFail($producto_cod);
             
             if ($producto->stock >= $cantidad) {
                 // Disminuye el stock total del producto
@@ -85,7 +87,7 @@ class VentasController extends Controller
                 $producto->save();
         
                 // Asocia el producto a la venta con la cantidad vendida
-                $venta->productos()->syncWithoutDetaching($producto_id, ['cantidad' => $cantidad]);
+                $venta->productos()->attach($producto_cod, ['cantidad' => $cantidad]);
             } else {
                 // Maneja el caso en el que no hay suficiente stock
                 return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
@@ -101,8 +103,6 @@ class VentasController extends Controller
         ]);
 
         return redirect()->route('ventas.create');
-                
-
     }
 
     public function show(Venta $venta){
@@ -147,6 +147,10 @@ class VentasController extends Controller
         ]);
         return redirect()->route('ventas.index');
                 // ->withSuccess('La venta fue eliminada exitosamente.');
+    }
+
+    public function export(){
+        return Excel::download(new VentasExport, 'ventas.xlsx');
     }
 }
 

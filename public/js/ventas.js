@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Recorrer todos los productos en la lista
         document.querySelectorAll('.product-list-item').forEach(function(item) {
             const precio = parseFloat(item.getAttribute('data-precio')) || 0;
-            const cantidad = parseInt(item.getAttribute('data-cantidad')) || 0;
+            const cantidad = parseFloat(item.getAttribute('data-cantidad')) || 0;
 
             // Sumar el subtotal (precio * cantidad) al total
             total += precio * cantidad;
@@ -17,9 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Función para agregar un producto a la lista
-    function addProductToList(productId, productName, productPrice, quantity) {
-        if (!productId || quantity <= 0) return;
-        console.log(`Agregando producto: ${productName}, ID: ${productId}, Cantidad: ${quantity}`);
+    function addProductToList(productCod, productName, productPrice, quantity) {
+        if (!productCod || quantity <= 0) {
+            alert("Cantidad inválida o producto no seleccionado.");
+            return;
+        };
+        console.log(`Agregando producto: ${productName}, ID: ${productCod}, Cantidad: ${quantity}`);
         const container = document.getElementById('product-list');
         const listItem = document.createElement('li');
         listItem.classList.add('list-group-item', 'product-list-item');
@@ -30,14 +33,17 @@ document.addEventListener('DOMContentLoaded', function() {
         listItem.innerHTML = `
             ${productName} - ${quantity} x $${productPrice} = $${(productPrice * quantity).toFixed(2)}
             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-            <input type="hidden" name="producto_id[]" value="${productId}">
-            <input type="hidden" name="cantidad[]" value="${quantity}">
+            
         `;
         console.log(`Producto agregado: ${productName}, Cantidad: ${quantity}`);
 
         const hiddenInputs = document.getElementById('hidden-inputs');
-        hiddenInputs.innerHTML += `<input type="hidden" name="producto_id[]" value="${productId}">
-                                <input type="hidden" name="cantidad[]" value="${quantity}">`;
+        if (quantity != null) {
+            hiddenInputs.innerHTML += `<input type="hidden" name="producto_cod[]" value="${productCod}">
+                                        <input type="hidden" name="cantidad[]" value="${quantity}">`;
+        }else{
+            console.warn(`Cantidad no válida para el producto código: ${productCod}`);
+        }
         // Agregar a la lista de productos
         container.appendChild(listItem);
 
@@ -56,15 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
  
         const select = document.getElementById('producto-select');
         const cantidadInput = document.getElementById('cantidad-input');
-        const productId = select.value;
+        const productCod = select.value;
         const productName = select.options[select.selectedIndex]?.text;
         const productPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-precio')) || 0;
-        const quantity = parseInt(cantidadInput.value) || 0;
+        const quantity = parseFloat(cantidadInput.value) || 0;
 
 
-        if (productId && quantity > 0) {
+        if (productCod && quantity > 0) {
             // Agregar el producto a la lista
-            addProductToList(productId, productName, productPrice, quantity);
+            addProductToList(productCod, productName, productPrice, quantity);
 
             // Limpiar los campos de selección y cantidad
             select.selectedIndex = 0;
@@ -93,8 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('ventasForm').addEventListener('submit', function(event) {
-        const productoInputs = document.querySelectorAll('input[name="producto_id[]"]');
-        const cantidadInputs = document.querySelectorAll('input[name="cantidad[]"]');
+        const productoInputs = document.querySelectorAll('#hidden-inputs input[name="producto_cod[]"]');
+        const cantidadInputs = document.querySelectorAll('#hidden-inputs input[name="cantidad[]"]');
 
         // Elimina valores vacíos o nulos
         
@@ -106,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Si no hay productos válidos, cancela el envío y muestra un mensaje
-        if (document.querySelectorAll('input[name="producto_id[]"]').length === 0) {
+        if (document.querySelectorAll('#hidden-inputs input[name="producto_cod[]"]').length === 0) {
             event.preventDefault();
             alert("Debe agregar al menos un producto con cantidad válida.");
         }

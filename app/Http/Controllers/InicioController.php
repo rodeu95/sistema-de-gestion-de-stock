@@ -41,7 +41,18 @@ class InicioController extends Controller
             $data->push($venta ? $venta->total : 0);
         }
 
-        $bajoStock = Producto::where('stock', '<=', 10)->get();
+        $productosBajoStockUN = Producto::where('unidad', 'UN')
+            ->where('stock', '<=', 10)
+            ->get();
+
+        $productosBajoStockKG = Producto::where('unidad', 'KG')
+            ->where('stock', '<=', 0.5)
+            ->get();
+
+        // Aquí puedes combinar los dos resultados si lo necesitas
+        $bajoStock = $productosBajoStockUN->merge($productosBajoStockKG);
+
+        
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
         

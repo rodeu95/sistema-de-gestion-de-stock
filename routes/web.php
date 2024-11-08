@@ -30,8 +30,11 @@ Route::resources([
     'users' => UserController::class,
     'productos' => ProductoController::class,
     'ventas' => VentasController::class,
-    'inventario' => InventarioController::class,
 ]);
+
+Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
+Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
+Route::post('/inventario/update', [InventarioController::class, 'update'])->name('inventario.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -50,6 +53,11 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('genera
 Route::controller(ProductoController::class)->group(function(){
     Route::get('/productos', 'index')->name('productos.index');
     Route::get('/productos-export', 'export')->name('productos.export');
+});
+
+Route::controller(VentasController::class)->group(function(){
+    Route::get('/ventas', 'index')->name('ventas.index');
+    Route::get('/ventas-export', 'export')->name('ventas.export');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

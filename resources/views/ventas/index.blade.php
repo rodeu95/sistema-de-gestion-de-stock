@@ -7,19 +7,19 @@
     <!-- Formulario de búsqueda por fecha -->
     <form action="{{ route('ventas.index') }}" method="GET" class="mb-4">
         <div class="form-group">
-            <label for="fecha">Buscar por fecha:</label>
-            <input type="date" name="fecha" id="fecha" value="{{ request('fecha') }}" class="form-control shadow" />
+            <label for="fecha_venta">Buscar por fecha:</label>
+            <input type="date" name="fecha_venta" id="fecha_venta" value="{{ request('fecha_venta') }}" class="form-control shadow" />
         </div>
         <div class="d-flex justify-content-end" style="margin:10px">
-            <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Buscar</button>
-            <a href="{{ route('ventas.index') }}" class="btn shadow btn-secondary">Mostrar todas</a>
+            <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+            <a href="{{ route('ventas.index') }}" class="btn shadow btn-secondary"><i class="fa-solid fa-list"></i> Mostrar todas</a>
         </div>
     </form>
 
     <!-- Tabla de ventas -->
     <table class="table shadow table-bordered table-hover">
         <thead>
-            <tr>
+            <tr class="table-warning text-center">
                 <th>ID Venta</th>
                 <th>Productos</th>
                 <th>Método de Pago</th>
@@ -34,7 +34,7 @@
                     <td>{{ $venta->id }}</td>
                     <td>
                         @foreach ($venta->productos as $producto)
-                            {{ $producto->nombre }} (Cantidad: {{ $producto->pivot->cantidad }})
+                            {{ $producto->nombre }} ({{ $producto->pivot->cantidad }})<br>
                         @endforeach
                     </td>
                     <td>{{ $venta->metodoPago ? $venta->metodoPago->nombre : 'No especificado' }}</td>
@@ -46,11 +46,11 @@
                             @method('DELETE')
 
                             @can('editar-venta')
-                                <a href="{{ route('ventas.edit', $venta->id) }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <a href="{{ route('ventas.edit', $venta->id) }}" class="btn shadow btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
                             @endcan
 
                             @can('eliminar-venta')
-                                <button id="" type="button "class="btn btn-danger btn-sm" onclick="confirmDelete('{{$venta->id}}')"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
+                                <button id="" type="button "class="btn shadow btn-danger btn-sm" onclick="confirmDelete('{{$venta->id}}')"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
                             @endcan
                         </form>
                         </td>

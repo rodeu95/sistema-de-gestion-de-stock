@@ -63,7 +63,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Control de stock</a></li>
-                                        <li><a class="dropdown-item" href="#">Actualizar inventario</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('inventario.edit' ) }}">Actualizar inventario</a></li>
                                     </ul>
                                 </li>
 
@@ -73,8 +73,8 @@
                                      <i class="fas fa-file-export"></i> Exportar
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('productos.export') }}">Exportar Excel <i class="fa-solid fa-file-excel"></i> </a></li>
-                                        <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar PDF <i class="fa-solid fa-file-pdf"></i> </a></li>
+                                        <li><a class="dropdown-item" href="{{ route('ventas.export') }}">Exportar Ventas <i class="fa-solid fa-file-excel"></i> </a></li>
+                                        <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar Productos <i class="fa-solid fa-file-pdf"></i> </a></li>
                                     </ul>
                                 </li>
 

@@ -19,7 +19,7 @@ class Venta extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(Producto::class, 'venta_producto', 'venta_id', 'producto_id')
+        return $this->belongsToMany(Producto::class, 'venta_producto', 'venta_id', 'producto_cod')
                     ->withPivot('cantidad')
                     ->withTimestamps();
     }
