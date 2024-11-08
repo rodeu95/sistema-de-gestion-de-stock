@@ -227,9 +227,10 @@
 
 
 @push('js')
-<script src="{{ asset('js/productos/index.js') }}">
+<script src="{{ asset('js/productos/index.js') }}"></script>
+<script>
     var productosIndexUrl = "{{ route('productos.index') }}";
-    var productoEditUrl = "{{ route('productos.update', ':codigo') }}";
+    var productoEditUrl = "{{ route('productos.update', 'codigo') }}";
 </script>
 
 

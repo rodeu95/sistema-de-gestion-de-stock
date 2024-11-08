@@ -16,9 +16,24 @@ document.addEventListener('DOMContentLoaded', function () {
         grid = new gridjs.Grid({
             columns: [
                 'Código', 
-                'Nombre', 
+                {
+                    name: 'Nombre',
+                    sort: true,
+                    formatter: (cell) => cell,
+                    compare: (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())
+                },
                 'Fecha de vencimiento', 
-                'Precio de Venta', 
+                {
+                    name: 'Precio de Venta',
+                    formatter: (cell) => {
+                        // Asegúrate de que el valor sea un número antes de formatearlo
+                        const amount = parseFloat(cell);
+                        // Si no es un número válido, retorna el valor original
+                        if (isNaN(amount)) return cell;
+                        // Devuelve el valor con el símbolo '$' y lo formatea como una moneda
+                        return '$' + amount.toFixed(2); // Esto agrega dos decimales, cambia según lo necesites
+                    }
+                }, 
                 'Stock', 
                 'Unidad',
                 {
@@ -92,22 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     renderProductTable();
 
     // Función para confirmar la eliminación de un producto
-    function confirmDelete(productId) {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "No podrás volver atrás",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Eliminar de todas formas",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + productId).submit();
-            }
-        });
-    }
+    
 
     // Función para manejar el formulario de agregar un producto mediante AJAX
     $('#addProductForm').on('submit', function(e) {
@@ -212,18 +212,36 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Función para actualizar el valor de stock dependiendo de la unidad (kg o unidad)
-    function updateStockStep() {
-        const unidad = document.getElementById('unidad').value;
-        const stockInput = document.getElementById('stock');
-
-        if (unidad === 'KG') {
-            stockInput.step = '0.01';
-        } else {
-            stockInput.step = '1';
-        }
-    }
-
-    // Ejecutar función de actualización de stock cuando se cambie la unidad
-    document.getElementById('unidad').addEventListener('change', updateStockStep);
+    
 
 });
+function confirmDelete(productId) {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "No podrás volver atrás",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar de todas formas",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('delete-form-' + productId).submit();
+        }
+    });
+}
+
+function updateStockStep() {
+    const unidad = document.getElementById('unidad').value;
+    const stockInput = document.getElementById('stock');
+
+    if (unidad === 'KG') {
+        stockInput.step = '0.01';
+    } else {
+        stockInput.step = '1';
+    }
+}
+
+// Ejecutar función de actualización de stock cuando se cambie la unidad
+document.getElementById('unidad').addEventListener('change', updateStockStep);

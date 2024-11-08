@@ -18,21 +18,21 @@ class VentasController extends Controller
         $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
     }
 
-    public function index(Request $request){
+    public function index(Venta $venta){
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
 
-        $fecha = $request->input('fecha_venta')? Carbon::parse($request->input('fecha_venta'))->format('Y-m-d') : null;
+    //     $fecha = $request->input('fecha_venta')? Carbon::parse($request->input('fecha_venta'))->format('Y-m-d') : null;
 
-    // Si hay una fecha, filtrar las ventas por esa fecha, sino obtener todas las ventas
-        $ventas = Venta::when($fecha, function ($query) use ($fecha) {
-            $query->whereDate('fecha_venta', $fecha);
-        })->with('productos', 'metodopago')->get();
+    // // Si hay una fecha, filtrar las ventas por esa fecha, sino obtener todas las ventas
+    //     $ventas = Venta::when($fecha, function ($query) use ($fecha) {
+    //         $query->whereDate('fecha_venta', $fecha);
+    //     })->with('productos', 'metodopago')->get();
 
         return view('ventas.index', [
-            'ventas' => $ventas,
+            'venta' => $venta,
             'cajaAbierta' => $cajaAbierta,
-            'fecha' => $fecha
+            // 'fecha' => $fecha
         ]);
     }
 
