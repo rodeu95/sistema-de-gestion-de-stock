@@ -26,16 +26,15 @@ class ProductoController extends Controller
         $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
     }
      
-    public function index(Request $request){
+    public function index(Producto $producto){
 
         $productos = Producto::all();
         $categorias = Categoria::all();
-        $producto = $request->producto;
         // Obtenemos el estado de la caja
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado : false;
 
-        return view('productos.index', compact('productos', 'producto','cajaAbierta', 'categorias'));
+        return view('productos.index', compact( 'producto', 'productos', 'cajaAbierta', 'categorias'));
         
     }
     public function create(){
@@ -90,16 +89,25 @@ class ProductoController extends Controller
         ]);
     }
 
-    public function edit(Producto $producto){
+    public function edit($codigo){
+        dd($codigo);
         $categorias = Categoria::all();
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
 
-        return view('productos.edit', [
-            'producto' => $producto,
-            'cajaAbierta' => $cajaAbierta,
-            'categorias' => $categorias
-        ]);
+        $producto = Producto::where('codigo', $codigo)->first();
+    
+        if (!$producto) {
+            return response()->json(['message' => 'Producto no encontrado'], 404);
+        }
+
+        return response()->json($producto);
+
+        // return view('productos.edit', [
+        //     'producto' => $producto,
+        //     'cajaAbierta' => $cajaAbierta,
+        //     'categorias' => $categorias
+        // ]);
     }
 
     public function update(UpdateProductRequest $request, Producto $producto){

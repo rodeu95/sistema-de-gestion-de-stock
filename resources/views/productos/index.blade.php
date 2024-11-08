@@ -32,7 +32,7 @@
 </main>
 
 <!-- MODAL DE AGREGACIÓN -->
-<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+<div class="modal fadae" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -80,7 +80,7 @@
                         </div>
                         <p>
                             <div class="collapse" id="collapseExample">
-                                <div class="card card-body" style="background-color:#fbeee6;">
+                                <div class="card card-body" style="background-color:#fff3cd;">
                                     <div class="mb-3">
                                         <label for="precioCosto" class="form-label">Precio Costo</label>
                                         <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo">
@@ -147,87 +147,91 @@
 
 
 <!-- MODAL DE EDICIÓN -->
-<!--  -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editProductModalLabel">Editar Producto</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm" >
+                    @csrf
+                    @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
+                    <div class="mb-3">
+                        <label for="edit_codigo" class="form-label">Código</label>
+                        <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{ old('codigo', $producto->codigo) }}"  required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="edit_nombre" name="nombre" value="{{ old('nombre', $producto->nombre) }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="edit_descripcion" name="descripcion" value="{{ old('descripcion', $producto->descripcion) }}"  rows="3"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_unidad" class="form-label">Unidad</label>
+                        <select class="form-select" id="edit_unidad" name="unidad" required>
+                            <option value="" selected disabled>Seleccione unidad</option>
+                            <option value="UN">UN</option>
+                            <option value="KG">KG</option>
+                        </select>
+                    </div>
+
+                    <div id="edit_hidden_inputs"></div>
+
+                    <div class="mb-3">
+                        <label for="edit_precioVenta" class="form-label">Precio Venta</label>
+                        <input type="number" class="form-control" id="edit_precioVenta" name="precio_venta" value="{{ old('precio_venta', $producto->precio_venta) }}"  required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="edit_stock" name="stock" value="{{ old('stock', $producto->stock) }}"  required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_numero_lote" class="form-label">Numero de Lote</label>
+                        <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ old('numero_lote', $producto->numero_lote) }}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_fchVto" class="form-label">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="edit_fchVto" name="fchVto" value="{{ old('fchVto', $producto->fchVto) }}" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit_categoria_id" class="form-label">Categoría</label>
+                        <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
+                            <option value="" selected disabled>Seleccione una categoría</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;"
+                            onmouseover="this.style.backgroundColor= '#d7f5dd';"
+                            onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 @push('js')
-<!-- <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script> -->
-<script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const puedeEditar = true; // Reemplaza con tu verificación de permisos real
-        const puedeEliminar = true;
-        const grid = new gridjs.Grid({
-            columns: [
-                'Código', 
-                'Nombre', 
-                'Fecha de vencimiento', 
-                'Precio de Venta', 
-                'Stock', 
-                {
-                    name: 'Acciones',
-                    formatter: (cell, row) => {
-                        let botones = '';
-                
-                        if (puedeEditar) {
-                            botones += `<a href="" class="btn btn-primary btn-sm">Editar</a>`;
-                        }
-                        
-                        if (puedeEliminar) {
-                            botones += `<button class="btn btn-danger btn-sm" onclick="eliminarProducto(${row.cells[0].data})">Eliminar</button>`;
-                        }
-
-                        return gridjs.html(botones);
-                    }
-                }
-            ],
-            server: {
-                url: 'http://localhost/sistema/public/api/productos',
-                
-                then: data => {
-                    console.log(data); // Para ver qué datos se reciben
-                    return data.map(producto => [
-                        producto.codigo,
-                        producto.nombre,
-                        producto.fchVto,
-                        producto.precio_venta,
-                        producto.unidad === 'UN' ? `${producto.stock} unidades` : `${producto.stock} kg.`
-                        
-                    ]);
-                }
-                
-            },
-            resizable: true,
-            sort: true,
-            pagination: {
-                enabled: true,
-                limit: 10,
-            },
-            search: true,
-            language: {
-                search: {
-                    placeholder: 'Buscar...'
-                },
-                pagination: {
-                    previous: 'Anterior',
-                    next: 'Siguiente',
-                    showing: 'Mostrando',
-                    of: 'de',
-                    to: 'a'
-                }
-            },
-            style:{
-                th:{
-                    'background-color':'#fff3cd'
-                }
-            },
-        }).render(document.getElementById('gridjs-table'));
-    });
-</script>
-<script type src="{{ asset('js/productos/index.js') }}"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script> -->
-
-<script>
+<script src="{{ asset('js/productos/index.js') }}">
     var productosIndexUrl = "{{ route('productos.index') }}";
+    var productoEditUrl = "{{ route('productos.update', ':codigo') }}";
 </script>
+
+
 @endpush
 @endsection
