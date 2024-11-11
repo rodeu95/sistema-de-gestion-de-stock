@@ -201,12 +201,12 @@
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                <option value="{{ old('nombre', $categoria->nombre )}}">{{ $categoria->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';" onclick="submitEditarProducto()">Actualizar</button>
+                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
                 </form>
             </div>
         </div>
@@ -219,13 +219,11 @@
 @push('js')
 <script src="{{ asset('js/productos/index.js') }}"></script>
 <script>
-    var productosIndexUrl = "{{ route('productos.index') }}";
-    var productoEditUrl = "{{ route('productos.update', 'codigo') }}";
-    var editProductUrl = "{{route('productos.edit', 'codigo')}}";
-    console.log(editProductUrl);
-
+    var productosIndexUrl = "{{ route('api.productos.index') }}";
+    var productosStoreUrl = "{{ route('productos.store') }}";
+    var productoUpdatetUrl = "{{ route('productos.update', 'codigo') }}";
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
-    console.log(editProductUrlTemplate);
+    var eliminarProductoUrl = "{{ route('api.productos.destroy', 'codigo') }}"
 </script>
 
 

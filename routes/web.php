@@ -13,6 +13,7 @@ use App\Http\Controllers\VentasController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
@@ -28,7 +29,7 @@ Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPerm
 
 Route::resources([
     'users' => UserController::class,
-    'productos' => ProductoController::class,
+    'productos' => App\Http\Controllers\Api\ProductController::class,
     'ventas' => VentasController::class,
 ]);
 
