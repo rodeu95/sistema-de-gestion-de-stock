@@ -15,19 +15,18 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:');
-        $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        // $this->middleware('auth:api');
+        // $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
         $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
         $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
         $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
     }
     public function index()
     {
-
         $productos = Producto::all();
 
-        return response()->json(
-            $productos);
+        return response()->json($productos);
+       
     }
 
     public function store(StoreProductRequest $request)

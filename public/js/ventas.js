@@ -59,23 +59,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para manejar el evento de agregar producto
     function handleAddProduct() {
- 
         const select = document.getElementById('producto-select');
         const cantidadInput = document.getElementById('cantidad-input');
         const productCod = select.value;
         const productName = select.options[select.selectedIndex]?.text;
         const productPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-precio')) || 0;
-        const quantity = parseFloat(cantidadInput.value) || 0;
-
-
+        
+        // Establecer la cantidad predeterminada en 1
+        let quantity = parseFloat(cantidadInput.value) || 1; 
+    
         if (productCod && quantity > 0) {
             // Agregar el producto a la lista
             addProductToList(productCod, productName, productPrice, quantity);
-
-            // Limpiar los campos de selección y cantidad
+    
+            // Limpiar los campos de selección
             select.selectedIndex = 0;
-            cantidadInput.value = '';
-        }else {
+            cantidadInput.value = ''; // Dejar el campo de cantidad vacío para que se ajuste a 1 al seleccionar otro producto
+        } else {
             alert("Por favor, selecciona un producto y una cantidad válida.");
         }
     }

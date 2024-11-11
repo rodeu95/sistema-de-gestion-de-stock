@@ -41,6 +41,12 @@ return [
             'provider' => 'users',
         ],
 
+        'api' => [
+            'driver' => 'token', // Cambia a "token" si usas autenticación basada en tokens
+            'provider' => 'users',
+            'hash' => false, // Puedes configurarlo en true si necesitas que el token esté hasheado
+        ],
+
     ],
 
     /*

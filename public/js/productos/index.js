@@ -1,6 +1,4 @@
-// Espera que el DOM esté completamente cargado
-let puedeEditar = true;
-let puedeEliminar = true;
+
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let grid;
 
@@ -42,22 +40,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         
                         const codigo = row.cell(0).data;
                         console.log(codigo);
-                        
-                        
-                        const editButton = puedeEditar
-                            ? `<a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" data-codigo="${codigo}" >
-                                <i class="fa-solid fa-pen-to-square"></i></a>`
-                            : '';
-                            // onclick="editarProducto('${codigo}')"
-                        const deleteButton = puedeEliminar
-                            ? `<button type="button" class="btn shadow btn-danger btn-sm btn-delete" data-codigo="${codigo}"><i class="fa-solid fa-trash-can"></i></button>`
-                            : '';
-                            // onclick="confirmDelete(${codigo})"
+
+                        const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                            
                         return gridjs.html(`
                             <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}" method="post">
                                 <input type="hidden" name="_token" value="${csrfToken}">
                                 <input type="hidden" name="_method" value="DELETE">
-                                ${editButton} ${deleteButton}
+                                ${editButtonHtml} ${deleteButtonHtml}
                             </form>
                         `);
                     }
@@ -211,73 +202,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// function editarProducto(codigo) {
-
-//     let editProductUrl = editProductUrlTemplate.replace(':codigo', codigo);
-//     console.log(editProductUrl);
-//     fetch(editProductUrl, { method: 'GET' })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log(data);
-//             // Cargar los datos en los campos del modal
-//             document.getElementById('edit_codigo').value = data.codigo;
-//             document.getElementById('edit_nombre').value = data.nombre;
-//             document.getElementById('edit_unidad').value = data.unidad;
-//             document.getElementById('edit_precioVenta').value = data.precio_venta;
-//             document.getElementById('edit_numero_lote').value = data.numero_lote;
-//             document.getElementById('edit_descripcion').value = data.descripcion;
-//             document.getElementById('edit_stock').value = data.stock;
-//             document.getElementById('edit_fchVto').value = data.fchVto;
-
-//             // Mostrar el modal
-//             $('#editProductModal').modal('show');
-//         })
-//         .catch(error => console.error('Error al cargar el producto:', error));
-// }
-
-// function submitEditarProducto(e) {
-//     e.preventDefault();
-//     const form = document.getElementById('editProductForm');
-//     const formData = new FormData(form);
-//     // const codigo = formData.get('codigo');
-//     // const updateUrl = productoUpdatetUrl.replace(':codigo', codigo);
-
-//     let dataObj = {};
-//     formData.forEach((value, key) => {
-//         dataObj[key] = value;
-//     });
-
-//     const updateUrl = productoUpdatetUrl.replace(':codigo', dataObj.codigo);
-//     console.log(updateUrl);
-
-//     fetch(updateUrl, {
-//         method: 'POST',
-//         body: JSON.stringify(dataObj),
-//         headers: {
-            
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-//             'X-HTTP-Method-Override': 'PUT'
-//         },
-//     })
-    
-//     .then(response => {
-//         console.log(response); // Verificar detalles de la respuesta
-//         return response.json();
-//     })
-//     .then(data => {
-//         if (data.success) {
-//             $('#editProductModal').modal('hide');
-            
-//         }
-//     })
-//     .catch(error => console.error('Error al actualizar el producto:', error));
-// }
-// document.getElementById('editProductForm').addEventListener('submit', submitEditarProducto);
-
-
-// Captura el evento de envío en el formulario de eliminación
-
-
 function deleteProducto(codigo) {
     // Muestra el SweetAlert antes de realizar la eliminación
     Swal.fire({
@@ -318,12 +242,6 @@ function deleteProducto(codigo) {
                     alert('Hubo un problema al intentar eliminar el producto.');
                 }
             });
-        } else {
-            Swal.fire(
-                'Cancelado',
-                'El producto no ha sido eliminado.',
-                'info'
-            );
         }
     });
 }
@@ -332,23 +250,6 @@ $(document).on('click', '.btn-delete', function() {
     console.log(codigo); 
     deleteProducto(codigo); 
 });
-// function confirmDelete(productId) {
-//     Swal.fire({
-//         title: "¿Estás seguro?",
-//         text: "No podrás volver atrás",
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonColor: "#3085d6",
-//         cancelButtonColor: "#d33",
-//         confirmButtonText: "Eliminar de todas formas",
-//         cancelButtonText: "Cancelar"
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             document.getElementById('delete-form-' + productId).submit();
-//         }
-//     });
-// }
-
 
 function updateStockStep() {
     const unidad = document.getElementById('unidad').value;
