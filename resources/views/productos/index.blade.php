@@ -4,15 +4,7 @@
 <div class="container-lg">
     <h1 class="my-4">Lista de Productos</h1>
     <div class="d-flex flex-column align-items-end mb-3">
-<!--         
-        <div class="mb-3">
-            <form action="{{ route('productos.index') }}" method="GET" class="d-flex">
-                <input type="text" name="search" class="form-control shadow" placeholder="Buscar por nombre" value="{{ request('search') }}" style="width: 300px;">
-                <button type="submit" class="btn shadow ms-2" style="background-color: #aed6b5; color:#000;" 
-                        onmouseover="this.style.backgroundColor= '#d7f5dd';" 
-                        onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-            </form>
-        </div> -->
+
         @can('agregar-producto')
             <a href="javascript:void(0);" class="btn shadow" style="background-color: #aed6b5; color:#000;" 
                onmouseover="this.style.backgroundColor= '#d7f5dd';" 
@@ -155,12 +147,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editProductForm" >
+                <form id="editProductForm">
                     @csrf
                     @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
                     <div class="mb-3">
                         <label for="edit_codigo" class="form-label">Código</label>
-                        <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{ old('codigo', $producto->codigo) }}"  required>
+                        <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{old('codigo', $producto->codigo)  }}" readonly required>
                     </div>
 
                     <div class="mb-3">
@@ -196,7 +188,7 @@
 
                     <div class="mb-3">
                         <label for="edit_numero_lote" class="form-label">Numero de Lote</label>
-                        <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ old('numero_lote', $producto->numero_lote) }}" >
+                        <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
                     </div>
 
                     <div class="mb-3">
@@ -214,9 +206,7 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;"
-                            onmouseover="this.style.backgroundColor= '#d7f5dd';"
-                            onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';" onclick="submitEditarProducto()">Actualizar</button>
                 </form>
             </div>
         </div>
@@ -231,6 +221,11 @@
 <script>
     var productosIndexUrl = "{{ route('productos.index') }}";
     var productoEditUrl = "{{ route('productos.update', 'codigo') }}";
+    var editProductUrl = "{{route('productos.edit', 'codigo')}}";
+    console.log(editProductUrl);
+
+    var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
+    console.log(editProductUrlTemplate);
 </script>
 
 

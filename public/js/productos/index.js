@@ -39,13 +39,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     name: 'Acciones',
                     formatter: (cell, row) => {
-                        const codigo = row.cells[0].data;
-                        console.log(codigo)
+                        
+                        const codigo = row.cell(0).data;
+                        console.log(codigo);
+
                         const editButton = puedeEditar
-                            ? `<a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" data-codigo="${codigo}">
+                            ? `<a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" data-codigo="${codigo}" onclick="editarProducto('${codigo}')">
                                 <i class="fa-solid fa-pen-to-square"></i></a>`
                             : '';
-
+                            
                         const deleteButton = puedeEliminar
                             ? `<button type="button" class="btn shadow btn-danger btn-sm" onclick="confirmDelete(${codigo})"><i class="fa-solid fa-trash-can"></i></button>`
                             : '';
@@ -106,9 +108,64 @@ document.addEventListener('DOMContentLoaded', function () {
     // Llamar a renderProductTable cuando se carga la página
     renderProductTable();
 
-    // Función para confirmar la eliminación de un producto
+    
+    
     
 
+    // $('#editProductModal').on('show.bs.modal', function(event){
+    //     const button = $(event.relatedTarget); 
+    //     const codigo = button.data('codigo');
+    //     // const modal = $(this);
+
+    //     $.ajax({
+    //         url: `/productos/` + codigo, // Ruta para obtener los datos del producto
+    //         method: 'GET',
+    //         success: function (data) {
+    //             const modal = $('#editProductModal');
+    //             // Rellenar el formulario con los datos del producto
+    //             modal.find('#edit_codigo').val(data.codigo);
+    //             modal.find('#edit_nombre').val(data.nombre);
+    //             modal.find('#edit_descripcion').val(data.descripcion);
+    //             modal.find('#edit_unidad').val(data.unidad);
+    //             modal.find('#edit_precioVenta').val(data.precio_venta);
+    //             modal.find('#edit_stock').val(data.stock);
+    //             modal.find('#edit_numero_lote').val(data.numero_lote);
+    //             modal.find('#edit_fchVto').val(data.fchVto);
+    //             modal.find('#edit_categoria_id').val(data.categoria_id);
+    //         }
+    //     });
+    // })
+    
+    // $('#editProductForm').on('submit', function(e) {
+    //     e.preventDefault();
+    //     const formData = $(this).serialize();
+    //     console.log(productoEditUrl); 
+    //     const codigo = $('#edit_codigo').val;
+    //     let editUrl = productoEditUrl.replace("codigo", codigo);
+ 
+    //     $.ajax({
+    //         url: editUrl, // URL del formulario establecida dinámicamente
+    //         method: 'PUT',
+    //         data: formData,
+    //         success: function(response) {
+    //             $('#editProductModal').modal('hide'); // Cierra el modal
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: '¡Producto actualizado!',
+    //                 text: 'El producto se ha actualizado correctamente.',
+    //                 confirmButtonText: 'OK'
+    //             });
+    
+    //             window.location.reload(); // Recarga la tabla de productos
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.log(xhr.responseText); // Muestra los errores de la respuesta
+    //         }
+    //     });
+    // });
+    
+
+    
     // Función para manejar el formulario de agregar un producto mediante AJAX
     $('#addProductForm').on('submit', function(e) {
         e.preventDefault();
@@ -136,65 +193,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    $('#editProductModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget); // Botón que abre el modal
-        const codigo = button.data('codigo'); // Obtener el código del producto desde el botón
-        const modal = $(this);
-
-        // Obtener los datos del producto desde la API o la ruta correspondiente
-        $.ajax({
-            url: '/productos/' + codigo, // Ruta para obtener los datos del producto
-            method: 'GET',
-            success: function (data) {
-                // Rellenar el formulario con los datos
-                modal.find('#edit_codigo').val(data.codigo);
-                modal.find('#edit_nombre').val(data.nombre);
-                modal.find('#edit_descripcion').val(data.descripcion);
-                modal.find('#edit_unidad').val(data.unidad);
-                modal.find('#edit_precioVenta').val(data.precio_venta);
-                modal.find('#edit_stock').val(data.stock);
-                modal.find('#edit_numero_lote').val(data.numero_lote);
-                modal.find('#edit_fchVto').val(data.fchVto);
-                modal.find('#edit_categoria_id').val(data.categoria_id);
-            }
-        });
-    });
-
-    // Enviar los datos modificados del producto
-    $('#editProductForm').on('submit', function (e) {
-        e.preventDefault(); // Evitar el envío normal del formulario
-
-        const formData = $(this).serialize(); // Obtener los datos del formulario
-
-        $.ajax({
-            url: productoEditUrl, // Ruta para actualizar el producto
-            method: 'PUT',
-            data: formData,
-            success: function (response) {
-                $('#editProductModal').modal('hide'); 
-                $('#editProductModal')[0].reset();
-                // Cerrar el modal
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Producto actualizado!',
-                    text: 'El producto se ha actualizado correctamente.',
-                    confirmButtonText: 'OK'
-                });
-
-                window.location.reload();// Recargar la tabla de productos
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Muestra los errores de la respuesta
-            }
-        });
-    });
-
-    $('#editProductModal').on('hidden.bs.modal', function () {
+    $('#editProductModal').on('hidden.bs.modal', function() {
         $('#editProductForm')[0].reset();
+        productoEditUrl = "{{ route('productos.update', 'codigo') }}";
     });
 
-    // Cargar los datos de un producto en el modal de edición
-    
 
     // Función para actualizar el precio de venta basado en el costo y la utilidad
     document.getElementById('precioCosto').addEventListener('input', updatePrecioVenta);
@@ -211,10 +214,55 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Función para actualizar el valor de stock dependiendo de la unidad (kg o unidad)
-    
-
 });
+
+
+function editarProducto(codigo) {
+
+    let editProductUrl = editProductUrlTemplate.replace(':codigo', codigo);
+    console.log(editProductUrl);
+    fetch(editProductUrl, { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            // Cargar los datos en los campos del modal
+            document.getElementById('edit_codigo').value = data.codigo;
+            document.getElementById('edit_nombre').value = data.nombre;
+            document.getElementById('edit_unidad').value = data.unidad;
+            document.getElementById('edit_precioVenta').value = data.precio_venta;
+            document.getElementById('edit_descripcion').value = data.descripcion;
+            document.getElementById('edit_stock').value = data.stock;
+            document.getElementById('edit_fchVto').value = data.fchVto;
+
+            // Mostrar el modal
+            $('#modalEditarProducto').modal('show');
+        })
+        .catch(error => console.error('Error al cargar el producto:', error));
+}
+
+function submitEditarProducto() {
+    const form = document.getElementById('formEditarProducto');
+    const formData = new FormData(form);
+
+    fetch(`/productos/${formData.get('id')}`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'X-HTTP-Method-Override': 'PUT'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            $('#modalEditarProducto').modal('hide');
+            
+        }
+    })
+    .catch(error => console.error('Error al actualizar el producto:', error));
+}
+
+
 function confirmDelete(productId) {
     Swal.fire({
         title: "¿Estás seguro?",
@@ -231,6 +279,7 @@ function confirmDelete(productId) {
         }
     });
 }
+
 
 function updateStockStep() {
     const unidad = document.getElementById('unidad').value;

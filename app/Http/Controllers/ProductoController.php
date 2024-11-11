@@ -89,13 +89,13 @@ class ProductoController extends Controller
         ]);
     }
 
-    public function edit($codigo){
-        dd($codigo);
+    public function edit(Producto $producto){
+
         $categorias = Categoria::all();
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
-
-        $producto = Producto::where('codigo', $codigo)->first();
+        $codigo = $producto->codigo;
+        // $producto = Producto::where('codigo', $codigo)->first();
     
         if (!$producto) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
