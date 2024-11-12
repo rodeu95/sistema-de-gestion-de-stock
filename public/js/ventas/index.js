@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: (cell, row) => {
                         const id = row.cells[0].data;
  
-                        const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
-                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                        const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${id}', id);
+                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${id}', id);
 
                         return gridjs.html(`
                             <form id="delete-form-${id}" action="/sistema/public/ventas/${id}" method="post">
@@ -46,11 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
             server: {
                 url: ventasIndexUrl,
-                then: data => {
-                    return data.map(venta => {
+                then: response => {
+                    console.log(response.ventas);
+                    const ventas = response.ventas;
+                    return ventas.map(venta => {
                         // Acceder a los productos relacionados de cada venta
-                        const productos = venta.productos.map(producto => producto.nombre).join(', '); // Cambia 'nombre' por el campo que necesites
-                        const metodoPago = venta.metodoPago ? venta.metodoPago.nombre : 'No especificado';
+                        const productos = venta.productos.map(producto => `${producto.nombre} (${producto.pivot.cantidad})`).join(', '); 
+                        const metodoPago = venta.metodo_pago ? venta.metodo_pago.nombre : 'No especificado';
                         return [
                             venta.id, 
                             productos,  
@@ -100,18 +102,21 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(editVentaUrl);
 
         $.ajax({
-            url: editVentaUrl, // Ruta para obtener los datos del producto
+            url: editVentaUrl, 
             method: 'GET',
             success: function(data) {
-                const { venta, productos } = data;
+                console.log(data);
+                const venta = data.venta
+                const productos = data.productos;
+                console.log(productos);
 
                 const $productoSelect = $('#producto-select');
                 $productoSelect.empty(); // Clear existing options
                 $productoSelect.append('<option value="" disabled selected>Seleccione un producto</option>');
                 $.each(productos, function(index, producto) {
                     $productoSelect.append(
-                        `<option value="${producto.codigo}" data-precio="${producto.precio}">
-                            ${producto.nombre} - $${producto.precio}
+                        `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
+                            ${producto.nombre} - $${producto.precio_venta}
                         </option>`
                     );
                 });
@@ -125,12 +130,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const $productList = $('#product-list');
                 $productList.empty(); // Clear existing list items
                 $.each(venta.productos, function(index, producto) {
-                    const totalPrice = (producto.pivot.cantidad * producto.precio).toFixed(2);
+                    const totalPrice = (producto.pivot.cantidad * producto.precio_venta).toFixed(2);
                     $productList.append(
                         `<li class="list-group-item product-list-item" 
                               data-precio="${producto.precio}" 
                               data-cantidad="${producto.pivot.cantidad}">
-                            ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio} = $${totalPrice}
+                            ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio_venta} = $${totalPrice}
                             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
                             <input type="hidden" name="producto_cod[]" value="${producto.codigo}">
                             <input type="hidden" name="cantidad[]" value="${producto.pivot.cantidad}">

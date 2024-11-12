@@ -30,7 +30,7 @@ Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPerm
 Route::resources([
     'users' => UserController::class,
     'productos' => App\Http\Controllers\Api\ProductController::class,
-    'ventas' => VentasController::class,
+    'ventas' => App\Http\Controllers\Api\VentaController::class,
 ]);
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');

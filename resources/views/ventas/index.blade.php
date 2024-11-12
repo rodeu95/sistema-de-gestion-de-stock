@@ -4,17 +4,6 @@
 <div class="container" style="margin:2%;">
     <h1 class="my-4" style="margin:2%;">Historial de Ventas</h1>
 </div>
-    <!-- Formulario de búsqueda por fecha -->
-    <!-- <form action="{{ route('ventas.index') }}" method="GET" class="mb-4">
-        <div class="form-group">
-            <label for="fecha_venta">Buscar por fecha:</label>
-            <input type="date" name="fecha_venta" id="fecha_venta" value="{{ request('fecha_venta') }}" class="form-control shadow" />
-        </div>
-        <div class="d-flex justify-content-end" style="margin:10px">
-            <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-            <a href="{{ route('ventas.index') }}" class="btn shadow btn-secondary"><i class="fa-solid fa-list"></i> Mostrar todas</a>
-        </div>
-    </form> -->
 
 <main class="container-lg">
     <div id="ventas-table"></div>
@@ -36,11 +25,11 @@
 </main>
 
 <!-- MODAL DE EDICIÓN -->
-<div class="modal fade" id="editVentaModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="editVentaModal" tabindex="-1" aria-labelledby="editVentaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editProductModalLabel">Editar Venta</h4>
+                <h4 class="modal-title" id="editVentaModalLabel">Editar Venta</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -49,7 +38,7 @@
                     @method('PUT') 
 
                     <div class="mb-3">
-                        <label for="edit_id" class="form-label">Código</label>
+                        <label for="edit_id" class="form-label">ID Venta</label>
                         <input type="text" class="form-control" id="edit_id" name="id" value="{{old('id', $venta->id)  }}" readonly required>
                     </div>
 
@@ -117,11 +106,11 @@
 <script src="{{ asset('js/ventas/index.js') }}"></script>
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
-    // var productosStoreUrl = "{{ route('ventas.store') }}";
-    // var productoUpdatetUrl = "{{ route('ventas.update', 'id') }}";
-    var editVentaUrlTemplate = "{{ route('api.ventas.edit', ':id') }}"; 
-    // var eliminarProductoUrl = "{{ route('api.ventas.destroy', 'id') }}"
-
+    // var ventasStoreUrl = "{{ route('ventas.store') }}";
+    var ventaUpdatetUrl = "{{ route('ventas.update', 'id') }}";
+    var editVentaUrlTemplate = "{{ route('ventas.edit', ':id') }}"; 
+    // var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
+    console.log(editVentaUrlTemplate);
 </script>
 <script>
     function confirmDelete(ventaId) {
