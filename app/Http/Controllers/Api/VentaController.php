@@ -100,4 +100,46 @@ class VentaController extends Controller
         }
 
     }
+
+    public function update(Request $request, $id){
+
+        $venta = Venta::where('id', $id)->first();
+
+        if($venta){
+            $venta->update($request->all());
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => 'Actualizada',
+                'text' => 'Venta actualizada correctamente'
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Venta actualizada exitosamente',
+                'producto' => $venta
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Venta no encontrada'
+            ], 404);
+        }
+
+    }
+
+    public function destroy($id){
+
+        $venta = Venta::where('id', $id)->first();
+
+        if($venta){
+            $venta->delete();
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => 'Eliminada',
+                'text' => 'Venta eliminada correctamente'
+            ]);
+            return response()->json(['message' => 'Venta eliminada exitosamente']);
+        }else{
+            return response()->json(['message' => 'venta no encontrada'], 404);
+        }
+    }
 }

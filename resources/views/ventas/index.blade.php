@@ -46,7 +46,7 @@
                         <label for="producto-select" class="form-label">Producto</label>
                         <select id="producto-select" class="form-select" name="producto_cod[]">
                             <option value="" disabled selected>Seleccione un producto</option>
-                            @foreach($productos as $producto)
+                            @foreach($venta->productos as $producto)
                                 <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio }}">
                                     {{ $producto->nombre }} - ${{ $producto->precio }}
                                 </option>

@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = $(this).serialize();
         const id = $('#edit_id').val();
         let ventaUpdateUrlFinal = ventaUpdatetUrl.replace("id", id);
-
+        console.log(ventaUpdateUrlFinal);
         $.ajax({
             url: ventaUpdateUrlFinal,
             method: 'PUT',
