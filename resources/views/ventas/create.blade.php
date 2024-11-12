@@ -41,7 +41,7 @@
                                 id="cantidad-input" 
                                 class="form-control" 
                                 name="cantidad" 
-                                value="1" 
+                                value="" 
                                 @if ($producto->unidad === 'KG') step="0.01" @endif
                                 min="1"
                             >

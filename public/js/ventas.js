@@ -17,11 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Función para agregar un producto a la lista
-    function addProductToList(productCod, productName, productPrice, quantity) {
-        if (!productCod || quantity <= 0) {
-            alert("Cantidad inválida o producto no seleccionado.");
+    function addProductToList(productCod, productName, productPrice, quantity = 1) {
+        if (!quantity || quantity <= 0) {
+            quantity = 1;
+        }
+    
+        // Verificar si el producto es válido
+        if (!productCod) {
+            alert("Producto no seleccionado.");
             return;
-        };
+        }
+        
         console.log(`Agregando producto: ${productName}, ID: ${productCod}, Cantidad: ${quantity}`);
         const container = document.getElementById('product-list');
         const listItem = document.createElement('li');
@@ -65,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productName = select.options[select.selectedIndex]?.text;
         const productPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-precio')) || 0;
         
-        // Establecer la cantidad predeterminada en 1
+        
         let quantity = parseFloat(cantidadInput.value) || 1; 
     
         if (productCod && quantity > 0) {
@@ -91,7 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Agregar eventos
     document.getElementById('add-product').addEventListener('click', handleAddProduct);
-    
+    document.getElementById('producto-select').addEventListener('change', function() {
+        document.getElementById('cantidad-input').value = 1;
+    });
+
     // Validar el formulario al enviarlo
     const form = document.querySelector('form');
     if (form) {
@@ -117,5 +126,5 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Debe agregar al menos un producto con cantidad válida.");
         }
     });
-    
+
 });

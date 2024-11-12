@@ -8,6 +8,7 @@ use App\Models\Venta;
 use App\Models\Producto;
 use App\Models\Caja;
 use App\Models\MetodoDePago;
+use Illuminate\Support\Facades\Log;
 
 class VentaController extends Controller
 {
@@ -101,29 +102,64 @@ class VentaController extends Controller
 
     }
 
-    public function update(Request $request, $id){
-
-        $venta = Venta::where('id', $id)->first();
-
-        if($venta){
-            $venta->update($request->all());
+    public function update(Request $request, $id) {
+        Log::debug('Request data: ', $request->all());
+        $venta = Venta::find($id);
+    
+        // Validate input data
+        $request->validate([
+            'producto_cod' => 'required|array',
+            'producto_cod.*' => 'required|exists:productos,codigo',
+            'cantidad' => 'required|array|min:1',
+            'cantidad.*' => 'required|numeric|min:0.01',
+            'monto_total' => 'required|numeric|min:0',
+            'metodo_pago_id' => 'required|exists:metodos_de_pago,id',
+            'fecha_venta' => 'nullable|date',
+        ]);
+    
+        if ($venta) {
+            // Update basic fields on venta
+            $venta->update([
+                'monto_total' => $request->monto_total,
+                'metodo_pago_id' => $request->metodo_pago_id,
+                'fecha_venta' => $request->fecha_venta,
+            ]);
+    
+            // Handle updating products and quantities
+            $producto_cod = $request->input('producto_cod');
+            $cantidad = $request->input('cantidad');
+    
+            // Assuming you have a pivot table or related model for products in the sale
+            foreach ($producto_cod as $index => $codigo) {
+                $producto = Producto::where('codigo', $codigo)->first();
+    
+                if ($producto) {
+                    // Logic to update quantity or other fields related to the product
+                    // This could involve updating a pivot table, for example:
+                    $venta->productos()->updateExistingPivot($producto->id, [
+                        'cantidad' => $cantidad[$index],
+                    ]);
+                }
+            }
+    
+            // Flash success message for the session
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => 'Actualizada',
-                'text' => 'Venta actualizada correctamente'
+                'text' => 'Venta actualizada correctamente',
             ]);
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Venta actualizada exitosamente',
-                'producto' => $venta
+                'producto' => $venta,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Venta no encontrada'
+                'message' => 'Venta no encontrada',
             ], 404);
         }
-
     }
 
     public function destroy($id){

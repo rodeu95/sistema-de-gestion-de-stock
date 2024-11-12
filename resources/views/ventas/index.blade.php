@@ -56,7 +56,7 @@
 
                     <div class="mb-3">
                         <label for="cantidad-input" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad-input" class="form-control" value="1" name="cantidad" min="1">
+                        <input type="number" id="cantidad-input" class="form-control" value="1" name="cantidad">
                     </div>
 
                     <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
@@ -104,7 +104,7 @@
 
 @push('js')
 <script src="{{ asset('js/ventas/index.js') }}"></script>
-<script src="{{ asset('js/ventas.js') }}"></script>
+<!-- <script src="{{ asset('js/ventas.js') }}"></script> -->
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
     var ventasStoreUrl = "{{ route('ventas.store') }}";
