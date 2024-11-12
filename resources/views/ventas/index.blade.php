@@ -33,7 +33,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editVentaForm">
+                <form id="ventasForm">
                     @csrf
                     @method('PUT') 
 
@@ -56,18 +56,18 @@
 
                     <div class="mb-3">
                         <label for="cantidad-input" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad-input" class="form-control" min="1">
+                        <input type="number" id="cantidad-input" class="form-control" value="1" name="cantidad" min="1">
                     </div>
 
                     <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
 
                     <ul id="product-list" class="list-group mb-3">
                         @foreach($venta->productos as $producto)
-                            <li class="list-group-item product-list-item" 
-                                data-precio="{{ $producto->precio }}" 
+                            <li class="list-group-item product-list-item" id="listItem"
+                                data-precio="{{ $producto->precio_venta }}" 
                                 data-cantidad="{{ $producto->pivot->cantidad }}">
-                                {{ $producto->nombre }} - {{ $producto->pivot->cantidad }} x ${{ $producto->precio }} 
-                                = ${{ number_format($producto->pivot->cantidad * $producto->precio, 2) }}
+                                {{ $producto->nombre }} - {{ $producto->pivot->cantidad }} x ${{ $producto->precio_venta }} 
+                                = ${{ number_format($producto->pivot->cantidad * $producto->precio_venta, 2) }}
                                 <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
                                 <input type="hidden" name="producto_cod[]" value="{{ $producto->codigo }}">
                                 <input type="hidden" name="cantidad[]" value="{{ $producto->pivot->cantidad }}">
@@ -104,32 +104,16 @@
 
 @push('js')
 <script src="{{ asset('js/ventas/index.js') }}"></script>
+<script src="{{ asset('js/ventas.js') }}"></script>
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
-    // var ventasStoreUrl = "{{ route('ventas.store') }}";
+    var ventasStoreUrl = "{{ route('ventas.store') }}";
     var ventaUpdatetUrl = "{{ route('ventas.update', 'id') }}";
     var editVentaUrlTemplate = "{{ route('ventas.edit', ':id') }}"; 
-    // var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
+    var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
     console.log(editVentaUrlTemplate);
 </script>
-<script>
-    function confirmDelete(ventaId) {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "No podrás volver atrás",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Eliminar de todas formas",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + ventaId).submit();
-            }
-        });
-    }
-</script>
+
 @endpush
 
 @endsection
