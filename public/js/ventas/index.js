@@ -2,6 +2,8 @@
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let grid;
 let initialTotal = 0;
+
+
 document.addEventListener('DOMContentLoaded', function () {
     function renderProductTable() {
 
@@ -143,7 +145,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 const $productoSelect = $('#producto-select');
                 $productoSelect.empty(); // Clear existing options
                 $productoSelect.append('<option value="" disabled selected>Seleccione un producto</option>');
+                console.log(productos);
                 $.each(productos, function(index, producto) {
+                    console.log(producto);
                     $productoSelect.append(
                         `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
                             ${producto.nombre} - $${producto.precio_venta}
@@ -157,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 $.each(venta.productos, function(index, producto) {
                     const totalPrice = (producto.pivot.cantidad * producto.precio_venta).toFixed(2);
                     $productList.append(
-                        `<li class="list-group-item product-list-item" 
+                        `<li class="list-group-item product-list-item" data-codigo="${producto.codigo}"
                               data-precio="${producto.precio_venta}" 
                               data-cantidad="${producto.pivot.cantidad}">
                             ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio_venta} = $${totalPrice}
@@ -168,8 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const hiddenInputs = document.getElementById('hidden-inputs');
                 hiddenInputs.innerHTML += data.producto_cod.map((codigo, index) => 
-                    `<input type="hidden" class="hidden-child" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
-                    <input type="hidden" class="hidden-child" data-cantidad="${data.cantidad[index]}" name="cantidad[]" value="${data.cantidad[index]}">`
+                    `<input type="hidden" class="hidden-child" id="hidden-producto-${codigo}" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
+                    <input type="hidden" class="hidden-child" id="hidden-cantidad-${codigo}" data-cantidad="${data.cantidad[index]}" name="cantidad[]" value="${data.cantidad[index]}">`
                 ).join('');
                 actualizarTotalVenta();
             },
@@ -180,9 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function actualizarTotalVenta() {
-        let total = initialTotal; // Comenzamos con el monto inicial
+        let total = 0; // Comenzamos con el monto inicial
     
-        $('#hidden-inputs .hidden-child').each(function() {
+        $('#product-list .product-list-item').each(function() {
             const precio = parseFloat($(this).data('precio'));
             const cantidad = parseFloat($(this).data('cantidad'));
             if (!isNaN(precio) && !isNaN(cantidad)) {
@@ -194,28 +198,36 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#monto_total').val(total.toFixed(2));
     }
 
-
+    $('#producto-select').on('change', function() {
+        selectedProduct = $(this).find(':selected');
+        
+        console.log("Producto seleccionado:", selectedProduct);
+        console.log("Código seleccionado:", selectedProduct.val());
+        console.log("Precio seleccionado:", selectedProduct.data('precio'));
+    });
 
     $('#add-product').on('click', function() {
-        console.log("hice clic");
-        const productoSelect = $('#producto-select');
-        const selectedProduct = productoSelect.find(':selected');
-        console.log(typeof(selectedProduct));
 
+        console.log("Producto seleccionado:", selectedProduct);
+        console.log("Producto seleccionado (HTML):", selectedProduct.html());
+        console.log("Producto seleccionado (valor):", selectedProduct.val());
+        console.log("Producto seleccionado (data-precio):", selectedProduct.data('precio'));
 
   
         const precio = selectedProduct.data('precio');
-        console.log(precio);
         const codigo = selectedProduct.val();
-        console.log(codigo);
         const nombre = selectedProduct.text();
-        console.log(nombre);
         const cantidad = parseFloat($('#cantidad-input').val());
-        console.log(cantidad);
+
+        console.log("Producto seleccionado:", selectedProduct);
+        console.log("Código:", codigo);
+        console.log("Precio:", precio);
+        console.log("Nombre:", nombre);
+        console.log("Cantidad:", cantidad);
     
         if (codigo && !isNaN(precio) && !isNaN(cantidad)) {
             $('#product-list').append(
-                `<li class="list-group-item product-list-item" 
+                `<li class="list-group-item product-list-item" data-codigo="${codigo}"
                       data-precio="${precio}" 
                       data-cantidad="${cantidad}">
                     ${nombre} - ${cantidad} x $${precio} = $${(cantidad * precio).toFixed(2)}
@@ -227,8 +239,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const hiddenInputs = document.getElementById('hidden-inputs');
         hiddenInputs.innerHTML +=
-            `<input type="hidden" class="hidden-child" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
-            <input type="hidden" class="hidden-child" data-cantidad="${cantidad}" name="cantidad[]" value="${cantidad}">`
+            `<input type="hidden" class="hidden-child" id="hidden-producto-${codigo}" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
+            <input type="hidden" class="hidden-child" id="hidden-cantidad-${codigo}" data-cantidad="${cantidad}" name="cantidad[]" value="${cantidad}">`
         ;
 
         actualizarTotalVenta();
@@ -237,7 +249,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Evento para eliminar un producto
     $(document).on('click', '.remove-product', function() {
-        $(this).closest('.product-list-item').remove();
+        const item = $(this).closest('.product-list-item')
+        const codigo = item.data('codigo');
+
+        item.remove();
+        $(`#hidden-producto-${codigo}`).remove();
+        $(`#hidden-cantidad-${codigo}`).remove();
+
         actualizarTotalVenta();
     });
 

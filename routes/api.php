@@ -11,5 +11,5 @@ Route::delete('/productos/{codigo}', [ProductController::class, 'destroy'])->nam
 Route::get('/ventas', [VentaController::class, 'index'])->name('api.ventas.index');
 Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('api.ventas.edit');
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
-Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update');
+Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('api.ventas.update');
 

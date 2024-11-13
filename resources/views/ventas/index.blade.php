@@ -33,7 +33,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="ventasForm">
+                <form id="ventasForm" method="POST">
                     @csrf
                     @method('PUT') 
 
@@ -56,7 +56,7 @@
 
                     <div class="mb-3">
                         <label for="cantidad-input" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad-input" class="form-control" value="1" name="cantidad">
+                        <input type="number" id="cantidad-input" class="form-control" value="" name="cantidad">
                     </div>
 
                     <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
@@ -98,7 +98,7 @@
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
     var ventasStoreUrl = "{{ route('ventas.store') }}";
-    var ventaUpdatetUrl = "{{ route('ventas.update', 'id') }}";
+    var ventaUpdatetUrl = "{{ route('api.ventas.update', 'id') }}";
     var editVentaUrlTemplate = "{{ route('ventas.edit', ':id') }}"; 
     var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
     console.log(editVentaUrlTemplate);

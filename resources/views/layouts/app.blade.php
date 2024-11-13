@@ -48,7 +48,6 @@
 
         <!-- <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script> -->
         <script src="{{ mix('js/app.js') }}"></script>
-        <script src="{{ asset('js/ventas.js') }}"></script>
         <script src="{{ asset('js/index.js') }}"></script>
         <script src="{{ asset('js/login.js') }}"></script>
 

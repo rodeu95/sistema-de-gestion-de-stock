@@ -46,13 +46,7 @@ class VentaController extends Controller
     }
 
     public function store(Request $request){
-        // dd($request->all());
-        $caja = Caja::first();
 
-    // Validar si la caja está cerrada
-        if (!$caja || !$caja->estado) {
-            return redirect()->route('inicio')->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
-        }
         try{
             $validatedData = $request->validate([
                 'producto_cod' => 'required|array',
@@ -133,21 +127,39 @@ class VentaController extends Controller
     
             // Handle updating products and quantities
             $producto_cod = $request->input('producto_cod');
-            $cantidad = $request->input('cantidad');
+            $cantidades = $request->input('cantidad');
     
-            // Assuming you have a pivot table or related model for products in the sale
+            Log::debug('Producto códigos:', $producto_cod);
+            Log::debug('Cantidades:', $cantidades);
+            
             foreach ($producto_cod as $index => $codigo) {
+
                 $producto = Producto::where('codigo', $codigo)->first();
-    
+                $cantidad = (float) $cantidades[$index];
+
                 if ($producto) {
-                    // Logic to update quantity or other fields related to the product
-                    // This could involve updating a pivot table, for example:
-                    $venta->productos()->updateExistingPivot($producto->id, [
-                        'cantidad' => $cantidad[$index],
-                    ]);
+                    if ($producto->stock >= $cantidad) {
+                        $producto->stock -= $cantidad;
+                        $producto->save();
+                        if ($venta->productos->contains($producto->codigo)) {
+                            // Update the quantity if the product already exists in the sale
+                            $venta->productos()->updateExistingPivot($producto->codigo, [
+                                'cantidad' => $venta->productos()->where('producto_cod', $producto->codigo)->first()->pivot->cantidad + $cantidad
+                            ]);
+                        } else {
+                            // Add the new product to the sale if it's not already in the pivot table
+                            $venta->productos()->syncWithoutDetaching([
+                                $producto->codigo => ['cantidad' => $cantidad]
+                            ]);
+                        }
+                    }else {
+                        // Maneja el caso en el que no hay suficiente stock
+                        return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
+                    }
+                    
                 }
             }
-    
+            $venta->save();
             // Flash success message for the session
             session()->flash('swal', [
                 'icon' => 'success',

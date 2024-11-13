@@ -107,5 +107,6 @@
 </div>
 
 @push('js')
+<script src="{{ asset('js/ventas.js') }}"></script>
 @endpush
 @endsection
