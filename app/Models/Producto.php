@@ -27,7 +27,8 @@ class Producto extends Model
         'precio_venta',
         'numero_lote',
         'iva',
-        'utilidad'
+        'utilidad',
+        'categoria_id'
     ];
 
     public function ventas()

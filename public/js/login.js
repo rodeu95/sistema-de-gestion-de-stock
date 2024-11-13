@@ -1,17 +1,16 @@
-function validarContraseña(){
+function validarContraseña() {
     var pass = document.getElementById("password").value;
     var confirmarPass = document.getElementById("confirmPassword").value;
 
-    if(pass!=confirmarPass){
+    if (pass != confirmarPass) {
         alert("Las contraseñas no coinciden");
         return false;
     }
     return true;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const alertBox = document.getElementById('alert-box');
-    console.log(alertBox); // Para verificar si el alert-box existe
     if (alertBox) {
         setTimeout(() => {
             alertBox.style.display = 'none';
@@ -36,13 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
 //         mostrar.textContent = "Mostrar";
 //     }
 // })
-function togglePasswordVisibility(id){
+function togglePasswordVisibility(id) {
     var campo = document.getElementById(id);
     var icono = document.getElementById(id + "-toggle");
-    if(campo.type === "password"){
+    if (campo.type === "password") {
         campo.type = "text";
         icono.textContent = "Ocultar";
-    }else{
+    } else {
         campo.type = "password";
         icono.textContent = "Mostrar";
     }
@@ -51,29 +50,31 @@ function togglePasswordVisibility(id){
 
 
 const seleccion = document.getElementById('tipoUsuario');
-seleccion.addEventListener('change', function () {
-    const atributoContainer = document.getElementById('atributos-container');
-    const atributoLabel = document.getElementById('atributos');
-    
-    atributoContainer.innerHTML = '';
-    
-    // Oculta el contenedor de atributos inicialmente
-    atributoContainer.style.display = 'none';
-    atributoLabel.style.display = 'none';
+if (seleccion) {
+    seleccion.addEventListener('change', function () {
+        const atributoContainer = document.getElementById('atributos-container');
+        const atributoLabel = document.getElementById('atributos');
 
-    if (this.value) {
-        atributoContainer.style.display = 'block';
-        atributoLabel.style.display = 'block';
+        atributoContainer.innerHTML = '';
 
-        const rolNombre = this.options[this.selectedIndex].text; // Obtener el nombre del rol
+        // Oculta el contenedor de atributos inicialmente
+        atributoContainer.style.display = 'none';
+        atributoLabel.style.display = 'none';
 
-        if (rolNombre === 'Administrador') {
-            atributoContainer.innerHTML = '<p>El Administrador tiene todos los permisos automáticamente.</p>';
-        } else {
-            cargarPermisos(this.value); // Carga permisos dinámicamente
+        if (this.value) {
+            atributoContainer.style.display = 'block';
+            atributoLabel.style.display = 'block';
+
+            const rolNombre = this.options[this.selectedIndex].text; // Obtener el nombre del rol
+
+            if (rolNombre === 'Administrador') {
+                atributoContainer.innerHTML = '<p>El Administrador tiene todos los permisos automáticamente.</p>';
+            } else {
+                cargarPermisos(this.value); // Carga permisos dinámicamente
+            }
         }
-    }
-});
+    });
+}
 
 function cargarPermisos(rolId) {
     const atributosContainer = document.getElementById('atributos-container');

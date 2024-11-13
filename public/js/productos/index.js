@@ -1,4 +1,3 @@
-
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let grid;
 
@@ -13,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         grid = new gridjs.Grid({
             columns: [
-                'Código', 
+                'Código',
                 {
                     name: 'Nombre',
                     sort: true,
                     formatter: (cell) => cell,
                     compare: (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())
                 },
-                'Fecha de vencimiento', 
+                'Fecha de vencimiento',
                 {
                     name: 'Precio de Venta',
                     formatter: (cell) => {
@@ -31,19 +30,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Devuelve el valor con el símbolo '$' y lo formatea como una moneda
                         return '$' + amount.toFixed(2); // Esto agrega dos decimales, cambia según lo necesites
                     }
-                }, 
-                'Stock', 
+                },
+                'Stock',
                 'Unidad',
                 {
                     name: 'Acciones',
                     formatter: (cell, row) => {
-                        
+
                         const codigo = row.cell(0).data;
-                        console.log(codigo);
 
                         const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
                         const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${codigo}', codigo);
-                            
+
                         return gridjs.html(`
                             <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}" method="post">
                                 <input type="hidden" name="_token" value="${csrfToken}">
@@ -62,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         producto.nombre,
                         producto.fchVto,
                         parseFloat(producto.precio_venta),
-                        producto.unidad === 'UN' 
+                        producto.unidad === 'UN'
                             ? parseInt(producto.stock)  // Convierte el stock a número y muestra 'unidades'
                             : parseFloat(producto.stock),
                         producto.unidad,
@@ -71,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             resizable: true,
             sort: true,
-            
+
             pagination: {
                 enabled: true,
                 limit: 10,
@@ -100,8 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Llamar a renderProductTable cuando se carga la página
     renderProductTable();
 
-    $('#editProductModal').on('show.bs.modal', function(event){
-        const button = $(event.relatedTarget); 
+    $('#editProductModal').on('show.bs.modal', function (event) {
+        /*CARGA DATOS DEL PRODUCTO EN EL MODAL DE EDICION*/
+        const button = $(event.relatedTarget);
         const codigo = button.data('codigo');
         let editProductUrl = editProductUrlTemplate.replace(':codigo', codigo);
         console.log(editProductUrl);
@@ -125,11 +124,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     })
-    
-    $('#editProductForm').on('submit', function(e) {
+
+    $('#editProductForm').on('submit', function (e) {
+        /*EDICION DEL PRODUCTO DEL MODAL */
         e.preventDefault();
         const formData = $(this).serialize();
-
+        
         const codigo = $('#edit_codigo').val();
         let productoUpdatetUrlFinal = productoUpdatetUrl.replace("codigo", codigo);
         console.log(productoUpdatetUrlFinal);
@@ -137,28 +137,27 @@ document.addEventListener('DOMContentLoaded', function () {
             url: productoUpdatetUrlFinal, // URL del formulario establecida dinámicamente
             method: 'PUT',
             data: formData,
-            success: function(response) {
-                $('#editProductModal').modal('hide'); // Cierra el modal
-    
-                window.location.reload(); // Recarga la tabla de productos
+            success: function (response) {
+                $('#editProductModal').modal('hide'); // Cierra el modal                
+                window.location.reload()
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.log(xhr.responseText); // Muestra los errores de la respuesta
             }
         });
     });
-    
 
-    
+
+
     // Función para manejar el formulario de agregar un producto mediante AJAX
-    $('#addProductForm').on('submit', function(e) {
+    $('#addProductForm').on('submit', function (e) {
         e.preventDefault();
-        
+
         $.ajax({
             url: productosStoreUrl,
             method: "POST",
             data: $(this).serialize(),
-            success: function(response) {
+            success: function (response) {
                 $('#addProductModal').modal('hide'); // Cerrar el modal
                 $('#addProductForm')[0].reset(); // Resetear el formulario
 
@@ -171,19 +170,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 window.location.reload();
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.log(xhr.responseText); // Muestra los errores de la respuesta
             }
         });
     });
 
-    $('#editProductModal').on('hidden.bs.modal', function() {
+    $('#editProductModal').on('hidden.bs.modal', function () {
         $('#editProductForm')[0].reset();
         productoEditUrl = "{{ route('productos.update', 'codigo') }}";
     });
 
-    
-    
+
+
     // Función para actualizar el precio de venta basado en el costo y la utilidad
     document.getElementById('precioCosto').addEventListener('input', updatePrecioVenta);
     document.getElementById('utilidad').addEventListener('input', updatePrecioVenta);
@@ -217,27 +216,27 @@ function deleteProducto(codigo) {
         if (result.isConfirmed) {
             const eliminarProductoUrlFinal = eliminarProductoUrl.replace("codigo", codigo);
             console.log(eliminarProductoUrlFinal);
-            
+
             $.ajax({
                 url: eliminarProductoUrlFinal,
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.message === 'Producto eliminado exitosamente') {
                         Swal.fire(
                             'Eliminado',
                             'Producto eliminado exitosamente.',
                             'info'
-                        ).then(function() {
+                        ).then(function () {
                             window.location.reload();
                         });
                     } else {
                         alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error al eliminar el producto:', error);
                     alert('Hubo un problema al intentar eliminar el producto.');
                 }
@@ -245,10 +244,9 @@ function deleteProducto(codigo) {
         }
     });
 }
-$(document).on('click', '.btn-delete', function() {
+$(document).on('click', '.btn-delete', function () {
     const codigo = $(this).data('codigo');
-    console.log(codigo); 
-    deleteProducto(codigo); 
+    deleteProducto(codigo);
 });
 
 function updateStockStep() {

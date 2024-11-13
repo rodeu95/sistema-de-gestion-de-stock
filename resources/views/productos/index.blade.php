@@ -216,7 +216,7 @@
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ old('nombre', $categoria->nombre )}}">{{ $categoria->nombre }}</option>
+                                <option value="{{ old('nombre', $categoria->id )}}">{{ $categoria->nombre }}</option>
                             @endforeach
                         </select>
                     </div>

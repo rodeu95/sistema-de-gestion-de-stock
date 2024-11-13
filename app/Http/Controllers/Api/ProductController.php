@@ -79,11 +79,10 @@ class ProductController extends Controller
 
     }
 
-
+    
     public function update(UpdateProductRequest $request, $codigo){
 
         $producto = Producto::where('codigo', $codigo)->first();
-
         if($producto){
             $producto->update($request->all());
             session()->flash('swal', [
