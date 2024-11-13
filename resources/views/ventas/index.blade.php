@@ -46,11 +46,11 @@
                         <label for="producto-select" class="form-label">Producto</label>
                         <select id="producto-select" class="form-select" name="producto_cod[]">
                             <option value="" disabled selected>Seleccione un producto</option>
-                            @foreach($venta->productos as $producto)
+                            <!-- @foreach($venta->productos as $producto)
                                 <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
                                     {{ $producto->nombre }} - ${{ $producto->precio_venta }}
                                 </option>
-                            @endforeach
+                            @endforeach -->
                         </select>
                     </div>
 
@@ -94,7 +94,7 @@
 
 @push('js')
 <script src="{{ asset('js/ventas/index.js') }}"></script>
-<!-- <script src="{{ asset('js/ventas.js') }}"></script> -->
+
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
     var ventasStoreUrl = "{{ route('ventas.store') }}";

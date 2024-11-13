@@ -162,16 +162,14 @@ document.addEventListener('DOMContentLoaded', function () {
                               data-cantidad="${producto.pivot.cantidad}">
                             ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio_venta} = $${totalPrice}
                             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-                            <input type="hidden" class="hidden-child" name="producto_cod[]" value="${producto.codigo}">
-                            <input type="hidden" class="hidden-child" name="cantidad[]" value="${producto.pivot.cantidad}">
                         </li>`
                     );
                 });
 
                 const hiddenInputs = document.getElementById('hidden-inputs');
                 hiddenInputs.innerHTML += data.producto_cod.map((codigo, index) => 
-                    `<input type="hidden" class="hidden-child" name="producto_cod[]" value="${codigo}">
-                    <input type="hidden" class="hidden-child" name="cantidad[]" value="${data.cantidad[index]}">`
+                    `<input type="hidden" class="hidden-child" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
+                    <input type="hidden" class="hidden-child" data-cantidad="${data.cantidad[index]}" name="cantidad[]" value="${data.cantidad[index]}">`
                 ).join('');
                 actualizarTotalVenta();
             },
@@ -196,13 +194,24 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#monto_total').val(total.toFixed(2));
     }
 
+
+
     $('#add-product').on('click', function() {
-        const $productoSelect = $('#producto-select');
-        const selectedProduct = $productoSelect.find(':selected');
-        const precio = parseFloat(selectedProduct.data('precio'));
+        console.log("hice clic");
+        const productoSelect = $('#producto-select');
+        const selectedProduct = productoSelect.find(':selected');
+        console.log(typeof(selectedProduct));
+
+
+  
+        const precio = selectedProduct.data('precio');
+        console.log(precio);
         const codigo = selectedProduct.val();
+        console.log(codigo);
         const nombre = selectedProduct.text();
-        const cantidad = parseFloat($('#cantidad').val());
+        console.log(nombre);
+        const cantidad = parseFloat($('#cantidad-input').val());
+        console.log(cantidad);
     
         if (codigo && !isNaN(precio) && !isNaN(cantidad)) {
             $('#product-list').append(
@@ -211,14 +220,20 @@ document.addEventListener('DOMContentLoaded', function () {
                       data-cantidad="${cantidad}">
                     ${nombre} - ${cantidad} x $${precio} = $${(cantidad * precio).toFixed(2)}
                     <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-                    <input type="hidden" name="producto_cod[]" value="${codigo}">
-                    <input type="hidden" name="cantidad[]" value="${cantidad}">
                 </li>`
             );
             
         }
+
+        const hiddenInputs = document.getElementById('hidden-inputs');
+        hiddenInputs.innerHTML +=
+            `<input type="hidden" class="hidden-child" data-codigo="${codigo}" name="producto_cod[]" value="${codigo}">
+            <input type="hidden" class="hidden-child" data-cantidad="${cantidad}" name="cantidad[]" value="${cantidad}">`
+        ;
+
         actualizarTotalVenta();
     });
+
     
     // Evento para eliminar un producto
     $(document).on('click', '.remove-product', function() {
@@ -246,7 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.success) {
                     // window.location.reload();
                     $('#editVentaModal').modal('hide');
-                    Swal.fire('Venta actualizada con éxito', '', 'success');
                 } else {
                     Swal.fire('Error', 'Hubo un problema al actualizar la venta', 'error');
                 }

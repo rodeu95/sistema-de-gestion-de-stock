@@ -231,7 +231,7 @@ function deleteProducto(codigo) {
                             'Producto eliminado exitosamente.',
                             'info'
                         ).then(function() {
-                            window.location.reload(); // Recargar la página después de 2 segundos
+                            window.location.reload();
                         });
                     } else {
                         alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto

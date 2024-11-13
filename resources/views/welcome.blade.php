@@ -51,7 +51,7 @@
     <div class="container">
         <div class="welcome-content">
             <h1 class="display-4">
-                <i class="fa-solid fa-boxes-stacked"></i> Sistema de Gestión de Stock <i class="fa-solid fa-dolly"></i>
+                <i class="fa-solid fa-boxes-stacked"></i> Sistema de Gestión de Ventas <i class="fa-solid fa-dolly"></i>
             </h1>
             <p class="lead">Seleccione una opción para comenzar.</p>
             <a href="{{ route('login') }}" class="btn btn-custom">Iniciar Sesión</a>
