@@ -47,8 +47,8 @@
                         <select id="producto-select" class="form-select" name="producto_cod[]">
                             <option value="" disabled selected>Seleccione un producto</option>
                             @foreach($venta->productos as $producto)
-                                <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio }}">
-                                    {{ $producto->nombre }} - ${{ $producto->precio }}
+                                <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
+                                    {{ $producto->nombre }} - ${{ $producto->precio_venta }}
                                 </option>
                             @endforeach
                         </select>
@@ -62,17 +62,7 @@
                     <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
 
                     <ul id="product-list" class="list-group mb-3">
-                        @foreach($venta->productos as $producto)
-                            <li class="list-group-item product-list-item" id="listItem"
-                                data-precio="{{ $producto->precio_venta }}" 
-                                data-cantidad="{{ $producto->pivot->cantidad }}">
-                                {{ $producto->nombre }} - {{ $producto->pivot->cantidad }} x ${{ $producto->precio_venta }} 
-                                = ${{ number_format($producto->pivot->cantidad * $producto->precio_venta, 2) }}
-                                <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-                                <input type="hidden" name="producto_cod[]" value="{{ $producto->codigo }}">
-                                <input type="hidden" name="cantidad[]" value="{{ $producto->pivot->cantidad }}">
-                            </li>
-                        @endforeach
+                        
                     </ul>
 
                     <div id="hidden-inputs"></div>

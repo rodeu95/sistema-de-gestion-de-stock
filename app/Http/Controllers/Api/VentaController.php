@@ -21,9 +21,16 @@ class VentaController extends Controller
     public function edit($id)
     {
         $venta = Venta::with(['productos', 'metodoPago'])->findOrFail($id);
-        $productos = Producto::all(); // Retrieve all products
+        $productos = Producto::all();
+        
+        $cantidad = $venta->productos->pluck('pivot.cantidad'); // Obtiene las cantidades de cada producto
+        $producto_cod = $venta->productos->pluck('codigo');// Retrieve all products
 
-        return response()->json(['venta' => $venta, 'productos' => $productos]);
+        return response()->json([
+            'venta' => $venta, 
+            'productos' => $productos, 
+            'cantidad' => $cantidad, // Devuelve la cantidad como un array
+            'producto_cod' => $producto_cod]);
     }
 
     public function create(){
@@ -103,6 +110,7 @@ class VentaController extends Controller
     }
 
     public function update(Request $request, $id) {
+        
         Log::debug('Request data: ', $request->all());
         $venta = Venta::find($id);
     
@@ -113,7 +121,6 @@ class VentaController extends Controller
             'cantidad' => 'required|array|min:1',
             'cantidad.*' => 'required|numeric|min:0.01',
             'monto_total' => 'required|numeric|min:0',
-            'metodo_pago_id' => 'required|exists:metodos_de_pago,id',
             'fecha_venta' => 'nullable|date',
         ]);
     
@@ -121,7 +128,6 @@ class VentaController extends Controller
             // Update basic fields on venta
             $venta->update([
                 'monto_total' => $request->monto_total,
-                'metodo_pago_id' => $request->metodo_pago_id,
                 'fecha_venta' => $request->fecha_venta,
             ]);
     
@@ -152,7 +158,7 @@ class VentaController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Venta actualizada exitosamente',
-                'producto' => $venta,
+                'venta' => $venta,
             ]);
         } else {
             return response()->json([

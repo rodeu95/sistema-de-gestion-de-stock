@@ -1,7 +1,7 @@
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let grid;
-
+let initialTotal = 0;
 document.addEventListener('DOMContentLoaded', function () {
     function renderProductTable() {
 
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Llamar a renderProductTable cuando se carga la página
     renderProductTable();
 
-    let initialTotal = 0;
     // Modal de edición de venta
     $('#editVentaModal').on('show.bs.modal', function(event){
         const button = $(event.relatedTarget); 
@@ -107,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             url: editVentaUrl, 
             method: 'GET',
             success: function(data) {
-
+                console.log("Response data:", data);
                 const venta = data.venta
                 const productos = data.productos;
 
@@ -121,23 +120,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 $('#edit_id').val(venta.id);
                 $('#monto_total').val(venta.monto_total);
                 $('#fecha_venta').val(venta.fecha_venta);
-                if (venta.cantidad && Array.isArray(venta.cantidad)) {
-                    venta.cantidad.forEach((cantidad, index) => {
+                if (data.cantidad && Array.isArray(data.cantidad)) {
+                    data.cantidad.forEach((cantidad, index) => {
                         $(`#cantidad_${index}`).val(cantidad);
                     });
                 } else {
                     console.warn("Propiedad cantidad no encontrada o no es un array.");
                 }
-    
+                
                 // Verificar y rellenar códigos de producto si están presentes
-                if (venta.producto_cod && Array.isArray(venta.producto_cod)) {
-                    venta.producto_cod.forEach((codigo, index) => {
+                if (data.producto_cod && Array.isArray(data.producto_cod)) {
+                    data.producto_cod.forEach((codigo, index) => {
                         $(`#producto_cod_${index}`).val(codigo);
                     });
                 } else {
                     console.warn("Propiedad producto_cod no encontrada o no es un array.");
                 }
-    
+                console.log("producto_cod:", data.producto_cod);
+                console.log("cantidad:", data.cantidad);
+                
 
                 const $productoSelect = $('#producto-select');
                 $productoSelect.empty(); // Clear existing options
@@ -157,15 +158,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     const totalPrice = (producto.pivot.cantidad * producto.precio_venta).toFixed(2);
                     $productList.append(
                         `<li class="list-group-item product-list-item" 
-                              data-precio="${producto.precio}" 
+                              data-precio="${producto.precio_venta}" 
                               data-cantidad="${producto.pivot.cantidad}">
                             ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio_venta} = $${totalPrice}
                             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
-                            <input type="hidden" name="producto_cod[]" value="${producto.codigo}">
-                            <input type="hidden" name="cantidad[]" value="${producto.pivot.cantidad}">
+                            <input type="hidden" class="hidden-child" name="producto_cod[]" value="${producto.codigo}">
+                            <input type="hidden" class="hidden-child" name="cantidad[]" value="${producto.pivot.cantidad}">
                         </li>`
                     );
                 });
+
+                const hiddenInputs = document.getElementById('hidden-inputs');
+                hiddenInputs.innerHTML += data.producto_cod.map((codigo, index) => 
+                    `<input type="hidden" class="hidden-child" name="producto_cod[]" value="${codigo}">
+                    <input type="hidden" class="hidden-child" name="cantidad[]" value="${data.cantidad[index]}">`
+                ).join('');
                 actualizarTotalVenta();
             },
             error: function(xhr, status, error) {
@@ -177,13 +184,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function actualizarTotalVenta() {
         let total = initialTotal; // Comenzamos con el monto inicial
     
-        $('#product-list .product-list-item').each(function() {
+        $('#hidden-inputs .hidden-child').each(function() {
             const precio = parseFloat($(this).data('precio'));
             const cantidad = parseFloat($(this).data('cantidad'));
             if (!isNaN(precio) && !isNaN(cantidad)) {
                 total += precio * cantidad;
             }
         });
+        console.log(total);
     
         $('#monto_total').val(total.toFixed(2));
     }
@@ -207,8 +215,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <input type="hidden" name="cantidad[]" value="${cantidad}">
                 </li>`
             );
-            actualizarTotalVenta();
+            
         }
+        actualizarTotalVenta();
     });
     
     // Evento para eliminar un producto
@@ -225,6 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const id = $('#edit_id').val();
         let ventaUpdateUrlFinal = ventaUpdatetUrl.replace("id", id);
         console.log(ventaUpdateUrlFinal);
+
         $.ajax({
             url: ventaUpdateUrlFinal,
             method: 'PUT',
@@ -234,7 +244,6 @@ document.addEventListener('DOMContentLoaded', function () {
             data: formData,
             success: function(response) {
                 if (response.success) {
-                    // Actualizar la tabla sin recargar la página
                     // window.location.reload();
                     $('#editVentaModal').modal('hide');
                     Swal.fire('Venta actualizada con éxito', '', 'success');
