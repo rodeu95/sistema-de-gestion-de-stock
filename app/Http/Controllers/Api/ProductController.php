@@ -9,17 +9,18 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lote;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
 
     public function __construct()
-    {
-        // $this->middleware('auth:api');
-        // $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
-        $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
-        $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
-        $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+    {        
+        //$this->middleware('auth');
+        //$this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        //$this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
+        //$this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
+        //$this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -105,7 +106,6 @@ class ProductController extends Controller
     }
 
     public function destroy($codigo){
-
         $producto = Producto::where('codigo', $codigo)->first();
 
         if($producto){

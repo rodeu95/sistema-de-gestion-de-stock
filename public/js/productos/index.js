@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para manejar el formulario de agregar un producto mediante AJAX
     $('#addProductForm').on('submit', function (e) {
+        /*AGREGAR PRODUCTO POR MODAL*/
         e.preventDefault();
 
         $.ajax({
@@ -202,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function deleteProducto(codigo) {
+    /*ELIMINADO DE PRODUCTO*/
     // Muestra el SweetAlert antes de realizar la eliminación
     Swal.fire({
         title: '¿Estás seguro?',
@@ -215,7 +217,7 @@ function deleteProducto(codigo) {
     }).then((result) => {
         if (result.isConfirmed) {
             const eliminarProductoUrlFinal = eliminarProductoUrl.replace("codigo", codigo);
-            console.log(eliminarProductoUrlFinal);
+            console.log("Eliminado de producto", eliminarProductoUrlFinal);
 
             $.ajax({
                 url: eliminarProductoUrlFinal,

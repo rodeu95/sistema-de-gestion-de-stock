@@ -128,9 +128,6 @@ class VentaController extends Controller
             // Handle updating products and quantities
             $producto_cod = $request->input('producto_cod');
             $cantidades = $request->input('cantidad');
-    
-            Log::debug('Producto códigos:', $producto_cod);
-            Log::debug('Cantidades:', $cantidades);
             
             foreach ($producto_cod as $index => $codigo) {
 
