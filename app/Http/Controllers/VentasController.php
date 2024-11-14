@@ -14,8 +14,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class VentasController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
-        $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
     }
 
     public function index(Venta $venta){

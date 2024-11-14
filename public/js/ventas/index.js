@@ -256,7 +256,13 @@ document.addEventListener('DOMContentLoaded', function () {
             data: formData,
             success: function(response) {
                 if (response.success) {
-                    // window.location.reload();
+                    window.location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Venta actualizada!',
+                        text: 'La venta se ha actualizado correctamente.',
+                        confirmButtonText: 'OK'
+                    });
                     $('#editVentaModal').modal('hide');
                 } else {
                     Swal.fire('Error', 'Hubo un problema al actualizar la venta', 'error');
