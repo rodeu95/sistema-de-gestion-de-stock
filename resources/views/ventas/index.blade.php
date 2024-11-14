@@ -33,7 +33,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="ventasForm" method="POST">
+                <form id="ventasForm">
                     @csrf
                     @method('PUT') 
 
@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label for="producto-select" class="form-label">Producto</label>
-                        <select id="producto-select" class="form-select" name="producto_cod[]">
+                        <select id="producto-select" class="form-select">
                             <option value="" disabled selected>Seleccione un producto</option>
                             <!-- @foreach($venta->productos as $producto)
                                 <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
@@ -56,7 +56,7 @@
 
                     <div class="mb-3">
                         <label for="cantidad-input" class="form-label">Cantidad</label>
-                        <input type="number" id="cantidad-input" class="form-control" value="" name="cantidad">
+                        <input type="number" id="cantidad-input" class="form-control" value="">
                     </div>
 
                     <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
@@ -69,7 +69,7 @@
 
                     <div class="mb-3">
                         <label for="monto_total" class="form-label" style="margin-top:1%;">Monto Total</label>
-                        <input type="number" name="monto_total" id="monto_total" class="form-control" value="{{ old('monto_total', $venta->monto_total) }}" readonly>
+                        <input type="number" name="monto_total" id="monto_total" class="form-control" value="" readonly>
                     </div>
 
                     <div class="mb-3">

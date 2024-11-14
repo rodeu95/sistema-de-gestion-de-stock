@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
             server: {
                 url: ventasIndexUrl,
                 then: response => {
-                    console.log(response.ventas);
                     const ventas = response.ventas;
                     return ventas.map(venta => {
                         // Acceder a los productos relacionados de cada venta
@@ -99,16 +98,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Modal de edición de venta
     $('#editVentaModal').on('show.bs.modal', function(event){
+        /*ABRIR VENTA MODAL*/
         const button = $(event.relatedTarget); 
         const id = button.data('id');
         let editVentaUrl = editVentaUrlTemplate.replace(':id', id);
-        console.log(editVentaUrl);
 
         $.ajax({
             url: editVentaUrl, 
             method: 'GET',
             success: function(data) {
-                console.log("Response data:", data);
+                console.log("DATA DE LA VENTA:", data);
                 const venta = data.venta
                 const productos = data.productos;
 
@@ -138,16 +137,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.warn("Propiedad producto_cod no encontrada o no es un array.");
                 }
-                console.log("producto_cod:", data.producto_cod);
-                console.log("cantidad:", data.cantidad);
                 
 
                 const $productoSelect = $('#producto-select');
                 $productoSelect.empty(); // Clear existing options
                 $productoSelect.append('<option value="" disabled selected>Seleccione un producto</option>');
-                console.log(productos);
+
                 $.each(productos, function(index, producto) {
-                    console.log(producto);
                     $productoSelect.append(
                         `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
                             ${producto.nombre} - $${producto.precio_venta}
@@ -193,7 +189,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 total += precio * cantidad;
             }
         });
-        console.log(total);
     
         $('#monto_total').val(total.toFixed(2));
     }
@@ -201,29 +196,14 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#producto-select').on('change', function() {
         selectedProduct = $(this).find(':selected');
         
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Código seleccionado:", selectedProduct.val());
-        console.log("Precio seleccionado:", selectedProduct.data('precio'));
     });
 
     $('#add-product').on('click', function() {
-
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Producto seleccionado (HTML):", selectedProduct.html());
-        console.log("Producto seleccionado (valor):", selectedProduct.val());
-        console.log("Producto seleccionado (data-precio):", selectedProduct.data('precio'));
-
-  
         const precio = selectedProduct.data('precio');
         const codigo = selectedProduct.val();
         const nombre = selectedProduct.text();
         const cantidad = parseFloat($('#cantidad-input').val());
 
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Código:", codigo);
-        console.log("Precio:", precio);
-        console.log("Nombre:", nombre);
-        console.log("Cantidad:", cantidad);
     
         if (codigo && !isNaN(precio) && !isNaN(cantidad)) {
             $('#product-list').append(
@@ -260,13 +240,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     $('#ventasForm').on('submit', function(e) {
+        /*ACTUALIZAR VENTA*/
         e.preventDefault();
         const formData = $(this).serialize();
-        console.log(formData);
-
+        console.log('Actualizar venta, data', formData)
         const id = $('#edit_id').val();
         let ventaUpdateUrlFinal = ventaUpdatetUrl.replace("id", id);
-        console.log(ventaUpdateUrlFinal);
 
         $.ajax({
             url: ventaUpdateUrlFinal,
@@ -305,7 +284,6 @@ function deleteVenta(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             const eliminarVentaUrlFinal = eliminarVentaUrl.replace("id", id);
-            console.log(eliminarVentaUrlFinal);
             
             $.ajax({
                 url: eliminarVentaUrlFinal,
@@ -336,6 +314,5 @@ function deleteVenta(id) {
 }
 $(document).on('click', '.btn-delete', function() {
     const id = $(this).data('id');
-    console.log(id); 
     deleteVenta(id); 
 });
