@@ -10,6 +10,9 @@ use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lote;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\ProductoController;
+use App\Models\Caja;
+use App\Models\Categoria;
 
 class ProductController extends Controller
 {
@@ -29,7 +32,13 @@ class ProductController extends Controller
         return response()->json($productos);
        
     }
-
+    public function create(){
+        $categorias = Categoria::all();
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
+        
+        return view('productos.create', compact('categorias', 'cajaAbierta'));
+    }
     public function store(StoreProductRequest $request)
     {
     try {
