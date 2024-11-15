@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\Auth;
 class VentaController extends Controller
 {
     public function __construct(){
-        // $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum');
         $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
         $this->middleware('permission:editar-venta', ['only'=>['edit','store', 'update']]);
         $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
     }
     public function index()
     {
+        // $token = Auth::user()->tokens->first();
         $ventas = Venta::with('productos', 'metodoPago', 'vendedor')->get(); // 
         return response()->json(['ventas' => $ventas]);
     }

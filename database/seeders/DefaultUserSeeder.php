@@ -39,7 +39,7 @@ class DefaultUserSeeder extends Seeder
         ]);
         $cajero->save();
         $cajero->assignRole('Cajero');
-        $cajero->givePermissionTo('aplicar-descuento', 'registrar-ingreso', 'ver-productos');
+        $cajero->givePermissionTo('abrir-caja', 'registrar-venta', 'ver-productos');
 
         Auth::login($cajero);
 

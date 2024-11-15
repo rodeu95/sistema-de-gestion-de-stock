@@ -123,7 +123,7 @@ function login(usuario, password){
                 // Guardar el token en localStorage
                 localStorage.setItem('token', data.token);
                 // Redirigir al dashboard o a la página principal
-                // window.location.href = 'http://localhost/sistema/public/users';
+                window.location.href = 'http://localhost/sistema/public/users';
             } else {
                 alert(data.message || 'Error en el inicio de sesión');
             }

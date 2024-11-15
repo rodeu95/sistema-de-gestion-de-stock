@@ -14,9 +14,10 @@ Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->
 
 Route::get('/ventas', [VentaController::class, 'index'])->name('api.ventas.index');
 Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
-Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('api.ventas.edit');
+Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
+Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update');
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
-Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('api.ventas.update');
+
 
 Route::post('/login', [AuthController::class, 'login'])->name('usuario.login');
 

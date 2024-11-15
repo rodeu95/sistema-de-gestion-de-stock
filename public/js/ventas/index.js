@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (grid) {
             grid.destroy();
         }
-
+        
         grid = new gridjs.Grid({
             columns: [
                 'ID', 
@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
             server: {
                 url: ventasIndexUrl,
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
                 then: response => {
                     const ventas = response.ventas;
                     return ventas.map(venta => {
@@ -79,8 +82,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             vendedor,
                         ];
                     });
-                }
+                },
+                
             },
+            
             resizable: true,
             sort: true,
             
@@ -168,7 +173,10 @@ document.addEventListener('DOMContentLoaded', function () {
         let editVentaUrl = editVentaUrlTemplate.replace(':id', id);
 
         $.ajax({
-            url: editVentaUrl, 
+            url: editVentaUrl,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }, 
             method: 'GET',
             success: function(data) {
                 console.log("DATA DE LA VENTA:", data);
@@ -358,7 +366,8 @@ function deleteVenta(id) {
                 url: eliminarVentaUrlFinal,
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function(data) {
                     if (data.message === 'Venta eliminada exitosamente') {
@@ -367,7 +376,7 @@ function deleteVenta(id) {
                             'Venta eliminada exitosamente.',
                             'info'
                         ).then(function() {
-                            renderVentasTable(); // Recargar la página después de 2 segundos
+                            window.location.reload(); // Recargar la página después de 2 segundos
                         });
                     } else {
                         alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto

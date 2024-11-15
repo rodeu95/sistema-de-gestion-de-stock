@@ -19,11 +19,12 @@ class ProductController extends Controller
     public function __construct()
 
     {
-        // $this->middleware('auth:sanctum');
-        // $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        $this->middleware('auth:sanctum');
+        $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
         $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
         $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
-        // $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+        $this->middleware('permission:deshabilitar-producto', ['only' => ['disable']]);
+        $this->middleware('permission:habilitar-producto', ['only' => ['enable']]);
 
     }
     public function index()

@@ -97,6 +97,9 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
             server: {
                 url: productosIndexUrl,
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
                 then: data => {
                     return data.map(producto => {
                         // Define el stock visual para unidades (UN) y kilogramos (KG)
@@ -156,7 +159,10 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(editProductUrl);
 
         $.ajax({
-            url: editProductUrl, // Ruta para obtener los datos del producto
+            url: editProductUrl,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }, // Ruta para obtener los datos del producto
             method: 'GET',
             success: function (data) {
 
@@ -186,6 +192,9 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax({
             url: productoUpdatetUrlFinal, // URL del formulario establecida dinámicamente
             method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
             data: formData,
             success: function (response) {
                 $('#editProductModal').modal('hide'); // Cierra el modal                
@@ -206,6 +215,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         $.ajax({
             url: productosStoreUrl,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
             method: "POST",
             data: $(this).serialize(),
             success: function (response) {
@@ -271,7 +283,9 @@ function disableProducto(codigo) {
                 url: disableProductoUrlFinal,
                 method: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                    'X-CSRF-TOKEN': csrfToken,                    
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    
                 },
                 success: function (data) {
                     if (data.message === 'Producto deshabilitado exitosamente') {
@@ -313,7 +327,8 @@ function enableProducto(codigo) {
                 url: enableProductoUrlFinal,
                 method: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function (data) {
                     if (data.message === 'Producto deshabilitado exitosamente') {

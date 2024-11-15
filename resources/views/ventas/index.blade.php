@@ -100,7 +100,7 @@
 <script>
     var ventasIndexUrl = "{{ route('api.ventas.index') }}";
     var ventasStoreUrl = "{{ route('ventas.store') }}";
-    var ventaUpdatetUrl = "{{ route('api.ventas.update', 'id') }}";
+    var ventaUpdatetUrl = "{{ route('ventas.update', 'id') }}";
     var editVentaUrlTemplate = "{{ route('ventas.edit', ':id') }}"; 
     var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
     console.log(editVentaUrlTemplate);
