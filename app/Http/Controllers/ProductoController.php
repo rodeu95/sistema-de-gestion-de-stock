@@ -19,11 +19,10 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
-        $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
-        $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
-        $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+        //$this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        //$this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
+        //$this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
+        //$this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
     }
      
     public function index(Producto $producto){
@@ -52,7 +51,6 @@ class ProductoController extends Controller
             'numero_lote' => $request->numero_lote,
             'fecha_vencimiento' => $request->fchVto,
         ]);
-        // dd($request->all());
         $producto = new Producto();
         $producto->codigo = $request->codigo;
         $producto->nombre = $request->nombre;

@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: formData,
             success: function(response) {
                 if (response.success) {
+                    // window.location.reload();
                     $('#editVentaModal').modal('hide');
                     Swal.fire({
                         icon: 'success',
