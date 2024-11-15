@@ -37,7 +37,7 @@
                         </div>
                     @endif
 
-                    <form onsubmit="return validarContraseña()" method="post" action="{{ route('user.store') }}">
+                    <form onsubmit="return validarContraseña()" method="POST" action="{{ route('user.store') }}">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">

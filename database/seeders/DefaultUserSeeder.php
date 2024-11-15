@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class DefaultUserSeeder extends Seeder
 {
@@ -15,24 +16,33 @@ class DefaultUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::create([
+        $admin = new User([
             'usuario' => 'admin',
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('12345678')
         ]);
-
+        $admin->save();
         $admin->assignRole('Administrador');
-        $admin->givePermissionTo(Permission::all());
+        $permissions = Permission::all();
+        foreach($permissions as $permission){
+            $admin->givePermissionTo($permission);
+        };
 
-        $cajero = User::create([
+        Auth::login($admin);
+
+        $cajero = new User([
             'usuario' => 'cajero',
             'name' => 'cajero',
             'email' => 'cajero@cajero.com',
             'password' => Hash::make('12345678')
         ]);
-
+        $cajero->save();
         $cajero->assignRole('Cajero');
         $cajero->givePermissionTo('aplicar-descuento', 'registrar-ingreso', 'ver-productos');
+
+        Auth::login($cajero);
+
+        
     }
 }

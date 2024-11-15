@@ -143,6 +143,7 @@ namespace App\Models{
  * @property string $utilidad
  * @property float $stock
  * @property int $categoria_id
+ * @property int $estado
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Categoria $categoria
@@ -157,6 +158,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereCodigo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereDescripcion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereEstado($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereFchVto($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereNombre($value)
@@ -190,6 +192,10 @@ namespace App\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Venta> $ventas
+ * @property-read int|null $ventas_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -219,11 +225,13 @@ namespace App\Models{
  * @property string $monto_total
  * @property int $metodo_pago_id
  * @property string $fecha_venta
+ * @property int $vendedor_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\MetodoDePago $metodoPago
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Producto> $productos
  * @property-read int|null $productos_count
+ * @property-read \App\Models\User $vendedor
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta query()
@@ -233,6 +241,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereMetodoPagoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereMontoTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereVendedorId($value)
  */
 	class Venta extends \Eloquent {}
 }

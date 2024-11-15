@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lote;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\ProductoController;
 use App\Models\Caja;
 use App\Models\Categoria;
 
@@ -18,12 +17,14 @@ class ProductController extends Controller
 {
 
     public function __construct()
-    {        
-        //$this->middleware('auth');
-        //$this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
-        //$this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
-        //$this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
-        //$this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+
+    {
+        // $this->middleware('auth:sanctum');
+        // $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
+        // $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+
     }
     public function index()
     {
@@ -39,6 +40,7 @@ class ProductController extends Controller
         
         return view('productos.create', compact('categorias', 'cajaAbierta'));
     }
+
     public function store(StoreProductRequest $request)
     {
     try {
@@ -115,6 +117,12 @@ class ProductController extends Controller
     }
 
     public function destroy($codigo){
+
+        $user = Auth::user();
+        if (!$user->can('eliminar-producto')) {
+            return response()->json(['message' => 'No tienes permiso para eliminar este producto'], 403);
+        }
+
         $producto = Producto::where('codigo', $codigo)->first();
 
         if($producto){
@@ -128,6 +136,34 @@ class ProductController extends Controller
         }else{
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
+    }
+
+    public function disable($codigo)
+    {
+        $producto = Producto::where('codigo', $codigo)->first();
+
+        if ($producto) {
+            $producto->estado = false; // O el campo que uses para indicar deshabilitación
+            $producto->save();
+
+            return response()->json(['message' => 'Producto deshabilitado exitosamente']);
+        }
+
+        return response()->json(['message' => 'Producto no encontrado'], 404);
+    }
+
+    public function enable($codigo)
+    {
+        $producto = Producto::where('codigo', $codigo)->first();
+
+        if ($producto) {
+            $producto->estado = true; // O el campo que uses para indicar deshabilitación
+            $producto->save();
+
+            return response()->json(['message' => 'Producto deshabilitado exitosamente']);
+        }
+
+        return response()->json(['message' => 'Producto no encontrado'], 404);
     }
 
 }

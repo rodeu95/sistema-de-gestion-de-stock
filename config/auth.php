@@ -46,6 +46,10 @@ return [
             'provider' => 'users',
             'hash' => false, // Puedes configurarlo en true si necesitas que el token esté hasheado
         ],
+        'sanctum' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
 
     ],
 

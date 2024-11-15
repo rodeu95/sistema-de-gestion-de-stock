@@ -21,7 +21,6 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'store'])->name('user.store');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('usuario.login');
-// Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');
 // Auth::routes();
@@ -30,8 +29,17 @@ Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPerm
 Route::resources([
     'users' => UserController::class,
     'productos' => App\Http\Controllers\Api\ProductController::class,
-    'ventas' => App\Http\Controllers\Api\VentaController::class,
+    // 'ventas' => App\Http\Controllers\Api\VentaController::class,
 ]);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resources(['ventas' => App\Http\Controllers\Api\VentaController::class]);
+
+});
+
+
+Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
+Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');

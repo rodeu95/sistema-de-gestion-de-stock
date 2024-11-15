@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:web');
+        $this->middleware('auth');
         $this->middleware('permission:agregar-usuario', ['only' => ['create','store']]);
         $this->middleware('permission:eliminar-usuario', ['only' => ['destroy']]);
         // $this->middleware('permission:editar-usuario',['only'=>['edit', 'update']]);
@@ -57,11 +57,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        
         $input = $request->all();
+        // dd($request->input('permissions'));
         $input['password'] = Hash::make($request->password);
 
 
-        $user = User::create($input);
+        $user = new User($input);
+        $user->save();
+
         if(Auth::check()){
             $roleIds = $request->validated(['roles']); // Obtén todos los IDs de los roles
 
@@ -77,17 +81,20 @@ class UserController extends Controller
                 if($permissions){
                     $user->syncPermissions($permissions);
                 }
-            }
-            // dd($user->getDirectPermissions());
-            if ($user->hasRole('Administrador')) {
-                $user->syncPermissions(Permission::all());
+            }elseif ($user->hasRole('Administrador')) {
+                $allPermissions = Permission::all();
+                // dd($allPermissions);
+                foreach ($allPermissions as $permission) {
+                    $user->givePermissionTo($permission);
+                }
             }
 
         
-        }else{
+        }else if (!Auth::check()){
             Auth::login($user);
         }
-
+        // dd($user);
+        
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Agregado',
@@ -165,7 +172,14 @@ class UserController extends Controller
 
             foreach ($roleIds as $roleId) {
                 $role = Role::findOrFail($roleId); // Busca el rol por ID
-                $user->syncRoles($role->name); // Asigna el rol usando el nombre
+                $user->syncRoles($role->name);
+                
+                if ($role->name === 'Administrador') {
+                    $permissions = Permission::all();
+                    foreach($permissions as $permission){
+                        $user->givePermissionTo($permission);
+                    } 
+                }
             }
 
             if ($request->has('permissions')) {

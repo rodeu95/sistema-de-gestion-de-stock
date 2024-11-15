@@ -15,6 +15,7 @@ class Venta extends Model
         'monto_total',
         'metodo_pago_id',
         'fecha_venta',
+        'vendedor_id',
     ];
 
     public function productos()
@@ -27,5 +28,10 @@ class Venta extends Model
     public function metodoPago()
     {
         return $this->belongsTo(MetodoDePago::class, 'metodo_pago_id');
+    }
+
+    public function vendedor()
+    {
+        return $this->belongsTo(User::class, 'vendedor_id'); // 'user_id' debe ser la clave foránea en la tabla 'ventas' que referencia a 'users'
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('utilidad');
             $table->float('stock');
             $table->unsignedBigInteger('categoria_id');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
             
             $table->foreign('categoria_id')->references('id')->on('categorias');

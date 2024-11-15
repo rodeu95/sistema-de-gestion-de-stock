@@ -15,10 +15,10 @@ class PermissionSeeder extends Seeder
     {
         Permission::create(['name' => 'abrir-caja', 'description' =>  'Puede abrir la caja']);
         Permission::create(['name' => 'cerrar-caja', 'description' =>  'Puede cerrar la caja']);
-        Permission::create(['name' => 'aplicar-recargo', 'description' =>  'Puede aplicar recargos']);
-        Permission::create(['name' => 'aplicar-descuento', 'description' => 'Puede aplicar descuentos']);
-        Permission::create(['name' => 'registrar-ingreso', 'description' =>  'Puede registrar ingresos']);
-        Permission::create(['name' => 'registrar-egreso', 'description' =>  'Puede registrar egresos']);
+        // Permission::create(['name' => 'aplicar-recargo', 'description' =>  'Puede aplicar recargos']);
+        // Permission::create(['name' => 'aplicar-descuento', 'description' => 'Puede aplicar descuentos']);
+        // Permission::create(['name' => 'registrar-ingreso', 'description' =>  'Puede registrar ingresos']);
+        // Permission::create(['name' => 'registrar-egreso', 'description' =>  'Puede registrar egresos']);
         Permission::create(['name' => 'registrar-venta', 'description' =>  'Puede registrar ventas']);
         Permission::create(['name' => 'editar-venta', 'description' =>  'Puede editar ventas']);
         Permission::create(['name' => 'eliminar-venta', 'description' =>  'Puede eliminar ventas']);
@@ -29,7 +29,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'agregar-usuario', 'description' => 'Puede agregar un usuario']);
         Permission::create(['name' => 'ver-productos', 'description' => 'Puede ver la lista de productos']);
         Permission::create(['name' => 'editar-producto', 'description' => 'Puede editar productos']);
-        Permission::create(['name' => 'eliminar-producto', 'description' => 'Puede eliminar productos']);
+        Permission::create(['name' => 'deshabilitar-producto', 'description' => 'Puede eliminar productos']);
         Permission::create(['name' => 'agregar-producto', 'description' => 'Puede agregar productos']);
         Permission::create(['name' => 'gestionar-inventario', 'description' => 'Puede gestionar el inventario']);
     }

@@ -24,7 +24,7 @@
                                     </div>
                                 @endif
 
-                                <form onsubmit="return validarContraseña()" method="post" action="{{ route('users.store') }}">
+                                <form onsubmit="return validarContraseña()" method="POST" action="{{ route('users.store') }}">
                                     @csrf
                                     <div class="mb-3">
                                         <label class="form-label">Usuario</label>

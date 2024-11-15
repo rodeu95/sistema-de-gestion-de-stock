@@ -12,16 +12,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
         grid = new gridjs.Grid({
             columns: [
-                'Código',
                 {
-                    name: 'Nombre',
+                    // name: 'Código',
+                    width: '130px',
+                    name: gridjs.html(`<span title="Código único del producto">Código</span>`)
+                },
+                
+                {
+                    name: 'Producto',
+                    width: '190px',
                     sort: true,
                     formatter: (cell) => cell,
                     compare: (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())
                 },
-                'Fecha de vencimiento',
                 {
-                    name: 'Precio de Venta',
+                    // name: 'Fecha de vencimiento',
+                    width: '160px',
+                    name: gridjs.html(`<span title="Fecha de Vencimiento">Fecha de Vencimiento</span>`)
+                },
+                {
+                    // name: 'Precio de Venta',
+                    name: gridjs.html(`<span title="Precio de venta">Precio de venta</span>`),
+                    resizable: true,
+                    width: '130px',
                     formatter: (cell) => {
                         // Asegúrate de que el valor sea un número antes de formatearlo
                         const amount = parseFloat(cell);
@@ -31,22 +44,52 @@ document.addEventListener('DOMContentLoaded', function () {
                         return '$' + amount.toFixed(2); // Esto agrega dos decimales, cambia según lo necesites
                     }
                 },
-                'Stock',
-                'Unidad',
+                {
+                    name: gridjs.html(`<span title="Stock">Stock</span>`),
+                    width: '80px'
+                },
+                // {
+                //     name: gridjs.html(`<span title="Unidad">Unidad</span>`),
+                //     width: '80px'
+                // },
+                {
+                    name: gridjs.html(`<span title="Estado">Estado</span>`),
+                    width: '80px'
+                },
                 {
                     name: 'Acciones',
+                    width: '110px',
+                    // width: '130px',
                     formatter: (cell, row) => {
 
                         const codigo = row.cell(0).data;
+                        const estado = row.cell(5).data;
+                        let buttonHtml = '';
+                        if (estado === 'Inactivo') {
+                            // Si está deshabilitado, mostrar el ícono de habilitar
+                            buttonHtml = `
+                                <button class="btn shadow btn-success btn-sm btn-enable" title="Habilitar producto" data-codigo=${codigo}>
+                                    <i class="fa-solid fa-check-circle"></i>
+                                </button>
+                            `;
+                        } else {
+                            // Si está habilitado, mostrar el ícono de deshabilitar
+                            buttonHtml = `
+                                <button class="btn shadow btn-danger btn-sm btn-disable" title="Deshabilitar producto" data-codigo=${codigo}>
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                            `;
+                        }
+                        
 
                         const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
-                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                        // const disableButtonHtml = document.getElementById('disableButtonTemplate').innerHTML.replace('${codigo}', codigo);
 
                         return gridjs.html(`
-                            <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}" method="post">
+                            <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}/disable" method="PUT">
                                 <input type="hidden" name="_token" value="${csrfToken}">
-                                <input type="hidden" name="_method" value="DELETE">
-                                ${editButtonHtml} ${deleteButtonHtml}
+                                <input type="hidden" name="_method" value="DISABLE">
+                                ${editButtonHtml} ${buttonHtml}
                             </form>
                         `);
                     }
@@ -55,16 +98,23 @@ document.addEventListener('DOMContentLoaded', function () {
             server: {
                 url: productosIndexUrl,
                 then: data => {
-                    return data.map(producto => [
-                        producto.codigo,
-                        producto.nombre,
-                        producto.fchVto,
-                        parseFloat(producto.precio_venta),
-                        producto.unidad === 'UN'
-                            ? parseInt(producto.stock)  // Convierte el stock a número y muestra 'unidades'
-                            : parseFloat(producto.stock),
-                        producto.unidad,
-                    ]);
+                    return data.map(producto => {
+                        // Define el stock visual para unidades (UN) y kilogramos (KG)
+                        const stockVisual = producto.unidad === 'UN' 
+                            ? `${parseInt(producto.stock)} UN`  // Agrega 'un' para unidades
+                            : `${parseFloat(producto.stock)} KG`;  // Agrega 'kg' para kilogramos
+            
+                        return [
+                            producto.codigo,
+                            producto.nombre,
+                            producto.fchVto,
+                            parseFloat(producto.precio_venta),
+                            stockVisual, // Stock visualizado con 'un' o 'kg'
+                            // producto.unidad,
+                            producto.estado === 0 ? "Inactivo" : "Activo",
+                            producto.stock, // Mantén el stock sin 'un' o 'kg' para poder ordenarlo correctamente
+                        ];
+                    });
                 }
             },
             resizable: true,
@@ -89,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             style: {
                 th: {
-                    'background-color': '#fff3cd'
+                    'background-color': '#fff3cd',
                 }
             },
         }).render(document.getElementById('gridjs-table'));
@@ -139,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data: formData,
             success: function (response) {
                 $('#editProductModal').modal('hide'); // Cierra el modal                
-                window.location.reload()
+                renderProductTable();
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText); // Muestra los errores de la respuesta
@@ -159,17 +209,19 @@ document.addEventListener('DOMContentLoaded', function () {
             method: "POST",
             data: $(this).serialize(),
             success: function (response) {
-                $('#addProductModal').modal('hide'); // Cerrar el modal
-                $('#addProductForm')[0].reset(); // Resetear el formulario
+                if(response.success){
+                    $('#addProductModal').modal('hide'); // Cerrar el modal
+                    $('#addProductForm')[0].reset(); // Resetear el formulario
 
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Producto agregado!',
-                    text: 'El producto se ha agregado correctamente.',
-                    confirmButtonText: 'OK'
-                });
-
-                window.location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Producto agregado!',
+                        text: 'El producto se ha agregado correctamente.',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderProductTable(); // Recargar la página después de 2 segundos
+                    });
+                }
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText); // Muestra los errores de la respuesta
@@ -201,54 +253,145 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-
-function deleteProducto(codigo) {
-    /*ELIMINADO DE PRODUCTO*/
-    // Muestra el SweetAlert antes de realizar la eliminación
+function disableProducto(codigo) {
     Swal.fire({
         title: '¿Estás seguro?',
-        text: 'Este producto será eliminado de manera permanente.',
+        text: 'Este producto será deshabilitado y no aparecerá en el inventario.',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: 'Sí, deshabilitar',
         cancelButtonText: 'Cancelar',
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
     }).then((result) => {
         if (result.isConfirmed) {
-            const eliminarProductoUrlFinal = eliminarProductoUrl.replace("codigo", codigo);
-            console.log("Eliminado de producto", eliminarProductoUrlFinal);
-
+            const disableProductoUrlFinal = disableProductoUrl.replace("codigo", codigo);
+            console.log(disableProductoUrlFinal);
             $.ajax({
-                url: eliminarProductoUrlFinal,
-                method: 'DELETE',
+                url: disableProductoUrlFinal,
+                method: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 success: function (data) {
-                    if (data.message === 'Producto eliminado exitosamente') {
+                    if (data.message === 'Producto deshabilitado exitosamente') {
                         Swal.fire(
-                            'Eliminado',
-                            'Producto eliminado exitosamente.',
+                            'Deshabilitado',
+                            'Producto deshabilitado exitosamente.',
                             'info'
                         ).then(function () {
-                            window.location.reload();
+                            window.location.reload(); // Recargar la página
                         });
                     } else {
-                        alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto
+                        alert('Error: ' + data.message);
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error al eliminar el producto:', error);
-                    alert('Hubo un problema al intentar eliminar el producto.');
+                    console.error('Error al deshabilitar el producto:', error);
+                    alert('Hubo un problema al intentar deshabilitar el producto.');
                 }
             });
         }
     });
 }
-$(document).on('click', '.btn-delete', function () {
+
+function enableProducto(codigo) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Este producto será habilitado y reaparecerá en el inventario.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, habilitar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const enableProductoUrlFinal = enableProductoUrl.replace("codigo", codigo);
+            console.log(enableProductoUrlFinal);
+            $.ajax({
+                url: enableProductoUrlFinal,
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (data) {
+                    if (data.message === 'Producto deshabilitado exitosamente') {
+                        Swal.fire(
+                            'Habilitado',
+                            'Producto habilitado exitosamente.',
+                            'info'
+                        )
+                        .then(function () {
+                            window.location.reload(); // Recargar la página
+                        });
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al deshabilitar el producto:', error);
+                    alert('Hubo un problema al intentar deshabilitar el producto.');
+                }
+            });
+        }
+    });
+}
+// function deleteProducto(codigo) {
+//     /*ELIMINADO DE PRODUCTO*/
+//     // Muestra el SweetAlert antes de realizar la eliminación
+//     Swal.fire({
+//         title: '¿Estás seguro?',
+//         text: 'Este producto será eliminado de manera permanente.',
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonText: 'Sí, eliminar',
+//         cancelButtonText: 'Cancelar',
+//         confirmButtonColor: "#3085d6",
+//         cancelButtonColor: "#d33",
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             const eliminarProductoUrlFinal = eliminarProductoUrl.replace("codigo", codigo);
+//             console.log("Eliminado de producto", eliminarProductoUrlFinal);
+
+//             $.ajax({
+//                 url: eliminarProductoUrlFinal,
+//                 method: 'DELETE',
+//                 headers: {
+//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                 },
+//                 success: function (data) {
+//                     if (data.message === 'Producto eliminado exitosamente') {
+//                         Swal.fire(
+//                             'Eliminado',
+//                             'Producto eliminado exitosamente.',
+//                             'info'
+//                         ).then(function () {
+//                             window.location.reload();
+//                         });
+//                     } else {
+//                         alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto
+//                     }
+//                 },
+//                 error: function (xhr, status, error) {
+//                     console.error('Error al eliminar el producto:', error);
+//                     alert('Hubo un problema al intentar eliminar el producto.');
+//                 }
+//             });
+//         }
+//     });
+// }
+$(document).on('click', '.btn-disable', function (e) {
+    e.preventDefault();
     const codigo = $(this).data('codigo');
-    deleteProducto(codigo);
+    console.log(disableProductoUrl.replace("codigo", codigo));
+    disableProducto(codigo);
+});
+$(document).on('click', '.btn-enable', function (e) {
+    e.preventDefault();
+    const codigo = $(this).data('codigo');
+    console.log(enableProductoUrl.replace("codigo", codigo));
+    enableProducto(codigo);
 });
 
 function updateStockStep() {

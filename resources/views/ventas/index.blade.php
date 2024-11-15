@@ -9,7 +9,7 @@
     <div id="ventas-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-venta')
-            <a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editVentaModal" data-id="${id}">
+            <a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" title="Editar venta" data-bs-target="#editVentaModal" data-id="${id}">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
         @endcan
@@ -17,7 +17,7 @@
 
     <div id="deleteButtonTemplate" style="display: none;">
         @can('eliminar-venta')
-            <button type="button" class="btn shadow btn-danger btn-sm btn-delete" data-id="${id}">
+            <button type="button" title="Eliminar venta" class="btn shadow btn-danger btn-sm btn-delete" data-id="${id}">
                 <i class="fa-solid fa-trash-can"></i>
             </button>
         @endcan
@@ -33,7 +33,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="ventasForm">
+
+                <form id="editVentasForm" method="POST">
+
                     @csrf
                     @method('PUT') 
 

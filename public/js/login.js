@@ -107,3 +107,45 @@ function cargarPermisos(rolId) {
         .catch(error => console.error('Error al cargar permisos:', error));
 }
 
+function login(usuario, password){
+    $.ajax({
+        url: loginUrl,
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json', 
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Authorization': 'Bearer ' + localStorage.getItem('token') 
+        },
+        data: JSON.stringify({ usuario, password }),
+        success: function(data) {
+            // console.log(data);
+            if (data.token) {
+                // Guardar el token en localStorage
+                localStorage.setItem('token', data.token);
+                // Redirigir al dashboard o a la página principal
+                // window.location.href = 'http://localhost/sistema/public/users';
+            } else {
+                alert(data.message || 'Error en el inicio de sesión');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            alert('Hubo un problema con el inicio de sesión');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('#loginForm');
+
+    if(loginForm){
+        loginForm.addEventListener('submit', event => {
+            event.preventDefault(); // Evitar recarga de la página
+            const usuario = loginForm.querySelector('#usuarioIni').value;
+            const password = loginForm.querySelector('#contraseñaIni').value;
+            login(usuario, password);
+        });
+    }
+
+})
+
