@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Log;
 
 
 class AuthController extends Controller
@@ -32,20 +34,27 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
+        // dd($request);
         // Crear el usuario
-        $user = User::create([
+        $user = new User([
             'usuario' => $request->usuario,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->save();
         $user->assignRole('User');
-        Auth::login($user);
-
+        // Auth::login($user);
+        $token = $user->createToken('AuthToken')->plainTextToken;
+        
         Mail::to($user->email)->send(new WelcomeMail($user));
         
-        return redirect()->route('users.index')->with('success', 'Usuario registrado exitosamente.');
+        // return redirect()->route('users.index')->with('success', 'Usuario registrado exitosamente.');
+        return response()->json([
+            'message' => 'Usuario registrado exitosamente.',
+            'user' => $user,
+            'token' => $token,
+        ], 201);
     }
 
     public function login(Request $request)
@@ -64,21 +73,35 @@ class AuthController extends Controller
 
         // Intentar autenticar al usuario con las credenciales ingresadas
         if (Auth::attempt($credentials)) {
-            return redirect()->route('inicio')->with('success', 'Inicio de sesión exitoso');
-        }
+            $user = Auth::user();
+            $token = $user->createToken('AuthToken')->plainTextToken;
 
+            return response()->json([
+                'message' => 'Inicio de sesión exitoso.',
+                'user' => $user,
+                'token' => $token,
+            ], 200);
+            // return redirect()->route('inicio')->with('success', 'Inicio de sesión exitoso');
+        }
+        
         // Si las credenciales no son válidas, redirigir de vuelta con un error
-        return redirect()->back()->withErrors(['login_error' => 'Las credenciales no son correctas. Por favor, intente nuevamente.']);
+        // return redirect()->back()->withErrors(['login_error' => 'Las credenciales no son correctas. Por favor, intente nuevamente.']);
+
+        return response()->json(['message' => 'Las credenciales no son correctas.'], 401);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout(); // Cierra la sesión del usuario
+        $request->user()->tokens()->delete();
+        return response()->json(['message' => 'Sesión cerrada correctamente.'], 200);
 
-        $request->session()->invalidate(); // Invalida la sesión actual
-        $request->session()->regenerateToken(); // Regenera el token CSRF
 
-        return redirect('/')->with('success', 'Sesión cerrada correctamente.');
+        // Auth::logout(); // Cierra la sesión del usuario
+
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken(); 
+
+        // return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 
 }

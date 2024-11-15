@@ -9,12 +9,20 @@ use App\Models\Producto;
 use App\Models\Caja;
 use App\Models\MetodoDePago;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class VentaController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:sanctum');
+        $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-venta', ['only'=>['edit','store', 'update']]);
+        $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
+    }
     public function index()
     {
-        $ventas = Venta::with('productos', 'metodoPago')->get(); // Carga las ventas con la relación 'productos'
+        // $token = Auth::user()->tokens->first();
+        $ventas = Venta::with('productos', 'metodoPago', 'vendedor')->get(); // 
         return response()->json(['ventas' => $ventas]);
     }
 
@@ -62,6 +70,7 @@ class VentaController extends Controller
                 'monto_total' => $validatedData['monto_total'],
                 'metodo_pago_id' => $validatedData['metodo_pago_id'],
                 'fecha_venta' => $validatedData['fecha_venta'] ?? now(),
+                'vendedor_id' => Auth::id(),
             ]);
 
             $productos = $validatedData['producto_cod'];
@@ -81,22 +90,32 @@ class VentaController extends Controller
                     $venta->productos()->attach($producto_cod, ['cantidad' => $cantidad]);
                 } else {
                     // Maneja el caso en el que no hay suficiente stock
-                    return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
+                    return response()->json([
+                        'success' => false,
+                        'stock' => "No hay suficiente stock para el producto: {$producto->nombre}"
+                    ]);
                 }
             }
 
             $venta->save();
 
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Nueva Venta!',
+                'text' => 'Nueva venta registrada',
+            ]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Venta agregada exitosamente',
-                'producto' => $venta
+                'venta' => $venta,
+                'usuario' => Auth::user()->usuario
             ], 201);
         }catch(\Exception $e) {
             // Respuesta JSON en caso de error
             return response()->json([
                 'success' => false,
-                'message' => 'Hubo un error al agregar el agregar',
+                'message' => 'Hubo un error al agregar la venta',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -104,8 +123,6 @@ class VentaController extends Controller
     }
 
     public function update(Request $request, $id) {
-        
-        Log::debug('Request data: ', $request->all());
         $venta = Venta::find($id);
     
         // Validate input data
@@ -119,47 +136,82 @@ class VentaController extends Controller
         ]);
     
         if ($venta) {
+            Log::debug("Venta valida", []);
+            
+            $producto_cod = $request->input('producto_cod');
+            $cantidades = $request->input('cantidad');
+    
+            // Step 1: Aggregate quantities for each product code in the request
+            $productosCantidad = [];
+            foreach ($producto_cod as $index => $codigo) {
+                $cantidad = (float) $cantidades[$index];
+                if (isset($productosCantidad[$codigo])) {
+                    $productosCantidad[$codigo] += $cantidad;
+                } else {
+                    $productosCantidad[$codigo] = $cantidad;
+                }
+            }
+    
+            // Step 2: Update or add each product in the sale based on the request data
+            foreach ($productosCantidad as $codigo => $totalCantidad) {
+                $producto = Producto::where('codigo', $codigo)->first();
+    
+                if ($producto) {
+                    if ($producto->stock >= $totalCantidad) {
+                        // Check if the product already exists in the sale
+                        if ($venta->productos->contains($codigo)) {
+                            $existingCantidad = $venta->productos()->where('producto_cod', $codigo)->first()->pivot->cantidad;
+    
+                            // Only update the quantity if it has changed
+                            if ($existingCantidad !== $totalCantidad) {
+                                // Adjust stock only for the difference in quantity
+                                $difference = $totalCantidad - $existingCantidad;
+                                if ($producto->stock >= $difference) {
+                                    $producto->stock -= $difference;
+                                    $producto->save();
+    
+                                    $venta->productos()->updateExistingPivot($codigo, ['cantidad' => $totalCantidad]);
+                                } else {
+                                    return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
+                                }
+                            }
+                        } else {
+                            // Deduct stock and add new product to the sale if it's not already in the pivot table
+                            $producto->stock -= $totalCantidad;
+                            $producto->save();
+    
+                            $venta->productos()->syncWithoutDetaching([$codigo => ['cantidad' => $totalCantidad]]);
+                        }
+                    } else {
+                        return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
+                    }
+                }
+            }
+    
+            // Step 3: Remove products that are no longer in the request
+            $currentProductCodes = $venta->productos->pluck('codigo')->toArray();
+            $newProductCodes = array_keys($productosCantidad);
+            $removedProductCodes = array_diff($currentProductCodes, $newProductCodes);
+    
+            foreach ($removedProductCodes as $removedCodigo) {
+                $producto = Producto::where('codigo', $removedCodigo)->first();
+                if ($producto) {
+                    // Revert stock for removed product
+                    $removedCantidad = $venta->productos()->where('producto_cod', $removedCodigo)->first()->pivot->cantidad;
+                    $producto->stock += $removedCantidad;
+                    $producto->save();
+    
+                    // Detach the product from the sale
+                    $venta->productos()->detach($removedCodigo);
+                }
+            }
+    
             // Update basic fields on venta
             $venta->update([
                 'monto_total' => $request->monto_total,
                 'fecha_venta' => $request->fecha_venta,
             ]);
     
-            // Handle updating products and quantities
-            $producto_cod = $request->input('producto_cod');
-            $cantidades = $request->input('cantidad');
-    
-            Log::debug('Producto códigos:', $producto_cod);
-            Log::debug('Cantidades:', $cantidades);
-            
-            foreach ($producto_cod as $index => $codigo) {
-
-                $producto = Producto::where('codigo', $codigo)->first();
-                $cantidad = (float) $cantidades[$index];
-
-                if ($producto) {
-                    if ($producto->stock >= $cantidad) {
-                        $producto->stock -= $cantidad;
-                        $producto->save();
-                        if ($venta->productos->contains($producto->codigo)) {
-                            // Update the quantity if the product already exists in the sale
-                            $venta->productos()->updateExistingPivot($producto->codigo, [
-                                'cantidad' => $venta->productos()->where('producto_cod', $producto->codigo)->first()->pivot->cantidad + $cantidad
-                            ]);
-                        } else {
-                            // Add the new product to the sale if it's not already in the pivot table
-                            $venta->productos()->syncWithoutDetaching([
-                                $producto->codigo => ['cantidad' => $cantidad]
-                            ]);
-                        }
-                    }else {
-                        // Maneja el caso en el que no hay suficiente stock
-                        return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
-                    }
-                    
-                }
-            }
-            $venta->save();
             // Flash success message for the session
             session()->flash('swal', [
                 'icon' => 'success',
@@ -176,7 +228,7 @@ class VentaController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Venta no encontrada',
-            ], 404);
+        ], 404);
         }
     }
 

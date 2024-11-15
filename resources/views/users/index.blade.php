@@ -31,7 +31,7 @@
                             <td class="col-4">
                                 @if($user->getDirectPermissions()->isNotEmpty() || $user->hasRole('Administrador'))
                                     @if($user->hasRole('Administrador'))
-                                        @foreach($user->getAllPermissions() as $permission)
+                                        @foreach($user->permissions as $permission)
                                             <span class="badge bg-success">{{ $permission->name }}</span>
                                         @endforeach
                                     @else

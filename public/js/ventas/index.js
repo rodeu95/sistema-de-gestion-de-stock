@@ -5,19 +5,26 @@ let initialTotal = 0;
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    function renderProductTable() {
+    function renderVentasTable() {
 
         if (grid) {
             grid.destroy();
         }
-
+        
         grid = new gridjs.Grid({
             columns: [
                 'ID', 
-                'Productos', 
-                'Método de pago', 
                 {
-                    name: 'Monto total',
+                    name: gridjs.html(`<span title="Productos">Productos</span>`),
+                    width: '190px'
+                },
+                {
+                    name: gridjs.html(`<span title="Método de pago">Método de pago</span>`),
+                    width: '120px'
+                }, 
+                {
+                    name: gridjs.html(`<span title="Monto total">Monto total</span>`),
+                    width: '130px',
                     formatter: (cell) => {
                         // Asegúrate de que el valor sea un número antes de formatearlo
                         const amount = parseFloat(cell);
@@ -27,9 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         return '$' + amount.toFixed(2); // Esto agrega dos decimales, cambia según lo necesites
                     }
                 }, 
-                'Fecha de Venta', 
+                {
+                    name: gridjs.html(`<span title="Fecha de Venta">Fecha de Venta</span>`),
+                    width: '130px'
+                }, 
+                {
+                    name: gridjs.html(`<span title="Vendedor">Vendedor</span>`),
+                    width: '110px',
+                },
                 {
                     name: 'Acciones',
+                    width: '110px',
                     formatter: (cell, row) => {
                         const id = row.cells[0].data;
  
@@ -48,24 +63,29 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
             server: {
                 url: ventasIndexUrl,
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                },
                 then: response => {
-                    console.log(response.ventas);
                     const ventas = response.ventas;
                     return ventas.map(venta => {
                         // Acceder a los productos relacionados de cada venta
                         const productos = venta.productos.map(producto => `${producto.nombre} (${producto.pivot.cantidad})`).join(', '); 
                         const metodoPago = venta.metodo_pago ? venta.metodo_pago.nombre : 'No especificado';
+                        const vendedor = venta.vendedor.usuario
                         return [
                             venta.id, 
                             productos,  
                             metodoPago,  
                             parseFloat(venta.monto_total),  // Monto total
                             venta.fecha_venta,  // Fecha de venta
-
+                            vendedor,
                         ];
                     });
-                }
+                },
+                
             },
+            
             resizable: true,
             sort: true,
             
@@ -95,22 +115,77 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Llamar a renderProductTable cuando se carga la página
-    renderProductTable();
+    renderVentasTable();
+
+    function actualizarTotalVenta() {
+        let total = 0; // Comenzamos con el monto inicial
+    
+        $('#product-list .product-list-item').each(function() {
+            const precio = parseFloat($(this).data('precio'));
+            const cantidad = parseFloat($(this).data('cantidad'));
+            if (!isNaN(precio) && !isNaN(cantidad)) {
+                total += precio * cantidad;
+            }
+        });
+    
+        $('#monto_total').val(total.toFixed(2));
+    }
+
+    $('#ventaForm').on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            url: ventasStoreUrl,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            data: $(this).serialize(),
+            success: function(response){
+
+                if (response.success) {
+                    Swal.fire({
+                        icon: response.swal.icon,
+                        title: response.swal.title,
+                        text: response.swal.text,
+                    }).then(function() {
+                        renderVentasTable();
+                    });
+                    
+                } else {
+                    Swal.fire('Error', 'Hubo un problema al agregar la venta', 'error');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error addingsale:", error);
+                Swal.fire('Error', 'Hubo un error al agregar la venta', 'error');
+            }
+            
+        });
+    });
 
     // Modal de edición de venta
     $('#editVentaModal').on('show.bs.modal', function(event){
+        /*ABRIR VENTA MODAL*/
         const button = $(event.relatedTarget); 
         const id = button.data('id');
         let editVentaUrl = editVentaUrlTemplate.replace(':id', id);
-        console.log(editVentaUrl);
 
         $.ajax({
-            url: editVentaUrl, 
+            url: editVentaUrl,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }, 
             method: 'GET',
             success: function(data) {
-                console.log("Response data:", data);
+                console.log("DATA DE LA VENTA:", data);
                 const venta = data.venta
                 const productos = data.productos;
+                console.log(productos);
+
+                const productosFiltrados = productos.filter(producto => data.producto_cod.includes(producto.codigo));
+                console.log("Productos filtrados:", productosFiltrados);
 
                 if (!venta.monto_total || isNaN(parseFloat(venta.monto_total))) {
                     console.error("Invalid monto_total in response");
@@ -138,21 +213,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.warn("Propiedad producto_cod no encontrada o no es un array.");
                 }
-                console.log("producto_cod:", data.producto_cod);
-                console.log("cantidad:", data.cantidad);
                 
 
                 const $productoSelect = $('#producto-select');
                 $productoSelect.empty(); // Clear existing options
                 $productoSelect.append('<option value="" disabled selected>Seleccione un producto</option>');
-                console.log(productos);
+
                 $.each(productos, function(index, producto) {
-                    console.log(producto);
-                    $productoSelect.append(
-                        `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
-                            ${producto.nombre} - $${producto.precio_venta}
-                        </option>`
-                    );
+
+                    if(producto.stock > 0 && producto.estado === 1){
+                        $productoSelect.append(
+                            `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
+                                ${producto.nombre} - $${producto.precio_venta}
+                            </option>`
+                        );
+                    }
+
                 });
 
                 // Populate the product list in the modal
@@ -183,47 +259,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    function actualizarTotalVenta() {
-        let total = 0; // Comenzamos con el monto inicial
     
-        $('#product-list .product-list-item').each(function() {
-            const precio = parseFloat($(this).data('precio'));
-            const cantidad = parseFloat($(this).data('cantidad'));
-            if (!isNaN(precio) && !isNaN(cantidad)) {
-                total += precio * cantidad;
-            }
-        });
-        console.log(total);
-    
-        $('#monto_total').val(total.toFixed(2));
-    }
 
     $('#producto-select').on('change', function() {
         selectedProduct = $(this).find(':selected');
-        
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Código seleccionado:", selectedProduct.val());
-        console.log("Precio seleccionado:", selectedProduct.data('precio'));
+        $('#cantidad-input').val('1');
     });
 
     $('#add-product').on('click', function() {
-
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Producto seleccionado (HTML):", selectedProduct.html());
-        console.log("Producto seleccionado (valor):", selectedProduct.val());
-        console.log("Producto seleccionado (data-precio):", selectedProduct.data('precio'));
-
-  
         const precio = selectedProduct.data('precio');
         const codigo = selectedProduct.val();
         const nombre = selectedProduct.text();
         const cantidad = parseFloat($('#cantidad-input').val());
 
-        console.log("Producto seleccionado:", selectedProduct);
-        console.log("Código:", codigo);
-        console.log("Precio:", precio);
-        console.log("Nombre:", nombre);
-        console.log("Cantidad:", cantidad);
     
         if (codigo && !isNaN(precio) && !isNaN(cantidad)) {
             $('#product-list').append(
@@ -259,26 +307,34 @@ document.addEventListener('DOMContentLoaded', function () {
         actualizarTotalVenta();
     });
 
-    $('#ventasForm').on('submit', function(e) {
+    $('#editVentasForm').on('submit', function(e) {
+
         e.preventDefault();
         const formData = $(this).serialize();
-        console.log(formData);
-
+        console.log('Actualizar venta, data', formData)
         const id = $('#edit_id').val();
         let ventaUpdateUrlFinal = ventaUpdatetUrl.replace("id", id);
-        console.log(ventaUpdateUrlFinal);
 
         $.ajax({
             url: ventaUpdateUrlFinal,
             method: 'PUT',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
               },
             data: formData,
             success: function(response) {
                 if (response.success) {
                     // window.location.reload();
                     $('#editVentaModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Venta Actualizada!',
+                        text: 'La venta se ha actualizado correctamente.',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderVentasTable(); // Recargar la página después de 2 segundos
+                    });
                 } else {
                     Swal.fire('Error', 'Hubo un problema al actualizar la venta', 'error');
                 }
@@ -305,13 +361,13 @@ function deleteVenta(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             const eliminarVentaUrlFinal = eliminarVentaUrl.replace("id", id);
-            console.log(eliminarVentaUrlFinal);
             
             $.ajax({
                 url: eliminarVentaUrlFinal,
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function(data) {
                     if (data.message === 'Venta eliminada exitosamente') {
@@ -336,6 +392,5 @@ function deleteVenta(id) {
 }
 $(document).on('click', '.btn-delete', function() {
     const id = $(this).data('id');
-    console.log(id); 
     deleteVenta(id); 
 });

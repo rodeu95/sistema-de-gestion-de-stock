@@ -27,9 +27,11 @@
                             <select id="producto-select" class="form-select" name="producto_cod[]">
                                 <option value="" disabled selected>Seleccione un producto</option>
                                 @foreach($productos as $producto)
-                                    <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
-                                        {{ $producto->nombre }} - ${{ $producto->precio_venta }}
-                                    </option>
+                                    @if($producto->stock > 0 && $producto->estado === 1)
+                                        <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
+                                            {{ $producto->nombre }} - ${{ $producto->precio_venta }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -42,7 +44,6 @@
                                 class="form-control" 
                                 name="cantidad" 
                                 value="" 
-                                @if ($producto->unidad === 'KG') step="0.01" @endif
                                 min="1"
                             >
                         </div>

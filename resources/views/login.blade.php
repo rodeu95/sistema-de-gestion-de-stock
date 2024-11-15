@@ -4,6 +4,7 @@
     <title>Login</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
@@ -36,7 +37,7 @@
                         </div>
                     @endif
 
-                    <form method="post" action="{{ route('usuario.login') }}">
+                    <form id="loginForm" method="post" action="{{ route('usuario.login') }}">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">
@@ -61,6 +62,10 @@
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/login.js') }}"></script>
+    <script>
+        var loginUrl = "{{ route('usuario.login') }}"
+    </script>
 </body>
 </html>

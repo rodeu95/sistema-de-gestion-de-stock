@@ -17,25 +17,16 @@
     
 </div>
 
-
-
 <main class="container-lg">
     <div id="gridjs-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-producto')
-            <a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" data-codigo="${codigo}">
+            <a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
         @endcan
     </div>
 
-    <div id="deleteButtonTemplate" style="display: none;">
-        @can('eliminar-producto')
-            <button type="button" class="btn shadow btn-danger btn-sm btn-delete" data-codigo="${codigo}">
-                <i class="fa-solid fa-trash-can"></i>
-            </button>
-        @endcan
-    </div>
 </main>
 
 <!-- MODAL DE AGREGACIÓN -->
@@ -216,7 +207,7 @@
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ old('nombre', $categoria->nombre )}}">{{ $categoria->nombre }}</option>
+                                <option value="{{ old('nombre', $categoria->id )}}">{{ $categoria->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -238,7 +229,9 @@
     var productosStoreUrl = "{{ route('productos.store') }}";
     var productoUpdatetUrl = "{{ route('productos.update', 'codigo') }}";
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
-    var eliminarProductoUrl = "{{ route('api.productos.destroy', 'codigo') }}"
+    // var eliminarProductoUrl = "{{ route('api.productos.destroy', 'codigo') }}"
+    var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";
+    var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";  
 
 </script>
 

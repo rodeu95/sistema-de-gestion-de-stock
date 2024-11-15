@@ -17,8 +17,14 @@ return new class extends Migration
             $table->decimal('monto_total', 10, 2);
             $table->unsignedBigInteger('metodo_pago_id'); 
             $table->date('fecha_venta')->default(DB::raw('CURRENT_DATE')); // Fecha de la venta
+            $table->unsignedBigInteger('vendedor_id');
             $table->timestamps();
+            
             $table->foreign('metodo_pago_id')->references('id')->on('metodos_de_pago')->onDelete('cascade');
+            $table->foreign('vendedor_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
 
         
