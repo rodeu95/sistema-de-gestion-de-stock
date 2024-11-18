@@ -26,43 +26,22 @@ class InventoryController extends Controller
         return response()->json($productos); // Asegúrate de que siempre devuelva JSON
     }
 
-    public function edit(){
-        $caja = Caja::find(1);
-        $cajaAbierta = $caja ? $caja->estado:false;
-        $productos = Producto::all();
-        $categorias = Categoria::all();
+    public function edit($codigo){
+        $producto = Producto::where('codigo', $codigo)->first();
+        return response()->json($producto);
 
-        $productosBajoStockUN = Producto::where('unidad', 'UN')
-            ->where('stock', '<=', 10)
-            ->get();
-
-        $productosBajoStockKG = Producto::where('unidad', 'KG')
-            ->where('stock', '<=', 0.5)
-            ->get();
-
-        // Aquí puedes combinar los dos resultados si lo necesitas
-        $bajoStock = $productosBajoStockUN->merge($productosBajoStockKG);
-
-        return view('inventario.edit', compact('productos', 'cajaAbierta', 'bajoStock', 'categorias'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request, $codigo){
 
+        $producto = Producto::where('codigo', $codigo)->first();
         $validatedData = $request->validate([
-            'producto_cod' => 'required|array',
-            'producto_cod.*' => 'exists:productos,codigo',
-            'cantidad' => 'required|array',
-            'cantidad.*' => 'numeric|min:0.01'
+            'cantidad' => 'required|numeric|min:0.01',
         ]);
-    
-        foreach ($validatedData['producto_cod'] as $index => $productoCod) {
-            $cantidad = $validatedData['cantidad'][$index];
-            $producto = Producto::find($productoCod);
-    
-            // Update the product's stock
-            $producto->stock += $cantidad;
-            $producto->save();
-        }
+    // Update the product's stock
+        $producto->stock += $validatedData['cantidad'];
+        $producto->save();
+        
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Actualizado',
@@ -72,7 +51,7 @@ class InventoryController extends Controller
         return response()->json([
             'message' => 'Inventario actualizado correctamente.',
             'success' => true,
-            'producto_cod' => $producto->codigo,
+            'producto' => $producto,
         ]);
     }
 }

@@ -28,15 +28,9 @@ Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPerm
 
 Route::resources([
     'users' => UserController::class,
-    'productos' => App\Http\Controllers\Api\ProductController::class,
-    'ventas' => App\Http\Controllers\Api\VentaController::class,
+    'productos' => ProductoController::class,
+    'ventas' => VentasController::class,
 ]);
-
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::resources(['ventas' => App\Http\Controllers\Api\VentaController::class]);
-
-// });
-
 
 Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
 Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');

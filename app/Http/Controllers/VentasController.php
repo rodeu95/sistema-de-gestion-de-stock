@@ -10,6 +10,7 @@ use App\Models\Producto;
 use Illuminate\Support\Carbon;
 use App\Exports\VentasExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 
 class VentasController extends Controller
 {
@@ -63,12 +64,14 @@ class VentasController extends Controller
             'monto_total' => 'required|numeric|min:0',
             'metodo_pago_id' => 'required|exists:metodos_de_pago,id', 
             'fecha_venta' => 'nullable|date',
+            // 'vendedor_id' => 'required|exists:users,id'
         ]);
 
         $venta = Venta::create([
             'monto_total' => $validatedData['monto_total'],
             'metodo_pago_id' => $validatedData['metodo_pago_id'],
             'fecha_venta' => $validatedData['fecha_venta'] ?? now(),
+            'vendedor_id' => Auth::id(),
         ]);
 
         $productos = $validatedData['producto_cod'];
@@ -78,6 +81,13 @@ class VentasController extends Controller
 
             $cantidad = (float) $cantidades[$index];
             $producto = Producto::findOrFail($producto_cod);
+
+            if ($producto->unidad == 'UN' && $cantidad < 1) {
+                return response()->json([
+                    'success' => false,
+                    'stock' => "No se puede vender fraccionado el producto: {$producto->nombre}, ya que es de tipo unidad."
+                ], 400);  // Devuelve error 400 (Bad Request)
+            }
             
             if ($producto->stock >= $cantidad) {
                 // Disminuye el stock total del producto

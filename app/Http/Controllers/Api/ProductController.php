@@ -45,6 +45,13 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
     try {
+
+        if ($request->unidad == 'UN' && $request->stock < 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se puede registrar un producto con unidad "UN" con stock menor a 1.'
+            ], 400);  // Devuelve un error 400 (Bad Request)
+        }
         // Crear el lote
         $lote = Lote::create([
             'numero_lote' => $request->numero_lote,
@@ -97,17 +104,25 @@ class ProductController extends Controller
 
         $producto = Producto::where('codigo', $codigo)->first();
         if($producto){
-            $producto->update($request->all());
-            session()->flash('swal', [
-                'icon' => 'success',
-                'title' => 'Actualizado',
-                'text' => 'Producto actualizado correctamente'
-            ]);
-            return response()->json([
-                'success' => true,
-                'message' => 'Producto actualizado exitosamente',
-                'producto' => $producto
-            ]);
+            if ($request->unidad == 'UN' && $request->stock < 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se puede registrar un producto con unidad "UN" con stock menor a 1.'
+                ], 400);  // Devuelve un error 400 (Bad Request)
+            }else{
+                $producto->update($request->all());
+                session()->flash('swal', [
+                    'icon' => 'success',
+                    'title' => 'Actualizado',
+                    'text' => 'Producto actualizado correctamente'
+                ]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Producto actualizado exitosamente',
+                    'producto' => $producto
+                ]);
+            }
+            
         }else{
             return response()->json([
                 'success' => false,

@@ -71,9 +71,7 @@
                     <div class="mb-3">
                         <label for="precioVenta" class="form-label">Precio Venta</label>
                         <div class="input-group">
-                            <button class="btn btn-outline" style="border-color:#aed5b6; border-width: 2px;" onmouseleave="this.style.backgroundColor='transparent';"  onmouseover="this.style.backgroundColor= '#aed6b5';"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>
-                            
-                            
+                            <button class="btn btn-outline" style="border-color:#aed5b6; border-width: 2px;" onmouseleave="this.style.backgroundColor='transparent';"  onmouseover="this.style.backgroundColor= '#aed6b5';"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
                             
                         </div>
                         <p>
@@ -227,9 +225,8 @@
 <script>
     var productosIndexUrl = "{{ route('api.productos.index') }}";
     var productosStoreUrl = "{{ route('productos.store') }}";
-    var productoUpdatetUrl = "{{ route('productos.update', 'codigo') }}";
+    var productoUpdatetUrl = "{{ route('api.productos.update', 'codigo') }}";
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
-    // var eliminarProductoUrl = "{{ route('api.productos.destroy', 'codigo') }}"
     var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";
     var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";  
 

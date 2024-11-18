@@ -143,14 +143,15 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             data: $(this).serialize(),
             success: function(response){
-
-                if (response.success) {
+                $('#ventaForm')[0].reset();
+                if (response) {
                     Swal.fire({
-                        icon: response.swal.icon,
-                        title: response.swal.title,
-                        text: response.swal.text,
+                        icon : 'success',
+                        title : '¡Nueva Venta!',
+                        text : 'Nueva venta registrada',
+                        confirmButtonText: 'OK'
                     }).then(function() {
-                        renderVentasTable();
+                        window.location.reload(); 
                     });
                     
                 } else {
@@ -329,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('#editVentaModal').modal('hide');
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Venta Actualizada!',
+                        title: '¡Actualizada!',
                         text: 'La venta se ha actualizado correctamente.',
                         confirmButtonText: 'OK'
                     }).then(function() {

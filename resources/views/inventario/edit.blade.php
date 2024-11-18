@@ -84,7 +84,11 @@
                 <form id="update-stock-form" action="{{ route('inventario.update') }}" method="POST">
                     @csrf
 
-                    <input type="hidden" name="producto_cod" id="modal-producto-cod">
+
+                    <div class="mb-3">
+                        <label for="modal-producto-codigo" class="form-label">Código del producto</label>
+                        <input type="text" id="modal-producto-codigo" class="form-control" readonly>
+                    </div>
                     <div class="mb-3">
                         <label for="modal-producto-nombre" class="form-label">Producto</label>
                         <input type="text" id="modal-producto-nombre" class="form-control" readonly>
@@ -93,6 +97,10 @@
                         <label for="modal-cantidad" class="form-label">Cantidad</label>
                         <input type="number" name="cantidad" id="modal-cantidad" class="form-control" min="1" required>
                     </div>
+
+                    <div id="hidden-inputs"></div>
+
+
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
                     </div>
@@ -105,8 +113,10 @@
 @push('js')
 <script src="{{ asset('js/inventario/inventarioUpdate.js') }}"></script>
 <script>
-    var editInventarioUrl = "{{ route('api.inventario.update') }}";
+    var updateInventarioUrl = "{{ route('api.inventario.update', ':codigo') }}";
+    var editInventarioUrl = "{{ route('api.inventario.edit', ':codigo') }}";
     console.log(editInventarioUrl);
+    console.log(updateInventarioUrl);
     var productos = @json($productos);
 </script>
 @endpush

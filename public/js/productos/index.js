@@ -197,8 +197,17 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             data: formData,
             success: function (response) {
-                $('#editProductModal').modal('hide'); // Cierra el modal                
-                renderProductTable();
+                if(response.success){
+                    $('#editProductModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Actualizado!',
+                        text: 'El producto se ha actualizado correctamente.',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderProductTable(); 
+                    });
+                }
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText); // Muestra los errores de la respuesta

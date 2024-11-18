@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\InventoryController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
-Route::delete('/productos/{codigo}', [ProductController::class, 'destroy'])->name('api.productos.destroy');
+Route::put('/productos/{codigo}', [ProductController::class, 'update'])->name('api.productos.update');
 Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
 Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
 
@@ -20,7 +20,7 @@ Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.upd
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
 
 Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
-Route::put('/inventario/update', [InventoryController::class, 'update'])->name('api.inventario.update');
-Route::get('/inventario/edit', [InventoryController::class, 'edit'])->name('inventario.edit');
+Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
+Route::get('/inventario/edit/{codigo}', [InventoryController::class, 'edit'])->name('api.inventario.edit');
 
 

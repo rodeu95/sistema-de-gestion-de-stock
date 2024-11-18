@@ -23,6 +23,11 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
+                            <label for="search-product" class="form-label">Buscar Producto</label>
+                            <input type="text" id="search-product" class="form-control" placeholder="Buscar por nombre...">
+                        </div>
+
+                        <div class="mb-3">
                             <label for="producto-select" class="form-label">Producto</label>
                             <select id="producto-select" class="form-select" name="producto_cod[]">
                                 <option value="" disabled selected>Seleccione un producto</option>

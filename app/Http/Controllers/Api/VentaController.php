@@ -80,6 +80,13 @@ class VentaController extends Controller
 
                 $cantidad = (float) $cantidades[$index];
                 $producto = Producto::findOrFail($producto_cod);
+
+                if ($producto->unidad == 'UN' && $cantidad < 1) {
+                    return response()->json([
+                        'success' => false,
+                        'stock' => "No se puede vender fraccionado el producto: {$producto->nombre}, ya que es de tipo unidad."
+                    ], 400);  // Devuelve error 400 (Bad Request)
+                }
                 
                 if ($producto->stock >= $cantidad) {
                     // Disminuye el stock total del producto
