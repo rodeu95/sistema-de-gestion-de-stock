@@ -78,7 +78,7 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="monto_total" class="form-label">Monto Total</label>
-                            <input type="number" name="monto_total" id="monto_total" class="form-control" readonly>
+                            <input type="number" name="monto_total" id="monto_total" class="form-control form-control-xl" style="font-size: 2.5rem;" readonly>
                         </div>
 
                         <div class="mb-3">

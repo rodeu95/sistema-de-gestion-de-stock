@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Caja;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 
 class UserController extends Controller
@@ -65,6 +67,7 @@ class UserController extends Controller
 
         $user = new User($input);
         $user->save();
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         if(Auth::check()){
             $roleIds = $request->validated(['roles']); // Obtén todos los IDs de los roles

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\VentaController;
 Use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\InventoryController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
@@ -18,6 +19,8 @@ Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('ventas.
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('ventas.update');
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
 
+Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
+Route::put('/inventario/update', [InventoryController::class, 'update'])->name('api.inventario.update');
+Route::get('/inventario/edit', [InventoryController::class, 'edit'])->name('inventario.edit');
 
-Route::post('/login', [AuthController::class, 'login'])->name('usuario.login');
 

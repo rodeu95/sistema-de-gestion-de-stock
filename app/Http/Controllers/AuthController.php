@@ -92,16 +92,18 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Sesión cerrada correctamente.'], 200);
+        $tokens = $request->user()->tokens;
+        foreach($tokens as $token){
+            $token->delete();
+        }
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        // Auth::logout(); // Cierra la sesión del usuario
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente.',
+        ], 200);
 
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken(); 
-
-        // return redirect('/')->with('success', 'Sesión cerrada correctamente.');
     }
 
 }

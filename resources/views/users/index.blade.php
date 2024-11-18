@@ -81,24 +81,24 @@
         </div>
     </div>
 
-    @push('js')
-    <script>
-        function confirmDelete(userId) {
-            Swal.fire({
-                title: "¿Estás seguro?",
-                text: "No podrás volver atrás",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Eliminar de todas formas",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + userId).submit();
-                }
-            });
-        }
-    </script>
-    @endpush
+@push('js')
+<script>
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás volver atrás",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Eliminar de todas formas",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + userId).submit();
+            }
+        });
+    }
+</script>
+@endpush
 @endsection

@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Producto;
-use App\Models\Lote;
 use App\Models\Caja;
 use App\Models\Categoria;
 
-class InventarioController extends Controller
+class InventoryController extends Controller
 {
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:sanctum');
         $this->middleware('permission:gestionar-inventario', ['only' => ['index', 'update', 'edit']]);
     }
-
     public function index()
     {
-        
-        $caja = Caja::find(1);
-        $cajaAbierta = $caja ? $caja->estado:false;
-        $productos = Producto::with('lotes', 'categoria')->get();
-        // dd($productos);
-        return view('inventario.index', compact('productos', 'cajaAbierta'));
+
+        $productos = Producto::with(['categoria', 'lotes'])
+            ->where('estado', 1)
+            ->get();
+
+        return response()->json($productos); // Asegúrate de que siempre devuelva JSON
     }
 
     public function edit(){
@@ -75,5 +75,4 @@ class InventarioController extends Controller
             'producto_cod' => $producto->codigo,
         ]);
     }
-    
 }

@@ -62,7 +62,7 @@
                                         <i class="fas fa-warehouse"></i> Inventario
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Control de stock</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Ver inventario</a></li>
                                         <li><a class="dropdown-item" href="{{ route('inventario.edit' ) }}">Actualizar inventario</a></li>
                                     </ul>
                                 </li>
@@ -143,9 +143,9 @@
                                                 <a class="dropdown-item" href="{{ route  ('users.edit',Auth::user()->id) }}">Editar Usuario</a>
                                             </li>
                                         <li>
-                                            <form action="{{ route('logout') }}" method="POST">
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                                 @csrf
-                                                    <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                                                    <button type="button" class="dropdown-item" id="logout-button">Cerrar Sesión</button>
                                             </form>
                                         </li>
                                     </ul>

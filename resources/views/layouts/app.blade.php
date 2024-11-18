@@ -11,6 +11,7 @@
         <!-- <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" /> -->
         <link href="{{ asset('css/index.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cards.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/inventarioIndex.css') }}" rel="stylesheet">
     </head>
     <body>
         @include('dashboard.partials.header')
@@ -50,6 +51,7 @@
         <script src="{{ mix('js/app.js') }}"></script>
         <script src="{{ asset('js/index.js') }}"></script>
         <script src="{{ asset('js/login.js') }}"></script>
+        <script src="{{ asset('js/logout.js') }}"></script>
 
         @stack('js')
 

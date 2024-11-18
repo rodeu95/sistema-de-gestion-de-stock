@@ -43,7 +43,7 @@ Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
-Route::post('/inventario/update', [InventarioController::class, 'update'])->name('inventario.update');
+Route::put('/inventario/update', [InventarioController::class, 'update'])->name('inventario.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -69,6 +69,6 @@ Route::controller(VentasController::class)->group(function(){
     Route::get('/ventas-export', 'export')->name('ventas.export');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
