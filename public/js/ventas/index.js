@@ -3,8 +3,8 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('
 let grid;
 let initialTotal = 0;
 
-
 document.addEventListener('DOMContentLoaded', function () {
+    
     function renderVentasTable() {
 
         if (grid) {
@@ -117,6 +117,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Llamar a renderProductTable cuando se carga la página
     renderVentasTable();
 
+
+
     function actualizarTotalVenta() {
         let total = 0; // Comenzamos con el monto inicial
     
@@ -168,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Modal de edición de venta
     $('#editVentaModal').on('show.bs.modal', function(event){
+       
+
         /*ABRIR VENTA MODAL*/
         const button = $(event.relatedTarget); 
         const id = button.data('id');
@@ -221,17 +225,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 $productoSelect.append('<option value="" disabled selected>Seleccione un producto</option>');
 
                 $.each(productos, function(index, producto) {
-
                     if(producto.stock > 0 && producto.estado === 1){
                         $productoSelect.append(
                             `<option value="${producto.codigo}" data-precio="${producto.precio_venta}">
-                                ${producto.nombre} - $${producto.precio_venta}
+                                ${producto.nombre} - $${producto.precio_venta} x ${producto.unidad}
                             </option>`
                         );
                     }
 
                 });
 
+                $('#producto-select').chosen({
+                    placeholder_text_single: 'Seleccione un producto', // Texto del placeholder
+                    no_results_text: 'No se encontraron productos', // Texto cuando no hay resultados
+                    width: '100%' // Establecer el ancho del select
+                });
+                                
+                // $('#producto-select').select2({
+                //     placeholder: 'Seleccione un producto', // Texto del placeholder
+                //     allowClear: true // Permite limpiar la selección
+                // });
+                // $('#producto-select').trigger('change');
+                
                 // Populate the product list in the modal
                 const $productList = $('#product-list');
                 $productList.empty(); // Clear existing list items
@@ -245,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
                         </li>`
                     );
-                });
+                });                
 
                 const hiddenInputs = document.getElementById('hidden-inputs');
                 hiddenInputs.innerHTML += data.producto_cod.map((codigo, index) => 
@@ -258,9 +273,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error("Error fetching data:", error);
             }
         });
+        
+        
     });
 
-    
 
     $('#producto-select').on('change', function() {
         selectedProduct = $(this).find(':selected');

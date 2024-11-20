@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    $('#producto-select').select2({
+        placeholder: 'Seleccione un producto', // Texto del placeholder
+        allowClear: true // Permite limpiar la selección
+    });
     // Función para calcular el monto total
     function calculateTotal() {
         let total = 0;
@@ -16,8 +21,24 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('monto_total').value = total.toFixed(2);
     }
 
+    function esFraccion(value){
+        return value % 1 !== 0;
+    }
+
+    function validateProductQuantity(productoUnidad, cantidad) {
+        if (productoUnidad === 'UN' && esFraccion(cantidad)) {
+            alert("El producto no puede ser fraccionado.");
+            return false; // Evitar agregar el producto
+        }
+        return true; // Permitir agregar el producto si la cantidad es válida
+    }
+
     // Función para agregar un producto a la lista
-    function addProductToList(productCod, productName, productPrice, quantity = 1) {
+    function addProductToList(productCod, productName, productPrice, quantity, unidad) {
+        if (!validateProductQuantity(unidad, quantity)) {
+            return; // Detener la ejecución si la cantidad no es válida
+        }
+
         if (!quantity || quantity <= 0) {
             quantity = 1;
         }
@@ -70,13 +91,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const productCod = select.value;
         const productName = select.options[select.selectedIndex]?.text;
         const productPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-precio')) || 0;
-        
+        const unidad = select.options[select.selectedIndex]?.getAttribute('data-unidad'); 
         
         let quantity = parseFloat(cantidadInput.value) || 1; 
     
         if (productCod && quantity > 0) {
             // Agregar el producto a la lista
-            addProductToList(productCod, productName, productPrice, quantity);
+            addProductToList(productCod, productName, productPrice, quantity, unidad);
     
             // Limpiar los campos de selección
             select.selectedIndex = 0;
@@ -97,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Agregar eventos
     document.getElementById('add-product').addEventListener('click', handleAddProduct);
-    document.getElementById('producto-select').addEventListener('change', function() {
+    
+    $('#producto-select').on('select2:select', function() {
         document.getElementById('cantidad-input').value = 1;
     });
 

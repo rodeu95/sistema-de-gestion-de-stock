@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Venta;
 use App\Models\Producto;
 use App\Models\User;
+use Carbon\Carbon;
 
 
 class CajaController extends Controller
@@ -39,6 +40,25 @@ class CajaController extends Controller
 
         return redirect()->route('inicio')->with('info', 'Caja cerrada. No puede registrar más ventas.')->with('user', Auth::user());
 
-        }
+    }
+
+    public function total(){
+        $caja = Caja::find(1);
+        $cajaAbierta = $caja ? $caja->estado:false;
+
+        $today = Carbon::now()->startOfDay();
+        $endOfToday = Carbon::now()->endOfDay();
+
+        $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])
+        ->where('metodo_pago_id', 1)
+        ->get();
+        $montoTotalHoy = $totalVentasHoy->sum('monto_total'); 
+
+        return view('caja.total', [
+            'totalVentasHoy' => $totalVentasHoy,
+            'montoTotalHoy' => $montoTotalHoy,
+            'cajaAbierta' => $cajaAbierta,
+        ]);
+    }
 
 }

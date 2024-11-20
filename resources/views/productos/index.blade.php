@@ -27,6 +27,22 @@
         @endcan
     </div>
 
+    <div id="disableButtonTemplate" style="display: none;">
+        @can('deshabilitar-producto')
+            <a href="javascript:void(0);" type="button" class="btn shadow btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disableProductModal" title="Deshabilitar producto" data-codigo="${codigo}">
+                <i class="fa-solid fa-ban"></i>
+            </a>
+        @endcan
+    </div>
+
+    <div id="enableButtonTemplate" style="display: none;">
+        @can('habilitar-producto')
+            <a href="javascript:void(0);" type="button" class="btn shadow btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#enableProductModal" title="Habilitar producto" data-codigo="${codigo}">
+                <i class="fa-solid fa-check-circle"></i>
+            </a>
+        @endcan
+    </div>
+
 </main>
 
 <!-- MODAL DE AGREGACIÓN -->

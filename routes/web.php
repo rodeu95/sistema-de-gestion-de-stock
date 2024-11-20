@@ -51,6 +51,8 @@ Route::middleware(['auth', 'permission:cerrar-caja'])->group(function () {
     Route::post('/caja/cerrar', [CajaController::class, 'cerrar'])->name('caja.cerrar');
 });
 
+Route::get('/caja/total', [CajaController::class, 'total'])->name('caja.total');
+
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
 
 Route::controller(ProductoController::class)->group(function(){

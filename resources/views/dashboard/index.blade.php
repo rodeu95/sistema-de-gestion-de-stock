@@ -85,9 +85,11 @@
                                 <i class="fas fa-plus-circle me-2"></i>Agregar Producto
                             </a>
                         @endcan
-                        <a href="{{ route('ventas.index') }}" class="btn shadow btn-warning" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                            <i class="fas fa-history me-2"></i>Ver Historial de Ventas
-                        </a>
+                        @can('ver-ventas')
+                            <a href="{{ route('ventas.index') }}" class="btn shadow btn-warning" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                <i class="fas fa-history me-2"></i>Ver Historial de Ventas
+                            </a>
+                        @endcan
                     </div>
                 </div>
             </div>

@@ -26,7 +26,8 @@ class UpdateUserRequest extends FormRequest
             // 'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users,email,'.$this->user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'roles' => 'required|array',
+            'password_confirmation' => 'nullable|string|min:8|same:password',
+            'roles' => 'sometimes|array',
             'permissions' => 'nullable|array',
             'permissions.*' => 'exists:permissions,id',
         ];

@@ -104,7 +104,7 @@ class ProductController extends Controller
 
         $producto = Producto::where('codigo', $codigo)->first();
         if($producto){
-            if ($request->unidad == 'UN' && $request->stock < 1) {
+            if ($request->unidad == 'UN' && floor($request->stock) != $request->stock) {
                 return response()->json([
                     'success' => false,
                     'message' => 'No se puede registrar un producto con unidad "UN" con stock menor a 1.'

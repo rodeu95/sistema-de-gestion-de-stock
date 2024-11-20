@@ -23,18 +23,13 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="search-product" class="form-label">Buscar Producto</label>
-                            <input type="text" id="search-product" class="form-control" placeholder="Buscar por nombre...">
-                        </div>
-
-                        <div class="mb-3">
                             <label for="producto-select" class="form-label">Producto</label>
                             <select id="producto-select" class="form-select" name="producto_cod[]">
                                 <option value="" disabled selected>Seleccione un producto</option>
                                 @foreach($productos as $producto)
                                     @if($producto->stock > 0 && $producto->estado === 1)
-                                        <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
-                                            {{ $producto->nombre }} - ${{ $producto->precio_venta }}
+                                        <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}" data-unidad="{{$producto->unidad}}">
+                                            {{ $producto->nombre }} - ${{ $producto->precio_venta }} x {{$producto->unidad}}
                                         </option>
                                     @endif
                                 @endforeach

@@ -32,11 +32,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     name: gridjs.html(`<span title="Precio de venta">Precio Venta</span>`),
-                    sort: true,
+                    formatter: (cell, row) => {
+                        const precioVenta = parseFloat(row.cells[6].data);
+                        const unidad = row.cells[8].data;
+                        console.log('Precio Venta:', { precioVenta, unidad }); // Asume que la unidad está en la columna 3
+                        
+                        // Formatea el precio con la unidad para mostrar
+                        const displayValue = unidad === 'UN' 
+                            ? `$${precioVenta} x UN` 
+                            : `$${precioVenta} x KG`;
+
+                        return gridjs.html(displayValue); 
+                    },
+                    sort: {
+
+                        compare: (a, b) => {
+                            console.log('Comparando:', { a, b });
+                            // Comparar usando los valores numéricos del atributo data-value
+                            const valueA = parseFloat(a);
+                            const valueB = parseFloat(b);
+
+                            // Si no son números, considera el orden
+                            if (isNaN(valueA) || isNaN(valueB)) return 0;
+
+                            // Ordena numéricamente
+                            return valueA - valueB;
+                        }
+                    }
                 },
                 {
                     name: gridjs.html(`<span title="Stock disponible">Stock</span>`),
                     sort: true,
+                },
+                {
+                    name: 'unidad',
+                    hidden: true
                 },
                 
                 {
@@ -56,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const iva = parseFloat(producto.iva) || 0;
                         const utilidad = parseFloat(producto.utilidad) || 0;
                         const stock = parseFloat(producto.stock) || 0;
-
+                        
                         return [
                             producto.codigo,
                             producto.nombre,
@@ -66,10 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 : `${precioCosto.toFixed(2)} x KG`),
                             `${iva}%`,
                             `${utilidad}%`,
-                            (producto.unidad === 'UN' 
-                                ? `$${precioVenta.toFixed(2)} x UN` 
-                                : `$${precioVenta.toFixed(2)} x KG`),
+                            `${precioVenta.toFixed(2)}`,
                             stock,
+                            producto.unidad,
                             producto.lotes && producto.lotes.length > 0 
                                 ? producto.lotes.map(lote => 
                                     `Lote: ${lote.numero_lote}, Vence: ${new Date(lote.fecha_vencimiento).toLocaleDateString('es-AR')}`

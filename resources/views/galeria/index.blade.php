@@ -28,7 +28,7 @@
         <div class="welcome-content">
             <h1 class="display-4">
                 <i class="fa-solid fa-cash-register fa-flip" style="color:#aed6b5; --fa-animation-duration: 15s; margin:10px;"></i> 
-                Gestión de Ventas y Productos 
+                Punto de Venta y Gestión de Productos 
                 <i class="fa-solid fa-dolly fa-flip" style="color:#aed6b5; --fa-animation-duration: 15s; margin:10px; "></i>
             </h1>
             <p class="lead">Seleccione una opción para comenzar.</p>

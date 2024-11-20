@@ -35,23 +35,70 @@ document.addEventListener('DOMContentLoaded', function () {
                     name: gridjs.html(`<span title="Precio de venta">Precio de venta</span>`),
                     resizable: true,
                     width: '130px',
-                    formatter: (cell) => {
-                        // Asegúrate de que el valor sea un número antes de formatearlo
-                        const amount = parseFloat(cell);
-                        // Si no es un número válido, retorna el valor original
-                        if (isNaN(amount)) return cell;
-                        // Devuelve el valor con el símbolo '$' y lo formatea como una moneda
-                        return '$' + amount.toFixed(2); // Esto agrega dos decimales, cambia según lo necesites
+                    formatter: (cell, row) => {
+                        const precioVenta = parseFloat(row.cells[3].data);
+                        const unidad = row.cells[5].data;
+                        console.log('Precio Venta:', { precioVenta, unidad }); // Asume que la unidad está en la columna 3
+                        
+                        // Formatea el precio con la unidad para mostrar
+                        const displayValue = unidad === 'UN' 
+                            ? `$${precioVenta} x UN` 
+                            : `$${precioVenta} x KG`;
+
+                        return gridjs.html(displayValue); 
+                    },
+                    sort: {
+
+                        compare: (a, b) => {
+                            console.log('Comparando:', { a, b });
+                            // Comparar usando los valores numéricos del atributo data-value
+                            const valueA = parseFloat(a);
+                            const valueB = parseFloat(b);
+
+                            // Si no son números, considera el orden
+                            if (isNaN(valueA) || isNaN(valueB)) return 0;
+
+                            // Ordena numéricamente
+                            return valueA - valueB;
+                        }
                     }
                 },
                 {
                     name: gridjs.html(`<span title="Stock">Stock</span>`),
-                    width: '80px'
+                    width: '80px',
+                    formatter: (cell, row) => {
+                        const stock = parseFloat(row.cells[4].data);
+                        const unidad = row.cells[5].data;
+
+                        const displayValue = unidad === 'UN' 
+                            ? `${stock} UN` 
+                            : `${stock} KG`;
+
+                        return gridjs.html(displayValue); 
+                    },
+                    sort: {
+
+                        compare: (a, b) => {
+                            console.log('Comparando:', { a, b });
+                            // Comparar usando los valores numéricos del atributo data-value
+                            const valueA = parseFloat(a);
+                            const valueB = parseFloat(b);
+
+                            const roundedA = Math.round(valueA * 100) / 100;
+                            const roundedB = Math.round(valueB * 100) / 100;
+                            console.log('Comparando:', { valueA, valueB });
+                            // Si no son números, considera el orden
+                            if (isNaN(valueA) || isNaN(valueB)) return 0;
+
+                            // Ordena numéricamente
+                            return roundedA - roundedB;
+                        }
+                    }
                 },
-                // {
-                //     name: gridjs.html(`<span title="Unidad">Unidad</span>`),
-                //     width: '80px'
-                // },
+                {
+                    name: 'unidad',
+                    hidden: true,
+                },
                 {
                     name: gridjs.html(`<span title="Estado">Estado</span>`),
                     width: '80px'
@@ -64,27 +111,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         const codigo = row.cell(0).data;
                         const estado = row.cell(5).data;
-                        let buttonHtml = '';
-                        if (estado === 'Inactivo') {
-                            // Si está deshabilitado, mostrar el ícono de habilitar
-                            buttonHtml = `
-                                <button class="btn shadow btn-success btn-sm btn-enable" title="Habilitar producto" data-codigo=${codigo}>
-                                    <i class="fa-solid fa-check-circle"></i>
-                                </button>
-                            `;
-                        } else {
-                            // Si está habilitado, mostrar el ícono de deshabilitar
-                            buttonHtml = `
-                                <button class="btn shadow btn-danger btn-sm btn-disable" title="Deshabilitar producto" data-codigo=${codigo}>
-                                    <i class="fa-solid fa-ban"></i>
-                                </button>
-                            `;
-                        }
-                        
 
                         const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
-                        // const disableButtonHtml = document.getElementById('disableButtonTemplate').innerHTML.replace('${codigo}', codigo);
 
+                        let buttonHtml = '';
+                        if (estado === 'Inactivo') {
+                            buttonHtml = document.getElementById('enableButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                        } else {
+                            buttonHtml = document.getElementById('disableButtonTemplate').innerHTML.replace('${codigo}', codigo);
+                        }
+                        
                         return gridjs.html(`
                             <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}/disable" method="PUT">
                                 <input type="hidden" name="_token" value="${csrfToken}">
@@ -102,20 +138,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 then: data => {
                     return data.map(producto => {
-                        // Define el stock visual para unidades (UN) y kilogramos (KG)
-                        const stockVisual = producto.unidad === 'UN' 
-                            ? `${parseInt(producto.stock)} UN`  // Agrega 'un' para unidades
-                            : `${parseFloat(producto.stock)} KG`;  // Agrega 'kg' para kilogramos
+                        const precioVenta = parseFloat(producto.precio_venta) || 0;
+                        const stock = parseFloat(producto.stock) || 0;
             
                         return [
                             producto.codigo,
                             producto.nombre,
                             producto.fchVto,
-                            parseFloat(producto.precio_venta),
-                            stockVisual, // Stock visualizado con 'un' o 'kg'
-                            // producto.unidad,
+                            `${precioVenta.toFixed(2)}`,
+                            `${stock}`,
+                            producto.unidad,
                             producto.estado === 0 ? "Inactivo" : "Activo",
-                            producto.stock, // Mantén el stock sin 'un' o 'kg' para poder ordenarlo correctamente
                         ];
                     });
                 }

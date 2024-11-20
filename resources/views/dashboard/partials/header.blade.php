@@ -52,7 +52,11 @@
                                                 <a class="dropdown-item" href="{{ route('ventas.create') }}">Registrar venta</a>
                                             @endcan
                                         </li>
-                                        <li><a class="dropdown-item" href="{{ route('ventas.index') }}">Historial de ventas</a></li>
+                                        <li>
+                                            @can('ver-ventas')
+                                                <a class="dropdown-item" href="{{ route('ventas.index') }}">Historial de ventas</a>
+                                            @endcan
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -98,9 +102,7 @@
                                                 Caja Cerrada
                                             @endif
                                         </a>
-                                        <ul class="dropdown-menu">
-                                            
-                                            
+                                        <ul class="dropdown-menu">                           
                                             @can('abrir-caja')
                                                 @if(!$cajaAbierta)    
                                                     <li>
@@ -112,10 +114,7 @@
                                                     
                                                     </li>
                                                 @endif
-                                            @endcan
-                                        
-                                            
-                                            
+                                            @endcan    
                                             @can('cerrar-caja')
                                                 @if($cajaAbierta)
                                                     <li>
@@ -129,6 +128,7 @@
                                                 </li>
                                                 @endif
                                             @endcan
+                                            <li><a class="dropdown-item" href="{{ route  ('caja.total')}}">Total en caja</a></li>
                                             
                                         </ul>
                                     </li>

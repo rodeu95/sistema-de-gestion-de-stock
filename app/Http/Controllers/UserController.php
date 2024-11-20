@@ -166,6 +166,9 @@ class UserController extends Controller
         }
         // Si se proporciona una nueva contraseña, actualízala
         if ($request->filled('password')) {
+            if ($request->input('password') !== $request->input('password_confirmation')) {
+                return back()->withErrors(['password' => 'Las contraseñas no coinciden.']);
+            }
             $user->password = Hash::make($request->input('password'));
         }
 
@@ -185,7 +188,7 @@ class UserController extends Controller
                 }
             }
 
-            if ($request->has('permissions')) {
+            if ($request->has('permissions') && !empty($request->input('permissions'))) {
                 $permissions = Permission::whereIn('id', $request->input('permissions'))->get();
                 
                 if($permissions){

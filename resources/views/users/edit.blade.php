@@ -29,7 +29,7 @@
                                             <i class="fa-solid fa-user"></i>
                                             Nombre de Usuario
                                         </label>
-                                        <input type="text" name="usuario" class="form-control" value="{{ $user->usuario }}" required>
+                                        <input type="text" name="usuario" id="usuario" class="form-control" value="{{ $user->usuario }}" required>
                                     </div>
 
                                     <!-- Correo electrónico -->
@@ -37,7 +37,7 @@
                                         <label for="email" class="form-label" style="margin-top:10px;">
                                             <i class="fa-solid fa-envelope"></i> Correo Electrónico
                                         </label>
-                                        <input type="email" name="email" class="form-control" value="{{ $user->email }}" required>
+                                        <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
                                     </div>
 
                                     <!-- Contraseña editable solo para el propio usuario o cajero -->
@@ -46,7 +46,18 @@
                                             <label for="password" class="form-label" style="margin-top:10px;">
                                                 <i class="fa-solid fa-lock"></i> Nueva Contraseña
                                             </label>
-                                            <input type="password" name="password" class="form-control">
+                                            <input type="password" id="password" name="password" class="form-control">
+                                            <div class="form-text text-end">
+                                                <button type="button" id="password-toggle" onclick="togglePasswordVisibility('password')" class="btn btn-link">Mostrar</button>
+                                            </div>
+                                            <label for="password_confirmation" class="form-label" style="margin-top:10px;">
+                                                <i class="fa-solid fa-lock"></i> Confirmar Nueva Contraseña
+                                            </label>
+                                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
+                                            
+                                            <div class="form-text text-end">
+                                                <button type="button" id="password_confirmation-toggle" onclick="togglePasswordVisibility('password_confirmation')" class="btn btn-link">Mostrar</button>
+                                            </div>
                                         </div>
                                     @endif
 
