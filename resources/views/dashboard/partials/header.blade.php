@@ -73,13 +73,15 @@
 
                                 <!-- Exportación de Datos -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
-                                     <i class="fas fa-file-export"></i> Exportar
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('ventas.export') }}">Exportar Ventas <i class="fa-solid fa-file-excel"></i> </a></li>
-                                        <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar Productos <i class="fa-solid fa-file-pdf"></i> </a></li>
-                                    </ul>
+                                    @can('exportar-archivos')
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">
+                                        <i class="fas fa-file-export"></i> Exportar
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('ventas.export') }}">Exportar Ventas <i class="fa-solid fa-file-excel"></i> </a></li>
+                                            <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar Productos <i class="fa-solid fa-file-pdf"></i> </a></li>
+                                        </ul>
+                                    @endcan
                                 </li>
 
                                 <li class="nav-item dropdown">
@@ -128,8 +130,9 @@
                                                 </li>
                                                 @endif
                                             @endcan
-                                            <li><a class="dropdown-item" href="{{ route  ('caja.total')}}">Total en caja</a></li>
-                                            
+                                            @can('ver-total-caja')
+                                                <li><a class="dropdown-item" href="{{ route  ('caja.total')}}">Total en caja</a></li>
+                                            @endcan
                                         </ul>
                                     </li>
                                 @endcanany

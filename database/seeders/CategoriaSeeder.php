@@ -14,7 +14,7 @@ class CategoriaSeeder extends Seeder
     public function run(): void
     {
         $categorias = [
-            ['nombre' => 'Bebidas'],
+            ['nombre' => 'Bebidas sin acohol'],
             ['nombre' => 'Conservas'],
             ['nombre' => 'Snacks'],
             ['nombre' => 'Golosinas'],
@@ -28,6 +28,7 @@ class CategoriaSeeder extends Seeder
             ['nombre' => 'Pañalería'],
             ['nombre' => 'Panadería'],
             ['nombre' => 'Lácteos'],
+            ['nombre' => 'Otros'],
         ];
 
         foreach ($categorias as $categoria) {

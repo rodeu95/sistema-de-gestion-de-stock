@@ -19,6 +19,7 @@ class CajaController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:abrir-caja', ['only'=>'abrir']);
         $this->middleware('permission:cerrar-caja', ['only'=>'cerrar']);
+        $this->middleware('permission:ver-total-caja', ['only'=>'total']);
     }
     
 

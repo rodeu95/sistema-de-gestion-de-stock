@@ -240,7 +240,7 @@
 <script src="{{ asset('js/productos/index.js') }}"></script>
 <script>
     var productosIndexUrl = "{{ route('api.productos.index') }}";
-    var productosStoreUrl = "{{ route('productos.store') }}";
+    var productosStoreUrl = "{{ route('api.productos.store') }}";
     var productoUpdatetUrl = "{{ route('api.productos.update', 'codigo') }}";
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
     var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";

@@ -32,8 +32,10 @@ Route::resources([
     'ventas' => VentasController::class,
 ]);
 
-Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
-Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
+// Route::middleware(['auth', 'permission:habilitar-producto|deshabilitar-producto'])->group(function () {
+//     Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
+//     Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
+// });
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
@@ -51,7 +53,9 @@ Route::middleware(['auth', 'permission:cerrar-caja'])->group(function () {
     Route::post('/caja/cerrar', [CajaController::class, 'cerrar'])->name('caja.cerrar');
 });
 
-Route::get('/caja/total', [CajaController::class, 'total'])->name('caja.total');
+Route::middleware(['auth', 'permission:ver-total-caja'])->group(function () {
+    Route::get('/caja/total', [CajaController::class, 'total'])->name('caja.total');
+});
 
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
 

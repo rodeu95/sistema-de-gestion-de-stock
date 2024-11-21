@@ -8,12 +8,12 @@
         <table class="table shadow table-bordered table-hover ">
             <thead>
                 <tr class="table-warning text-center">
-                    <th>#</th>
+                    <th>ID venta</th>
                     <th>Fecha</th>
                     <th>Monto Total</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
                 @foreach($totalVentasHoy as $venta)
                 <tr>
                     <td>{{ $venta->id }}</td>

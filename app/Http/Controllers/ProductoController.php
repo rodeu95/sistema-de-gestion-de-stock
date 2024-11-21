@@ -76,7 +76,7 @@ class ProductoController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Producto agregado!',
-            'text' => 'el producto agregado se ha agregado correctamente'
+            'text' => 'El producto se ha agregado correctamente'
         ]);
         
         return redirect()->route('productos.index');
