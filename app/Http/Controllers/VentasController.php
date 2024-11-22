@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Auth;
 class VentasController extends Controller
 {
     public function __construct(){
+        $this->middleware('auth');
+        $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
+        $this->middleware('permission:editar-venta', ['only'=>['edit','store', 'update']]);
+        $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
+        $this->middleware('permission:exportar-archivos', ['only' => ['export']]);
+
     }
 
     public function index(Venta $venta){

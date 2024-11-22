@@ -33,8 +33,8 @@ Route::resources([
 ]);
 
 // Route::middleware(['auth', 'permission:habilitar-producto|deshabilitar-producto'])->group(function () {
-//     Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
-//     Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
+    Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
+    Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
 // });
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');

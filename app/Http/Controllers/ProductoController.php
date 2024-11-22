@@ -19,10 +19,12 @@ class ProductoController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
-        //$this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
-        //$this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
-        //$this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+        $this->middleware('auth');
+        $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
+        $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
+        $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
+        $this->middleware('permission:exportar-archivos', ['only' => ['export']]);
     }
      
     public function index(Producto $producto){

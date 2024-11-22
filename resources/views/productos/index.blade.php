@@ -29,17 +29,17 @@
 
     <div id="disableButtonTemplate" style="display: none;">
         @can('deshabilitar-producto')
-            <a href="javascript:void(0);" type="button" class="btn shadow btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disableProductModal" title="Deshabilitar producto" data-codigo="${codigo}">
+            <button type="button" id="disableButton" class="btn shadow btn-danger btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}">
                 <i class="fa-solid fa-ban"></i>
-            </a>
+            </button>
         @endcan
     </div>
 
     <div id="enableButtonTemplate" style="display: none;">
         @can('habilitar-producto')
-            <a href="javascript:void(0);" type="button" class="btn shadow btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#enableProductModal" title="Habilitar producto" data-codigo="${codigo}">
+            <button type="button" id="enableButton" class="btn shadow btn-success btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}">
                 <i class="fa-solid fa-check-circle"></i>
-            </a>
+            </button>
         @endcan
     </div>
 

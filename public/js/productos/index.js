@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: (cell, row) => {
                         const precioVenta = parseFloat(row.cells[3].data);
                         const unidad = row.cells[5].data;
-                        console.log('Precio Venta:', { precioVenta, unidad }); // Asume que la unidad está en la columna 3
                         
                         // Formatea el precio con la unidad para mostrar
                         const displayValue = unidad === 'UN' 
@@ -122,12 +121,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         
                         return gridjs.html(`
-                            <form id="delete-form-${codigo}" action="/sistema/public/productos/${codigo}/disable" method="PUT">
-                                <input type="hidden" name="_token" value="${csrfToken}">
-                                <input type="hidden" name="_method" value="DISABLE">
-                                ${editButtonHtml} ${buttonHtml}
-                            </form>
+                            ${editButtonHtml} ${buttonHtml}
+                            
                         `);
+                        // <form id="disable-form-${codigo}" action="/sistema/public/productos/${codigo}/disable" method="POST">
+                        //         <input type="hidden" name="_token" value="${csrfToken}">
+                        //         <input type="hidden" name="_method" value="PATCH">
+                        //         ${editButtonHtml} ${buttonHtml}
+                        //     </form>
                     }
                 }
             ],
@@ -373,7 +374,7 @@ function enableProducto(codigo) {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function (data) {
-                    if (data.message === 'Producto deshabilitado exitosamente') {
+                    if (data.message === 'Producto habilitado exitosamente') {
                         Swal.fire(
                             'Habilitado',
                             'Producto habilitado exitosamente.',
