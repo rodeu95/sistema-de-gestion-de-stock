@@ -84,5 +84,6 @@
 </div>
 
 @push('js')
+<script src="{{ asset('js/createUser.js') }}"></script>
 @endpush
 @endsection

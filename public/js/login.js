@@ -35,77 +35,45 @@ document.addEventListener('DOMContentLoaded', function () {
 //         mostrar.textContent = "Mostrar";
 //     }
 // })
-function togglePasswordVisibility(id) {
-    var campo = document.getElementById(id);
-    var icono = document.getElementById(id + "-toggle");
-    if (campo.type === "password") {
-        campo.type = "text";
-        icono.textContent = "Ocultar";
-    } else {
-        campo.type = "password";
-        icono.textContent = "Mostrar";
-    }
-}
+// function togglePasswordVisibility(id) {
+//     var campo = document.getElementById(id);
+//     var icono = document.getElementById(id + "-toggle");
+//     if (campo.type === "password") {
+//         campo.type = "text";
+//         icono.textContent = "Ocultar";
+//     } else {
+//         campo.type = "password";
+//         icono.textContent = "Mostrar";
+//     }
+// }
 
+const passwordInputIni = document.getElementById('passwordIni');
+const passwordInputReg = document.getElementById('passwordReg');
+const togglePasswordIni = document.getElementById('togglePasswordIni');
+const togglePasswordReg = document.getElementById('togglePasswordReg');
 
+togglePasswordIni.addEventListener('click', () => {
+    // Cambia el tipo del input entre 'password' y 'text'
+    const typeIni = passwordInputIni.type === 'password' ? 'text' : 'password';
+    passwordInputIni.type = typeIni;
 
-const seleccion = document.getElementById('tipoUsuario');
-if (seleccion) {
-    seleccion.addEventListener('change', function () {
-        const atributoContainer = document.getElementById('atributos-container');
-        const atributoLabel = document.getElementById('atributos');
+    // Cambia el ícono entre 'fa-eye' y 'fa-eye-slash'
+    togglePasswordIni.classList.toggle('fa-eye');
+    togglePasswordIni.classList.toggle('fa-eye-slash');
 
-        atributoContainer.innerHTML = '';
+});
 
-        // Oculta el contenedor de atributos inicialmente
-        atributoContainer.style.display = 'none';
-        atributoLabel.style.display = 'none';
+togglePasswordReg.addEventListener('click', () => {
+    // Cambia el tipo del input entre 'password' y 'text'
+    const typeReg = passwordInputReg.type === 'password' ? 'text' : 'password';
+    passwordInputReg.type = typeReg;
 
-        if (this.value) {
-            atributoContainer.style.display = 'block';
-            atributoLabel.style.display = 'block';
+    // Cambia el ícono entre 'fa-eye' y 'fa-eye-slash'
+    togglePasswordReg.classList.toggle('fa-eye');
+    togglePasswordReg.classList.toggle('fa-eye-slash');
 
-            const rolNombre = this.options[this.selectedIndex].text; // Obtener el nombre del rol
+});
 
-            if (rolNombre === 'Administrador') {
-                atributoContainer.innerHTML = '<p>El Administrador tiene todos los permisos automáticamente.</p>';
-            } else {
-                cargarPermisos(this.value); // Carga permisos dinámicamente
-            }
-        }
-    });
-}
-
-function cargarPermisos(rolId) {
-    const atributosContainer = document.getElementById('atributos-container');
-
-    fetch('http://localhost/sistema/public/roles/' + rolId + '/permissions')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar permisos');
-            }
-            return response.json();
-        })
-        .then(data => {
-            atributosContainer.innerHTML = ''; // Limpia el contenedor
-            // Verifica si hay permisos
-            if (data.length > 0) {
-                data.forEach(permission => {
-                    const checkbox = document.createElement('div');
-                    checkbox.className = 'permission-checkbox';
-                    checkbox.innerHTML = `
-                    <input type="checkbox" name="permissions[]" class="form-check-input" value="${permission.id}">
-                    <label class="form-check-label">${permission.description}</label><br>
-                    `;
-                    atributosContainer.appendChild(checkbox);
-                });
-                atributosContainer.style.display = 'block'; // Muestra el contenedor de atributos
-            } else {
-                atributosContainer.innerHTML = '<p>No hay permisos disponibles para este rol.</p>';
-            }
-        })
-        .catch(error => console.error('Error al cargar permisos:', error));
-}
 
 function login(usuario, password){
     $.ajax({
@@ -118,7 +86,7 @@ function login(usuario, password){
         },
         data: JSON.stringify({ usuario, password }),
         success: function(data) {
-            // console.log(data);
+            console.log(data);
             if (data.token) {
                 // Guardar el token en localStorage
                 localStorage.setItem('token', data.token);
@@ -142,10 +110,23 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', event => {
             event.preventDefault(); // Evitar recarga de la página
             const usuario = loginForm.querySelector('#usuarioIni').value;
-            const password = loginForm.querySelector('#contraseñaIni').value;
+            const password = loginForm.querySelector('#passwordIni').value;
             login(usuario, password);
         });
     }
 
 })
+
+
+const container = document.getElementById('container');
+const registerBtn = document.getElementById('register');
+const loginBtn = document.getElementById('login');
+
+registerBtn.addEventListener('click', () => {
+    container.classList.add("active");
+});
+
+loginBtn.addEventListener('click', () => {
+    container.classList.remove("active");
+});
 

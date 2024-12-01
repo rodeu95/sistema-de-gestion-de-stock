@@ -31,9 +31,9 @@
                 Punto de Venta y Gestión de Productos 
                 <i class="fa-solid fa-dolly fa-flip" style="color:#aed6b5; --fa-animation-duration: 15s; margin:10px; "></i>
             </h1>
-            <p class="lead">Seleccione una opción para comenzar.</p>
-            <a href="{{ route('login') }}" class="btn btn-custom">Iniciar Sesión</a>
-            <a href="{{ route('register') }}" class="btn btn-custom">Registrarse</a>
+            <p class="lead">Haga clic para comenzar.</p>
+            <a href="{{ route('login') }}" class="btn btn-custom">Comenzar</a>
+            <!-- <a href="{{ route('register') }}" class="btn btn-custom">Registrarse</a> -->
         </div>
     </div>
 

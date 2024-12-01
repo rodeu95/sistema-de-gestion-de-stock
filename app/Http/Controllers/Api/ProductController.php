@@ -176,7 +176,7 @@ class ProductController extends Controller
             $producto->estado = true; // O el campo que uses para indicar deshabilitación
             $producto->save();
 
-            return response()->json(['message' => 'Producto deshabilitado exitosamente']);
+            return response()->json(['message' => 'Producto habilitado exitosamente']);
         }
 
         return response()->json(['message' => 'Producto no encontrado'], 404);

@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: (cell, row) => {
 
                         const codigo = row.cell(0).data;
-                        const estado = row.cell(5).data;
-
+                        const estado = row.cell(6).data;
+                        
                         const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
 
                         let buttonHtml = '';
@@ -388,8 +388,8 @@ function enableProducto(codigo) {
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error al deshabilitar el producto:', error);
-                    alert('Hubo un problema al intentar deshabilitar el producto.');
+                    console.error('Error al habilitar el producto:', error);
+                    alert('Hubo un problema al intentar habilitar el producto.');
                 }
             });
         }
