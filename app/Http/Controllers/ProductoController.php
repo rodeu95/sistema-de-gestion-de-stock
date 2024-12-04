@@ -25,6 +25,7 @@ class ProductoController extends Controller
         $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
         $this->middleware('permission:eliminar-producto', ['only' => ['destroy']]);
         $this->middleware('permission:exportar-archivos', ['only' => ['export']]);
+        
     }
      
     public function index(Producto $producto){
@@ -138,6 +139,7 @@ class ProductoController extends Controller
         return redirect()->route('productos.index');
                 // ->withSuccess('Product is deleted successfully.');
     }
+
 
     public function export(){
         return Excel::download(new ProductsExport, 'productos.xlsx');

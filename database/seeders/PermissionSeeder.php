@@ -32,5 +32,8 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'agregar-producto', 'description' => 'Puede agregar productos']);
         Permission::create(['name' => 'gestionar-inventario', 'description' => 'Puede gestionar el inventario']);
         Permission::create(['name' => 'exportar-archivos', 'description' => 'Puede exportar archivos']);
+        Permission::create(['name' => 'ver-productos-vencidos', 'description' => 'Puede ver productos vencidos']);
+        Permission::create(['name' => 'ver-productos-a-vencer', 'description' => 'Puede ver productos a vencer']);
+
     }
 }

@@ -74,7 +74,8 @@ input[type="text"] {
 
 .container button{
     background-color: #aed6b5;
-    color: #000;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     font-size: 12px;
     padding: 10px 45px;
     border: 1px solid transparent;
@@ -89,6 +90,7 @@ input[type="text"] {
 button:hover{
     background-color:  #d7f5dd;
 }
+
 
 .container button.hidden{
     background-color: transparent;
@@ -213,7 +215,7 @@ img{
 }
 
 .toggle{
-    background-color: #aed6b5;
+    background-color: #aed5b6;
     height: 100%;
     background: linear-gradient(to right, #aed6b5, #446b4b);
     color: #fff;

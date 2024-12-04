@@ -14,6 +14,7 @@
         <link href="{{ asset('css/index.css') }}" rel="stylesheet">
         <link href="{{ asset('css/cards.css') }}" rel="stylesheet">
         <link href="{{ asset('css/inventarioIndex.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/create-edit-users.css') }}" rel="stylesheet">
     </head>
     <body>
         @include('dashboard.partials.header')

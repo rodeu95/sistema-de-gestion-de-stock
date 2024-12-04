@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container my-5">
-    <h2 class="mb-4 text-center">Actualizar Inventario</h2>
+    <h1 class="mb-4">Actualizar Inventario</h1>
     
-    <div class="row">
+    <div class="row" style="margin-top: 4%">
         <!-- Columna 1: Lista de productos con bajo stock -->
         <div class="col-md-6">
             <div class="card shadow mb-4">

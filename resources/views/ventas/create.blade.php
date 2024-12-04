@@ -23,7 +23,7 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="producto-select" class="form-label">Producto</label>
+                            <label for="producto-select" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Producto</label>
                             <select id="producto-select" class="form-select" name="producto_cod[]">
                                 <option value="" disabled selected>Seleccione un producto</option>
                                 @foreach($productos as $producto)
@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="cantidad-input" class="form-label">Cantidad</label>
+                            <label for="cantidad-input" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Cantidad</label>
                             <input 
                                 type="number" 
                                 id="cantidad-input" 
@@ -77,12 +77,12 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="monto_total" class="form-label">Monto Total</label>
+                            <label for="monto_total" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Monto Total</label>
                             <input type="number" name="monto_total" id="monto_total" class="form-control form-control-xl" style="font-size: 2.5rem;" readonly>
                         </div>
 
                         <div class="mb-3">
-                            <label for="metodo_pago_id" class="form-label">Método de Pago</label>
+                            <label for="metodo_pago_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Método de Pago</label>
                             <select class="form-select" name="metodo_pago_id" id="metodo_pago_id">
                                 <option value="" disabled selected>Seleccione un método de pago</option>
                                 @foreach ($metodosdepago as $metododepago)
@@ -92,12 +92,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="fecha_venta" class="form-label">Fecha de Venta</label>
+                            <label for="fecha_venta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Fecha de Venta</label>
                             <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
+                            <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#66a5ad';" onmouseout="this.style.backgroundColor='#aed6b5';" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
                             <a href="javascript:history.back()" class="btn btn-secondary">Cancelar</a>
                         </div>
                     </div>

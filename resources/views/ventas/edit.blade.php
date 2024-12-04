@@ -71,7 +71,7 @@
 
                                 <div class="d-flex justify-content-end">
                                     <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px" 
-                                            onmouseover="this.style.backgroundColor= '#d7f5dd';" 
+                                            onmouseover="this.style.backgroundColor= '#66a5ad';" 
                                             onmouseout="this.style.backgroundColor='#aed6b5';">
                                         Actualizar Venta
                                     </button>

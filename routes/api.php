@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\VentaController;
 Use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\InventoryController;
+use App\Http\Controllers\ProductoController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');

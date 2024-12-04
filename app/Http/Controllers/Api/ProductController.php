@@ -25,6 +25,8 @@ class ProductController extends Controller
         $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
         $this->middleware('permission:deshabilitar-producto', ['only' => ['disable']]);
         $this->middleware('permission:habilitar-producto', ['only' => ['enable']]);
+        $this->middleware('permission:ver-productos-vencidos', ['only' => ['vencidos']]);
+        $this->middleware('permission:ver-productos-a-vencer', ['only' => ['porVencer']]);
 
     }
     public function index()
@@ -180,6 +182,23 @@ class ProductController extends Controller
         }
 
         return response()->json(['message' => 'Producto no encontrado'], 404);
+    }
+
+    public function vencidos()
+    {
+        Log::info('Entró al método vencidos');
+        dd('entró al método');
+        $productosVencidos = Producto::where('fchVto', '<', now())->get();
+        return view('productos.vencidos', compact('productosVencidos'));
+
+    }
+
+    public function porVencer()
+    {
+        $productosProximosAVencer = Producto::where('fchVto', '>', now())
+                                        ->where('fchVto', '<', now()->addDays(30)) // Productos que vencen en los próximos 30 días
+                                        ->get();
+        return view('productos.proximos_a_vencer', compact('productosProximosAVencer'));
     }
 
 }

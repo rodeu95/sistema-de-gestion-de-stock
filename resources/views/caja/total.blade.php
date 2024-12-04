@@ -5,12 +5,12 @@
     <h1 class="text-center my-4" style="margin:2%;">Resumen de Ventas en Efectivo - Hoy</h1>
 
     <div class="table-responsive">
-        <table class="table shadow table-bordered table-hover ">
+        <table class="table shadow table-hover">
             <thead>
-                <tr class="table-warning text-center">
-                    <th>ID venta</th>
-                    <th>Fecha</th>
-                    <th>Monto Total</th>
+                <tr class="table-warning text-center" >
+                    <th style="background-color:#ddd; color:#fff;">ID venta</th>
+                    <th style="background-color:#ddd; color:#fff">Fecha</th>
+                    <th style="background-color:#ddd; color:#fff">Monto Total</th>
                 </tr>
             </thead>
             <tbody class="text-center">

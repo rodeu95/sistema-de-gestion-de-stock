@@ -174,9 +174,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     to: 'a'
                 }
             },
+            className: {
+                table: 'table',
+                th: 'th',
+                td: 'td',
+                tr: 'tr',
+            },
             style: {
                 th: {
-                    'background-color': '#fff3cd',
+                    'background-color': '#ddd',
+                    'color' : '#fff',
+                    'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
+                    'border': 'none',
+                },
+                td:{
+                    'border' : 'none'
                 }
             },
         }).render(document.getElementById('gridjs-table'));
@@ -395,50 +407,8 @@ function enableProducto(codigo) {
         }
     });
 }
-// function deleteProducto(codigo) {
-//     /*ELIMINADO DE PRODUCTO*/
-//     // Muestra el SweetAlert antes de realizar la eliminación
-//     Swal.fire({
-//         title: '¿Estás seguro?',
-//         text: 'Este producto será eliminado de manera permanente.',
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonText: 'Sí, eliminar',
-//         cancelButtonText: 'Cancelar',
-//         confirmButtonColor: "#3085d6",
-//         cancelButtonColor: "#d33",
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             const eliminarProductoUrlFinal = eliminarProductoUrl.replace("codigo", codigo);
-//             console.log("Eliminado de producto", eliminarProductoUrlFinal);
 
-//             $.ajax({
-//                 url: eliminarProductoUrlFinal,
-//                 method: 'DELETE',
-//                 headers: {
-//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//                 },
-//                 success: function (data) {
-//                     if (data.message === 'Producto eliminado exitosamente') {
-//                         Swal.fire(
-//                             'Eliminado',
-//                             'Producto eliminado exitosamente.',
-//                             'info'
-//                         ).then(function () {
-//                             window.location.reload();
-//                         });
-//                     } else {
-//                         alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto
-//                     }
-//                 },
-//                 error: function (xhr, status, error) {
-//                     console.error('Error al eliminar el producto:', error);
-//                     alert('Hubo un problema al intentar eliminar el producto.');
-//                 }
-//             });
-//         }
-//     });
-// }
+
 $(document).on('click', '.btn-disable', function (e) {
     e.preventDefault();
     const codigo = $(this).data('codigo');

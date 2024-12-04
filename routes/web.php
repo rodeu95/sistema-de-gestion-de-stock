@@ -14,6 +14,7 @@ use App\Http\Controllers\CajaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\VencimientosController;
 
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
@@ -22,8 +23,11 @@ Route::post('/register', [AuthController::class, 'store'])->name('user.store');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('usuario.login');
 
+Route::middleware(['auth'])->group(function () {
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');
-// Auth::routes();
+});
+
+
 Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPermisosPorRol'])->name('roles.permissions');
 
 Route::resources([
@@ -32,10 +36,8 @@ Route::resources([
     'ventas' => VentasController::class,
 ]);
 
-// Route::middleware(['auth', 'permission:habilitar-producto|deshabilitar-producto'])->group(function () {
-    Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
-    Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
-// });
+Route::get('/productos-vencidos', [VencimientosController::class, 'vencidos'])->name('productos.vencidos');
+Route::get('/productos-por-vencerse', [VencimientosController::class, 'porVencer'])->name('productos.por-vencer');
 
 Route::get('/inventario/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
 Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');

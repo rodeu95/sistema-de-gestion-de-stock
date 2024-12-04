@@ -106,10 +106,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     to: 'a'
                 }
             },
+            className: {
+                table: 'table',
+                th: 'th',
+                td: 'td',
+                tr: 'tr',
+            },
             style: {
                 th: {
-                    'background-color': '#fff3cd'
+                    'background-color': '#ddd',
+                    'color' : '#fff',
+                    'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
+                    'border': 'none',
+                },
+                td:{
+                    'border' : 'none'
                 }
+                
             },
         }).render(document.getElementById('ventas-table'));
     }

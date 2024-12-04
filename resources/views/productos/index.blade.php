@@ -3,15 +3,33 @@
 
 <div class="container-lg">
     <h1 class="my-4">Lista de Productos</h1>
-    <div class="d-flex flex-column align-items-end mb-3">
+    <div class="d-flex justify-content-center gap-3 mb-4">
 
         @can('agregar-producto')
-            <a href="javascript:void(0);" class="btn shadow" style="background-color: #aed6b5; color:#000;" 
-               onmouseover="this.style.backgroundColor= '#d7f5dd';" 
+            <a href="javascript:void(0);" class="btn btn-lg shadow" style="background-color: #aed6b5; " 
+               onmouseover="this.style.backgroundColor= '#66a5ad';" 
                onmouseout="this.style.backgroundColor='#aed6b5';"
                data-bs-toggle="modal" data-bs-target="#addProductModal">
-               <i class="fas fa-plus-circle"></i> Agregar Producto
+               <i class="fas fa-plus-circle"></i> Agregar producto
             </a>
+        @endcan
+
+        @can('ver-productos-vencidos')
+            <a href="{{ route('productos.vencidos') }}" 
+            id="vencidosBtn"
+            class="btn btn-lg shadow" 
+            style="background-color: #aed6b5; "
+            onmouseover="this.style.backgroundColor= '#66a5ad';" 
+            onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-regular fa-calendar-xmark"></i> Productos vencidos</a>
+        @endcan
+
+        @can('ver-productos-a-vencer')
+            <a href="{{ route('productos.por-vencer') }}"
+            id="porVencerBtn" 
+            class="btn btn-lg shadow" 
+            style="background-color: #aed6b5; "
+            onmouseover="this.style.backgroundColor= '#66a5ad';" 
+            onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-regular fa-clock"></i> Próximos a vencer</a>
         @endcan
     </div>
     
@@ -21,24 +39,24 @@
     <div id="gridjs-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-producto')
-            <a href="javascript:void(0);" type="button" class="btn shadow btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}">
-                <i class="fa-solid fa-pen-to-square"></i>
+            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}">
+                <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </a>
         @endcan
     </div>
 
     <div id="disableButtonTemplate" style="display: none;">
         @can('deshabilitar-producto')
-            <button type="button" id="disableButton" class="btn shadow btn-danger btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}">
-                <i class="fa-solid fa-ban"></i>
+            <button type="button" id="disableButton" class="btn btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}">
+                <i class="fa-solid fa-ban" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </button>
         @endcan
     </div>
 
     <div id="enableButtonTemplate" style="display: none;">
         @can('habilitar-producto')
-            <button type="button" id="enableButton" class="btn shadow btn-success btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}">
-                <i class="fa-solid fa-check-circle"></i>
+            <button type="button" id="enableButton" class="btn btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}">
+                <i class="fa-solid fa-check" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </button>
         @endcan
     </div>
@@ -48,33 +66,41 @@
 <!-- MODAL DE AGREGACIÓN -->
 <div class="modal fadae" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content" >
+            <div class="modal-header " style="background: linear-gradient(to right, #aed5b6, #66a5ad)">
                 <h4 class="modal-title" id="addProductModalLabel">Agregar Producto</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" >
                 <form id="addProductForm">
                     @csrf
                     <div class="mb-3">
-                        <label for="codigo" class="form-label">Código</label>
+                        <label for="codigo" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-barcode"></i> Código
+                        </label>
                         <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese el código del producto" required>
                     </div>
 
                     <!-- Campo Nombre -->
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
+                        <label for="nombre" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-pencil"></i> Nombre
+                        </label>
                         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" required>
                     </div>
 
                     <!-- Campo Descripción -->
                     <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
+                        <label for="descripcion" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-bars"></i> Descripción
+                        </label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción del producto"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="unidad" class="form-label">Unidad</label>
+                        <label for="unidad" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-weight-hanging"></i> Unidad
+                        </label>
                         <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
                             <option value="" selected disabled></option>
                             <option value="UN">UN</option>
@@ -85,14 +111,16 @@
                     <div id="hidden-inputs"></div>
                     <!-- Campo Precio -->
                     <div class="mb-3">
-                        <label for="precioVenta" class="form-label">Precio Venta</label>
+                        <label for="precioVenta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-dollar-sign"></i> Precio de venta
+                        </label>
                         <div class="input-group">
-                            <button class="btn btn-outline" style="border-color:#aed5b6; border-width: 2px;" onmouseleave="this.style.backgroundColor='transparent';"  onmouseover="this.style.backgroundColor= '#aed6b5';"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
+                            <button class="btn btn-outline" style="background-color:#aed5b6;" onmouseleave="this.style.backgroundColor='#aed6b5';"  onmouseover="this.style.backgroundColor= '#d7f5dd';"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
                             
                         </div>
                         <p>
                             <div class="collapse" id="collapseExample">
-                                <div class="card card-body" style="background-color:#fff3cd;">
+                                <div class="card card-body" style="background-color:#aed5b6;">
                                     <div class="mb-3">
                                         <label for="precioCosto" class="form-label">Precio Costo</label>
                                         <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo">
@@ -117,7 +145,9 @@
 
                     <!-- Campo Stock -->
                     <div class="mb-3">
-                        <label for="stock" class="form-label">Stock</label>
+                        <label for="stock" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-warehouse"></i> Stock
+                        </label>
                         <input 
                             type="number" 
                             class="form-control" 
@@ -129,18 +159,24 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="numero_lote" class="form-label">Numero de Lote</label>
+                        <label for="numero_lote" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-boxes-stacked"></i> Numero de Lote
+                        </label>
                         <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
                     </div>
 
                     <div class="mb-3">
-                        <label for="fchVto" class="form-label">Fecha de Vencimiento</label>
+                        <label for="fchVto" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
+                        </label>
                         <input type="date" class="form-control" id="fchVto" name="fchVto">
                     </div>
 
                     <!-- Campo Categoría -->
                     <div class="mb-3">
-                        <label for="categoria_id" class="form-label">Categoría</label>
+                        <label for="categoria_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-table-columns"></i> Categoría
+                        </label>
                         <select class="form-select" id="categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
                             @foreach ($categorias as $categoria)
@@ -148,9 +184,12 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;" 
-                    onmouseover="this.style.backgroundColor= '#d7f5dd';" 
-                    onmouseout="this.style.backgroundColor='#aed6b5';">Agregar</button>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn shadow" style="background-color: #aed6b5; " 
+                        onmouseover="this.style.backgroundColor= '#66a5ad';" 
+                        onmouseout="this.style.backgroundColor='#aed6b5';">Agregar</button>
+                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -162,7 +201,7 @@
 <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background: linear-gradient(to right, #aed5b6, #66a5ad)">
                 <h4 class="modal-title" id="editProductModalLabel">Editar Producto</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -171,22 +210,30 @@
                     @csrf
                     @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
                     <div class="mb-3">
-                        <label for="edit_codigo" class="form-label">Código</label>
+                        <label for="edit_codigo" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-barcode"></i> Código
+                        </label>
                         <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{old('codigo', $producto->codigo)  }}" readonly required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_nombre" class="form-label">Nombre</label>
+                        <label for="edit_nombre" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-pencil"></i> Nombre
+                        </label>
                         <input type="text" class="form-control" id="edit_nombre" name="nombre" value="{{ old('nombre', $producto->nombre) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_descripcion" class="form-label">Descripción</label>
+                        <label for="edit_descripcion" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-bars"></i> Descripción
+                        </label>
                         <textarea class="form-control" id="edit_descripcion" name="descripcion" value="{{ old('descripcion', $producto->descripcion) }}"  rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_unidad" class="form-label">Unidad</label>
+                        <label for="edit_unidad" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-weight-hanging"></i> Unidad
+                        </label>
                         <select class="form-select" id="edit_unidad" name="unidad" required>
                             <option value="" selected disabled>Seleccione unidad</option>
                             <option value="UN">UN</option>
@@ -197,27 +244,37 @@
                     <div id="edit_hidden_inputs"></div>
 
                     <div class="mb-3">
-                        <label for="edit_precioVenta" class="form-label">Precio Venta</label>
+                        <label for="edit_precioVenta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-dollar-sign"></i> Precio de venta
+                        </label>
                         <input type="number" class="form-control" id="edit_precioVenta" name="precio_venta" value="{{ old('precio_venta', $producto->precio_venta) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_stock" class="form-label">Stock</label>
+                        <label for="edit_stock" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-warehouse"></i> Stock
+                        </label>
                         <input type="number" class="form-control" id="edit_stock" name="stock" value="{{ old('stock', $producto->stock) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_numero_lote" class="form-label">Numero de Lote</label>
+                        <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-boxes-stacked"></i> Numero de Lote
+                        </label>
                         <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_fchVto" class="form-label">Fecha de Vencimiento</label>
+                        <label for="edit_fchVto" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
+                        </label>
                         <input type="date" class="form-control" id="edit_fchVto" name="fchVto" value="{{ old('fchVto', $producto->fchVto) }}" >
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_categoria_id" class="form-label">Categoría</label>
+                        <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                            <i class="fa-solid fa-table-columns"></i> Categoría
+                        </label>
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
                             @foreach ($categorias as $categoria)
@@ -225,8 +282,10 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <button type="submit" class="btn shadow" style="background-color: #aed6b5; color:#000;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn shadow" style="background-color: #aed6b5;" onmouseover="this.style.backgroundColor= '#66a5ad';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -244,8 +303,7 @@
     var productoUpdatetUrl = "{{ route('api.productos.update', 'codigo') }}";
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
     var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";
-    var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";  
-
+    var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";
 </script>
 
 

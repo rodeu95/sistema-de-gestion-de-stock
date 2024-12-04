@@ -120,21 +120,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 table: 'table',
                 th: 'th',
                 td: 'td',
+                tr: 'tr',
             },
             style: {
                 table: {
                     'border-collapse': 'collapse',
                     'border': '1px solid #ddd',
                     'text-align': 'center',
+                    
                 },
                 th: {
-                    'border': '1px solid #ddd', /* Borde para las celdas del encabezado */
+                    'border': 'none',/* Borde para las celdas del encabezado */
                     'padding': '8px',
                 },
                 td: {
-                    'border': '1px solid #ddd', /* Borde para las celdas del contenido */
+                    'border': 'none',
                     'padding': '8px',
                 },
+                
+
             },
             
         }).render(document.getElementById("inventario"));

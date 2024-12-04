@@ -85,7 +85,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-    <title>Modern Login Page | AsmrProg</title>
+    <title>Bienvenido</title>
 </head>
 
 <body>
@@ -129,7 +129,7 @@
                 
                 <div class="toggle-panel toggle-left">
                     <div id="logo" class="text-center">
-                        <img src="{{asset('img/logo-sin fondo (2).png')}}" class="img-fluid" style="height:auto; width:150px">
+                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid" style="height:auto; width:150px">
                     </div>
                     <h1>¡Bienvenido de nuevo!</h1>
                     <p>Presiona INICIAR SESIÓN para ingresar</p>
@@ -137,11 +137,11 @@
                 </div>
                 <div class="toggle-panel toggle-right">
                     <div id="logo" class="text-center">
-                        <img src="{{asset('img/logo-sin fondo (2).png')}}" class="img-fluid" style="height:auto; width:150px">
+                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid" style="height:auto; width:150px">
                     </div>
                     <h1>¡Bienvenido!</h1>
                     <p>Presiona REGISTRARSE si es tu primera vez</p>
-                    <button class="hidden" id="register" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='transparent';">Registrarse</button>
+                    <button class="hidden" id="register" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='transparent';" >Registrarse</button>
                 </div>
             </div>
         </div>

@@ -1,3 +1,14 @@
+function validarContraseña() {
+    var pass = document.getElementById("password").value;
+    var confirmarPass = document.getElementById("confirmPassword").value;
+
+    if (pass != confirmarPass) {
+        alert("Las contraseñas no coinciden");
+        return false;
+    }
+    return true;
+}
+
 const seleccion = document.getElementById('tipoUsuario');
 if (seleccion) {
     seleccion.addEventListener('change', function () {
@@ -55,3 +66,30 @@ function cargarPermisos(rolId) {
         })
         .catch(error => console.error('Error al cargar permisos:', error));
 }
+
+const passwordInput = document.getElementById('password');
+const passwordInputConfirm = document.getElementById('confirmPassword');
+const togglePassword = document.getElementById('togglePassword');
+const togglePasswordConfirm = document.getElementById('togglePasswordConfirm');
+
+togglePassword.addEventListener('click', () => {
+    // Cambia el tipo del input entre 'password' y 'text'
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+
+    // Cambia el ícono entre 'fa-eye' y 'fa-eye-slash'
+    togglePassword.classList.toggle('fa-eye');
+    togglePassword.classList.toggle('fa-eye-slash');
+
+});
+
+togglePasswordConfirm.addEventListener('click', () => {
+    // Cambia el tipo del input entre 'password' y 'text'
+    const type = passwordInputConfirm.type === 'password' ? 'text' : 'password';
+    passwordInputConfirm.type = type;
+
+    // Cambia el ícono entre 'fa-eye' y 'fa-eye-slash'
+    togglePasswordConfirm.classList.toggle('fa-eye');
+    togglePasswordConfirm.classList.toggle('fa-eye-slash');
+
+});

@@ -1,0 +1,25 @@
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px 40px 10px 10px; /* Espacio para el ícono */
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+
+.icon:hover {
+    color: #333;
+}

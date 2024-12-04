@@ -10,7 +10,7 @@
                         <h5 class="mb-0 text-white"><i class="fas fa-chart-line me-2"></i>Ventas de Hoy</h5>
                     
                             <div class="card-body">
-                                <section class="bg-light p-4 rounded shadow">
+                                <section class="bg-light p-4 rounded shadow section-index">
                                     <p class="fs-5">Total de Ventas: <strong>{{ $totalVentasHoy }}</strong></p>
                                     <p class="fs-5">Monto Total: <strong>${{ number_format($montoTotalHoy, 2) }}</strong></p>
                                 </section>
@@ -26,7 +26,7 @@
                         <h5 class="mb-0 text-white"><i class="fas fa-exclamation-triangle me-2"></i>Productos con Bajo Stock</h5>
                     
                             <div class="card-body">
-                                <section class="bg-light p-4 rounded shadow">
+                                <section class="bg-light p-4 rounded shadow section-index">
                                     <ul class="list-group list-group-flush">
                                         @foreach ($bajoStock as $producto)
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -54,7 +54,7 @@
                         <h5 class="mb-0 text-white"><i class="fas fa-calendar-week me-2"></i>Ventas de los Últimos 7 Días</h5>
                     
                             <div class="card-body">
-                                <section class="bg-light p-4 rounded shadow">
+                                <section class="bg-light p-4 rounded shadow section-index">
                                     <canvas id="ventasChart" 
                                             data-labels="{{ json_encode($labels) }}" 
                                             data-data="{{ json_encode($data) }}">
