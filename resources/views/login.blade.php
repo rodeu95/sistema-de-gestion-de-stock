@@ -121,7 +121,7 @@
                     <input type="password" id="passwordIni" name="password" placeholder="Contraseña" required><i class="fa-solid fa-eye icon" id="togglePasswordIni"></i>
                 </div>
                 
-                <button type="submit">Entrar</button>
+                <button type="submit" >Entrar</button>
             </form>
         </div>
         <div class="toggle-container">
@@ -133,7 +133,7 @@
                     </div>
                     <h1>¡Bienvenido de nuevo!</h1>
                     <p>Presiona INICIAR SESIÓN para ingresar</p>
-                    <button class="hidden" id="login" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='transparent';">Iniciar esión</button>
+                    <button class="hidden" id="login" onmouseout="this.style.backgroundColor='transparent';">Iniciar sesión</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <div id="logo" class="text-center">
@@ -141,7 +141,7 @@
                     </div>
                     <h1>¡Bienvenido!</h1>
                     <p>Presiona REGISTRARSE si es tu primera vez</p>
-                    <button class="hidden" id="register" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='transparent';" >Registrarse</button>
+                    <button class="hidden" id="register" onmouseout="this.style.backgroundColor='transparent';" >Registrarse</button>
                 </div>
             </div>
         </div>

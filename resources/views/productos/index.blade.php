@@ -6,9 +6,7 @@
     <div class="d-flex justify-content-center gap-3 mb-4">
 
         @can('agregar-producto')
-            <a href="javascript:void(0);" class="btn btn-lg shadow" style="background-color: #aed6b5; " 
-               onmouseover="this.style.backgroundColor= '#66a5ad';" 
-               onmouseout="this.style.backgroundColor='#aed6b5';"
+            <a href="javascript:void(0);" class="btn btn-lg" 
                data-bs-toggle="modal" data-bs-target="#addProductModal">
                <i class="fas fa-plus-circle"></i> Agregar producto
             </a>
@@ -17,19 +15,15 @@
         @can('ver-productos-vencidos')
             <a href="{{ route('productos.vencidos') }}" 
             id="vencidosBtn"
-            class="btn btn-lg shadow" 
-            style="background-color: #aed6b5; "
-            onmouseover="this.style.backgroundColor= '#66a5ad';" 
-            onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-regular fa-calendar-xmark"></i> Productos vencidos</a>
+            class="btn btn-lg" 
+            ><i class="fa-regular fa-calendar-xmark"></i> Productos vencidos</a>
         @endcan
 
         @can('ver-productos-a-vencer')
             <a href="{{ route('productos.por-vencer') }}"
             id="porVencerBtn" 
-            class="btn btn-lg shadow" 
-            style="background-color: #aed6b5; "
-            onmouseover="this.style.backgroundColor= '#66a5ad';" 
-            onmouseout="this.style.backgroundColor='#aed6b5';"><i class="fa-regular fa-clock"></i> Próximos a vencer</a>
+            class="btn btn-lg" 
+            ><i class="fa-regular fa-clock"></i> Próximos a vencer</a>
         @endcan
     </div>
     
@@ -39,7 +33,7 @@
     <div id="gridjs-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-producto')
-            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}">
+            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}" style="background-color:transparent;">
                 <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </a>
         @endcan
@@ -47,7 +41,7 @@
 
     <div id="disableButtonTemplate" style="display: none;">
         @can('deshabilitar-producto')
-            <button type="button" id="disableButton" class="btn btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}">
+            <button type="button" id="disableButton" class="btn btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}" style="background-color:transparent;">
                 <i class="fa-solid fa-ban" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </button>
         @endcan
@@ -55,7 +49,7 @@
 
     <div id="enableButtonTemplate" style="display: none;">
         @can('habilitar-producto')
-            <button type="button" id="enableButton" class="btn btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}">
+            <button type="button" id="enableButton" class="btn btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}" style="background-color:transparent;">
                 <i class="fa-solid fa-check" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </button>
         @endcan
@@ -115,7 +109,7 @@
                             <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                         </label>
                         <div class="input-group">
-                            <button class="btn btn-outline" style="background-color:#aed5b6;" onmouseleave="this.style.backgroundColor='#aed6b5';"  onmouseover="this.style.backgroundColor= '#d7f5dd';"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
+                            <button class="btn"type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
                             
                         </div>
                         <p>
@@ -185,9 +179,7 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        <button type="submit" class="btn shadow" style="background-color: #aed6b5; " 
-                        onmouseover="this.style.backgroundColor= '#66a5ad';" 
-                        onmouseout="this.style.backgroundColor='#aed6b5';">Agregar</button>
+                        <button type="submit" class="btn">Agregar</button>
                     </div>
                     
                 </form>
@@ -283,7 +275,7 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        <button type="submit" class="btn shadow" style="background-color: #aed6b5;" onmouseover="this.style.backgroundColor= '#66a5ad';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                        <button type="submit" class="btn shadow">Actualizar</button>
                     </div>
                     
                 </form>

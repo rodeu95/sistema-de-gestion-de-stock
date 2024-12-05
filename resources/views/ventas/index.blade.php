@@ -9,7 +9,7 @@
     <div id="ventas-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-venta')
-            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" title="Editar venta" data-bs-target="#editVentaModal" data-id="${id}">
+            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" title="Editar venta" data-bs-target="#editVentaModal" data-id="${id}" style="background-color:transparent;">
                 <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </a>
         @endcan
@@ -17,7 +17,7 @@
 
     <div id="deleteButtonTemplate" style="display: none;">
         @can('eliminar-venta')
-            <button type="button" title="Eliminar venta" class="btn btn-sm btn-delete" data-id="${id}">
+            <button type="button" title="Eliminar venta" class="btn btn-sm btn-delete" data-id="${id}" style="background-color:transparent;">
                 <i class="fa-solid fa-trash-can" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
             </button>
         @endcan
@@ -80,9 +80,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px" 
-                                onmouseover="this.style.backgroundColor= '#66a5ad';" 
-                                onmouseout="this.style.backgroundColor='#aed6b5';">
+                        <button type="submit" class="btn" style=" margin-right:10px">
                             Actualizar Venta
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

@@ -90,11 +90,10 @@
                         </div>
 
                         <div class="d-flex justify-content-end" style="margin:10px;">
-                            <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px; margin-top:20px;" 
-                                    onmouseover="this.style.backgroundColor= '#66a5ad';" 
-                                    onmouseout="this.style.backgroundColor='#aed6b5';">Guardar Cambios
+                            <button type="submit" class="btn" style="margin-right:10px; margin-top:20px;">
+                                Guardar Cambios
                             </button>
-                            <a href="javascript:history.back()" class="btn btn-secondary" style="margin-top:20px;">Cancelar</a>
+                            <a href="javascript:history.back()" class="btn" style="margin-top:20px; background-color:grey;">Cancelar</a>
                         </div>
                     </form>
                 </section>

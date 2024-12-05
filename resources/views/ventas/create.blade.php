@@ -48,7 +48,7 @@
                             >
                         </div>
 
-                        <button type="button" id="add-product" class="btn btn-secondary mb-3" @if(!$cajaAbierta) disabled @endif>Agregar Producto</button>
+                        <button type="button" id="add-product" class="btn btn-secondary mb-3" @if(!$cajaAbierta) disabled @endif style="background-color: grey">Agregar Producto</button>
                     </div>
                 </div>
             </div>
@@ -97,8 +97,8 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#66a5ad';" onmouseout="this.style.backgroundColor='#aed6b5';" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
-                            <a href="javascript:history.back()" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn" style="margin-right:10px" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
+                            <a href="javascript:history.back()" class="btn btn-secondary" style="background-color: grey">Cancelar</a>
                         </div>
                     </div>
                 </div>

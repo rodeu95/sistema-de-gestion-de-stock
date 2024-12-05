@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Agregar el resumen del producto
         listItem.innerHTML = `
             ${productName} - ${quantity} x $${productPrice} = $${(productPrice * quantity).toFixed(2)}
-            <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
+            <button type="button" class="btn btn-danger float-end remove-product" style="background-color: red; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" title="Quitar">Quitar</button>
             
         `;
         console.log(`Producto agregado: ${productName}, Cantidad: ${quantity}`);

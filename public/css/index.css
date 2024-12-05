@@ -34,15 +34,31 @@ label{
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
-.btn{
+.btn:not(.btn-sm){
     font-weight: bold;
     color: #fff;   
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: #aed5b6;
 }
 
-.btn:hover{
+.btn-danger{
+    box-sizing: border-box;
+}
+
+.btn:hover:not(.btn-sm){
     color: #fff;
+    background-color: #aed5b6;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+
+.btn i:hover{
+    transform: scale(1.2);
+}
+
+.badgeRoles:hover, .badgePermisos:hover{
+    transform: scale(1.2);
 }
 
 input, select, textarea{

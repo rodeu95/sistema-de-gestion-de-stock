@@ -117,7 +117,7 @@
                                                     <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                                                 </label>
                                                 <div class="input-group">
-                                                    <button class="btn btn-outline" style="border-color:#aed5b6; border-width: 2px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3); color:#fff; font-weight:bold;" onmouseleave="this.style.backgroundColor='transparent';" onmouseover="this.style.backgroundColor= '#aed6b5';"  type="button"
+                                                    <button class="btn "   type="button"
                                                     data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular Precio</button>
                                                     <input type="number" id="precioVenta" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
                                                 </div>
@@ -152,8 +152,8 @@
 
                                     <!-- Botones de acción -->
                                     <div class="d-flex justify-content-end mt-4">
-                                        <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#66a5ad';" onmouseout="this.style.backgroundColor='#aed6b5';">Guardar Producto</button>
-                                        <a href="{{ route('productos.index') }}" class="btn shadow btn-secondary">Cancelar</a>
+                                        <button type="submit" class="btn" style="margin-right:10px" ">Guardar Producto</button>
+                                        <a href="{{ route('productos.index') }}" class="btn btn-secondary" style="background-color:grey;">Cancelar</a>
                                     </div>
                                 </form>
                             </section>

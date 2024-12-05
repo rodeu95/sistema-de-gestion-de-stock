@@ -58,9 +58,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" 
-                                    onmouseover="this.style.backgroundColor= '#d7f5dd';" 
-                                    onmouseout="this.style.backgroundColor='#aed6b5';">
+                                <button type="submit" class="btn" style="margin-right:10px">
                                     Actualizar inventario
                                 </button>
                             </div>
@@ -102,7 +100,7 @@
 
 
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn shadow" style="background-color: #aed6b5; margin-right:10px" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Actualizar</button>
+                        <button type="submit" class="btn">Actualizar</button>
                     </div>
                 </form>
             </div>

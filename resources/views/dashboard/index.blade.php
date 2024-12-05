@@ -76,17 +76,17 @@
                     </div>
                     <div class="card-body d-flex justify-content-around">
                         @can('registrar-venta')
-                            <a href="{{ route('ventas.create') }}" class="btn shadow btn-success" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <a href="{{ route('ventas.create') }}" class="btn" >
                                 <i class="fas fa-cash-register me-2"></i>Registrar Venta
                             </a>
                         @endcan
                         @can('agregar-producto')
-                            <a href="{{ route('productos.create') }}" class="btn shadow btn-primary" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <a href="{{ route('productos.create') }}" class="btn">
                                 <i class="fas fa-plus-circle me-2"></i>Agregar Producto
                             </a>
                         @endcan
                         @can('ver-ventas')
-                            <a href="{{ route('ventas.index') }}" class="btn shadow btn-warning" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <a href="{{ route('ventas.index') }}" class="btn" >
                                 <i class="fas fa-history me-2"></i>Ver Historial de Ventas
                             </a>
                         @endcan

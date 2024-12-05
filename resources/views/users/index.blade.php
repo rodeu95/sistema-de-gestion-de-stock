@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container mt-5">
-        <h1 class="text-center my-4" style="margin:2%;">Lista de Usuarios</h2>
+        <h1 class="my-4" style="margin:2%;">Lista de Usuarios</h2>
 
         <div class="table-responsive">
             <table class="table shadow table-hover ">
@@ -27,7 +27,7 @@
                             <td class="col-2">{{ $user->email }}</td>
                             <td>
                                 @foreach($user->getRoleNames() as $role)
-                                    <span class="badge bg-secondary" style="box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $role }}</span>
+                                    <span class="badge bg-secondary badgeRoles" style="box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $role }}</span>
                                 @endforeach
                             </td>
                             @role('Administrador')
@@ -35,11 +35,11 @@
                                 @if($user->getDirectPermissions()->isNotEmpty() || $user->hasRole('Administrador'))
                                     @if($user->hasRole('Administrador'))
                                         @foreach($user->permissions as $permission)
-                                            <span class="badge" style="background-color: #aed5b6;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->name }}</span>
+                                            <span class="badge badgePermisos" style="background-color: #aed5b6;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->description }}</span>
                                         @endforeach
                                     @else
                                         @foreach($user->getDirectPermissions() as $permission)
-                                            <span class="badge" style="background-color: #aed5b6; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->name }}</span>
+                                            <span class="badge badgePermisos" style="background-color: #aed5b6; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->description }}</span>
                                         @endforeach
                                     @endif
                                 @else
@@ -54,7 +54,7 @@
 
                                     @if(Auth::user()->hasRole('Administrador') || $user->id === Auth::user()->id)
                                     
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-md">
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm" style="background-color:transparent;">
                                             <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
                                         </a>
                                     @endif
@@ -65,7 +65,7 @@
 
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
-                                            <button type="submit" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')">
+                                            <button type="submit" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')" style="background-color:transparent;">
                                                 <i class="fa-solid fa-trash-can" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
                                             </button>
                                         @endif
