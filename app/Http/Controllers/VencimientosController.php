@@ -18,10 +18,9 @@ class VencimientosController extends Controller
     {
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
-        $productosVencidos = Producto::where('fchVto', '<', now())->get();
-        if ($productosVencidos->isEmpty()) {
-            abort(404, 'No se encontraron productos vencidos');
-        }
+        $productosVencidos = Producto::where('fchVto', '<', now())
+        ->where('estado', 1)
+        ->get();
         return view('vencimientos.vencidos', compact('productosVencidos', 'cajaAbierta'));
     }
 
@@ -30,7 +29,9 @@ class VencimientosController extends Controller
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
 
-        $productosProximosAVencer = Producto::whereBetween('fchVto', [now(), now()->addDays(30)])->get();
+        $productosProximosAVencer = Producto::whereBetween('fchVto', [now(), now()->addDays(30)])
+        ->where('estado', 1)
+        ->get();
         return view('vencimientos.proximos_a_vencer', compact('productosProximosAVencer', 'cajaAbierta'));
     }
 

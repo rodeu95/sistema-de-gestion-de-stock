@@ -75,35 +75,38 @@ togglePasswordReg.addEventListener('click', () => {
 });
 
 
-function login(usuario, password){
-    $.ajax({
-        url: loginUrl,
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json', 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            'Authorization': 'Bearer ' + localStorage.getItem('token') 
-        },
-        data: JSON.stringify({ usuario, password }),
-        success: function(data) {
-            console.log(data);
-            if (data.token) {
-                // Guardar el token en localStorage
-                localStorage.setItem('token', data.token);
-                // Redirigir al dashboard o a la página principal
-                window.location.href = 'http://localhost/sistema/public/inicio';
-            } else {
-                alert(data.message || 'Error en el inicio de sesión');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-            alert('Hubo un problema con el inicio de sesión');
-        }
-    });
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    function login(usuario, password){
+        $.ajax({
+            url: loginUrl,
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + localStorage.getItem('token') 
+            },
+            data: JSON.stringify({ usuario, password }),
+            success: function(data) {
+                console.log(data);
+                if (data.token) {
+                    // Guardar el token en localStorage
+                    localStorage.setItem('token', data.token);
+                    // Redirigir al dashboard o a la página principal
+                    window.location.href = 'http://localhost/sistema/public/inicio';
+                } else {
+                    alert(data.message || 'Error en el inicio de sesión');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Hubo un problema con el inicio de sesión');
+            }
+        });
+    }
+
     const loginForm = document.querySelector('#loginForm');
 
     if(loginForm){
@@ -112,6 +115,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const usuario = loginForm.querySelector('#usuarioIni').value;
             const password = loginForm.querySelector('#passwordIni').value;
             login(usuario, password);
+        });
+    }
+
+})
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    function register(name, email, usuario, password){
+        $.ajax({
+            url: "http://localhost/sistema/public/user/register",
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Authorization': 'Bearer ' + localStorage.getItem('token') 
+            },
+            data: JSON.stringify({ name, email, usuario, password }),
+            success: function(data) {
+                console.log(data);
+                if (data.token) {
+                    // Guardar el token en localStorage
+                    localStorage.setItem('token', data.token);
+                    // Redirigir al dashboard o a la página principal
+                    window.location.href = 'http://localhost/sistema/public/inicio';
+                } else {
+                    alert(data.message || 'Error en el registro');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                alert('Hubo un problema con el registro');
+            }
+        });
+    }
+
+    const registerForm = document.querySelector('#registerForm');
+
+    if(registerForm){
+        registerForm.addEventListener('submit', event => {
+            event.preventDefault();
+            const name = registerForm.querySelector('#name').value;
+            const email = registerForm.querySelector('#email').value; // Evitar recarga de la página
+            const usuario = registerForm.querySelector('#usuario').value;
+            const password = registerForm.querySelector('#passwordReg').value;
+            register(name, email, usuario, password);
         });
     }
 

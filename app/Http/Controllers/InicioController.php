@@ -16,7 +16,17 @@ class InicioController extends Controller
 
         $today = Carbon::now()->startOfDay();
         $endOfToday = Carbon::now()->endOfDay();
-        
+
+        $topProductos = Producto::select('nombre', \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
+        ->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
+        ->groupBy('productos.nombre')
+        ->orderByDesc('total_vendido')
+        ->limit(3)
+        ->get();
+
+        $labelsTop = $topProductos->pluck('nombre');
+        $dataTop = $topProductos->pluck('total_vendido');
+       
         // Contar las ventas de hoy y calcular el monto total de hoy
         $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->count();
         $montoTotalHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->sum('monto_total');
@@ -28,7 +38,6 @@ class InicioController extends Controller
                        ->orderBy('date', 'desc')
                        ->get();
         
-        // Crear labels y datos para el gráfico de los últimos 7 días
         $labels = collect();
         $data = collect();
 
@@ -41,16 +50,24 @@ class InicioController extends Controller
             $data->push($venta ? $venta->total : 0);
         }
 
-        $productosBajoStockUN = Producto::where('unidad', 'UN')
-            ->where('stock', '<=', 10)
-            ->get();
+        $productosProximosAVencer = Producto::whereBetween('fchVto', [now(), now()->addDays(30)])
+        ->where('estado', 1)
+        ->get();
+        $productosVencidos = Producto::where('fchVto', '<', now())
+        ->where('estado', 1)
+        ->get();
 
-        $productosBajoStockKG = Producto::where('unidad', 'KG')
-            ->where('stock', '<=', 0.5)
-            ->get();
+        // $productosBajoStockUN = Producto::where('unidad', 'UN')
+        //     ->where('stock', '<=', 10)
+        //     ->get();
 
-        // Aquí puedes combinar los dos resultados si lo necesitas
-        $bajoStock = $productosBajoStockUN->merge($productosBajoStockKG);
+        // $productosBajoStockKG = Producto::where('unidad', 'KG')
+        //     ->where('stock', '<=', 0.5)
+        //     ->get();
+
+        
+        $bajoStock = Producto::whereColumn('stock', '<=', 'stock_minimo')
+            ->get();
 
         
         $caja = Caja::find(1);
@@ -65,6 +82,11 @@ class InicioController extends Controller
             'cajaAbierta' => $cajaAbierta,
             'labels' => $labels,
             'data' => $data,
+            'productosProximosAVencer' => $productosProximosAVencer,
+            'productosVencidos' => $productosVencidos,
+            'topProductos' => $topProductos,
+            'labelsTop' => $labelsTop,
+            'dataTop' => $dataTop
         ],);
 
     }

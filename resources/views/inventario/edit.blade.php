@@ -84,15 +84,15 @@
 
 
                     <div class="mb-3">
-                        <label for="modal-producto-codigo" class="form-label">Código del producto</label>
+                        <label for="modal-producto-codigo" class="form-label" style="color: #aed5b6;">Código del producto</label>
                         <input type="text" id="modal-producto-codigo" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="modal-producto-nombre" class="form-label">Producto</label>
+                        <label for="modal-producto-nombre" class="form-label" style="color: #aed5b6;">Producto</label>
                         <input type="text" id="modal-producto-nombre" class="form-control" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="modal-cantidad" class="form-label">Cantidad</label>
+                        <label for="modal-cantidad" class="form-label" style="color: #aed5b6;">Cantidad</label>
                         <input type="number" name="cantidad" id="modal-cantidad" class="form-control" min="1" required>
                     </div>
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('iva');
             $table->decimal('utilidad');
             $table->float('stock');
+            $table->float('stock_minimo');
             $table->unsignedBigInteger('categoria_id');
             $table->boolean('estado')->default(true);
             $table->timestamps();

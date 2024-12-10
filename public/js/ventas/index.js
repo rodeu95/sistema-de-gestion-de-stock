@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
                               data-precio="${producto.precio_venta}" 
                               data-cantidad="${producto.pivot.cantidad}">
                             ${producto.nombre} - ${producto.pivot.cantidad} x $${producto.precio_venta} = $${totalPrice}
-                            <button type="button" class="btn btn-danger btn-sm float-end remove-product">Eliminar</button>
+                            <button type="button" class="btn btn-danger btn-sm float-end remove-product">Quitar</button>
                         </li>`
                     );
                 });                

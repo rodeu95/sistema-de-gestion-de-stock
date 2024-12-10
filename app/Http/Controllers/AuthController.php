@@ -32,7 +32,7 @@ class AuthController extends Controller
             'usuario' => 'required|string|max:100',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
         ]);
         // dd($request);
         // Crear el usuario
@@ -44,7 +44,7 @@ class AuthController extends Controller
         ]);
         $user->save();
         $user->assignRole('User');
-        // Auth::login($user);
+        Auth::login($user);
         $token = $user->createToken('AuthToken')->plainTextToken;
         
         Mail::to($user->email)->send(new WelcomeMail($user));

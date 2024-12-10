@@ -38,6 +38,37 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         console.log('El elemento ventasChart no está presente en esta vista.');
     }
+
+    var pieChart = document.getElementById('topProductosChart');
+
+    if(pieChart){
+        var labels = JSON.parse(pieChart.getAttribute('data-labels'));
+        var data = JSON.parse(pieChart.getAttribute('data-data'));
+
+        var ctx = pieChart.getContext('2d');
+        const topProductosChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56'], // Colores para cada segmento
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }else{
+        console.log('El elemento pieChart no está presente en esta vista.');
+    }
+
 });
 
 

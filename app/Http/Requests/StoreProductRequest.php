@@ -28,6 +28,7 @@ class StoreProductRequest extends FormRequest
             'unidad' => 'required|string',
             'fchVto' => 'date',
             'stock' => 'required|numeric',
+            'stock_minimo' => 'required|numeric',
             'precio_costo' => 'required|numeric',
             'iva' => 'required|numeric',
             'utilidad' => 'required|numeric',

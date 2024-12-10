@@ -31,10 +31,16 @@ label{
     font-weight: bold;
     font-size: large;
     color: #fff;   
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-.btn:not(.btn-sm){
+span.cantidad{
+    /* color:#aed5b6; */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+
+.btn:not(.btn-sm, .btn-warning, .btn-danger){
     font-weight: bold;
     color: #fff;   
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
@@ -42,19 +48,32 @@ label{
     background-color: #aed5b6;
 }
 
-.btn-danger{
+.btn-warning,.btn-danger{
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
     box-sizing: border-box;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
 }
 
-.btn:hover:not(.btn-sm){
+.btn-warning:hover,.btn-danger:hover{
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+}
+
+.btn:hover:not(.btn-sm, .btn-warning, .btn-danger){
     color: #fff;
     background-color: #aed5b6;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
 }
 
-.btn i:hover{
+.btn i:hover:not(.btn-lg i, .btn-access i){
     transform: scale(1.2);
+}
+.btn i:not(.btn-lg i, .btn-access i){
+    transition: transform 0.3s ease;
+    color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9); 
+    font-size:20px;
 }
 
 .badgeRoles:hover, .badgePermisos:hover{
@@ -67,18 +86,31 @@ input, select, textarea{
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
+.modal-header{
+    background: linear-gradient(to right, #aed5b6, #66a5ad);
+}
+
+.card-header{
+    background-color: #aed5b6;
+}
+
+nav{
+    background-color: #aed6b5;
+}
+
 .navbar-nav .nav-item .nav-link, #logo img {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
 }
 .navbar-nav .nav-item .nav-link{
-    color: #fff; 
+    color: #fff;
     margin-right:6px; 
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
     font-weight: bold;
 }
 .navbar-nav > .nav-item:hover > .nav-link{
     transform: scale(1.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    background-color: #9bc9a4;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
 }

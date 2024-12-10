@@ -10,7 +10,7 @@
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-venta')
             <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" title="Editar venta" data-bs-target="#editVentaModal" data-id="${id}" style="background-color:transparent;">
-                <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                <i class="fa-solid fa-pen-to-square"></i>
             </a>
         @endcan
     </div>
@@ -18,7 +18,7 @@
     <div id="deleteButtonTemplate" style="display: none;">
         @can('eliminar-venta')
             <button type="button" title="Eliminar venta" class="btn btn-sm btn-delete" data-id="${id}" style="background-color:transparent;">
-                <i class="fa-solid fa-trash-can" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                <i class="fa-solid fa-trash-can"></i>
             </button>
         @endcan
     </div>
@@ -28,7 +28,7 @@
 <div class="modal fade" id="editVentaModal" tabindex="-1" aria-labelledby="editVentaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(to right, #aed5b6, #66a5ad);">
+            <div class="modal-header">
                 <h4 class="modal-title" id="editVentaModalLabel">Editar Venta</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -40,28 +40,23 @@
                     @method('PUT') 
 
                     <div class="mb-3">
-                        <label for="edit_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">ID Venta</label>
+                        <label for="edit_id" class="form-label" style="color: #aed5b6; ">ID Venta</label>
                         <input type="text" class="form-control" id="edit_id" name="id" value="{{old('id', $venta->id)  }}" readonly required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="producto-select" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Producto</label>
+                        <label for="producto-select" class="form-label" style="color: #aed5b6; ">Producto</label>
                         <select id="producto-select" class="form-select">
                             <option value="" disabled selected>Seleccione un producto</option>
-                            <!-- @foreach($venta->productos as $producto)
-                                <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}">
-                                    {{ $producto->nombre }} - ${{ $producto->precio_venta }}
-                                </option>
-                            @endforeach -->
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label for="cantidad-input" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">Cantidad</label>
+                        <label for="cantidad-input" class="form-label" style="color: #aed5b6; ">Cantidad</label>
                         <input type="number" id="cantidad-input" class="form-control" value="">
                     </div>
 
-                    <button type="button" id="add-product" class="btn btn-secondary mb-3">Agregar Producto</button>
+                    <button type="button" id="add-product" class="btn mb-3" style="background-color:grey;">Agregar Producto</button>
 
                     <ul id="product-list" class="list-group mb-3">
                         
@@ -70,12 +65,12 @@
                     <div id="hidden-inputs"></div>
 
                     <div class="mb-3">
-                        <label for="monto_total" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);margin-top:1%;">Monto Total</label>
+                        <label for="monto_total" class="form-label" style="color: #aed5b6;margin-top:1%;">Monto Total</label>
                         <input type="number" name="monto_total" id="monto_total" class="form-control" value="" readonly>
                     </div>
 
                     <div class="mb-3">
-                        <label for="fecha_venta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);margin-top:1%;">Fecha de Venta</label>
+                        <label for="fecha_venta" class="form-label" style="color: #aed5b6; margin-top:1%;">Fecha de Venta</label>
                         <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
                     </div>
 
@@ -83,7 +78,7 @@
                         <button type="submit" class="btn" style=" margin-right:10px">
                             Actualizar Venta
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:grey;">Cancelar</button>
                     </div>    
                 </form>
             </div>

@@ -6,7 +6,7 @@
         <h1 class="my-4" style="margin:2%;">Lista de Usuarios</h2>
 
         <div class="table-responsive">
-            <table class="table shadow table-hover ">
+            <table class="table shadow">
                 <thead >
                     <tr class="text-center" >
                         <th style="background-color:#ddd; color:#fff">ID</th>
@@ -55,7 +55,7 @@
                                     @if(Auth::user()->hasRole('Administrador') || $user->id === Auth::user()->id)
                                     
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm" style="background-color:transparent;">
-                                            <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                                            <i class="fa-solid fa-pen-to-square" title="Editar usuario"></i>
                                         </a>
                                     @endif
 
@@ -66,7 +66,7 @@
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
                                             <button type="submit" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')" style="background-color:transparent;">
-                                                <i class="fa-solid fa-trash-can" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                                                <i class="fa-solid fa-trash-can" title="Eliminar usuario"></i>
                                             </button>
                                         @endif
                                     @endif

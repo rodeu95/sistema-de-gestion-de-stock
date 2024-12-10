@@ -34,7 +34,7 @@
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-producto')
             <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}" style="background-color:transparent;">
-                <i class="fa-solid fa-pen-to-square" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                <i class="fa-solid fa-pen-to-square"></i>
             </a>
         @endcan
     </div>
@@ -42,7 +42,7 @@
     <div id="disableButtonTemplate" style="display: none;">
         @can('deshabilitar-producto')
             <button type="button" id="disableButton" class="btn btn-sm btn-disable" title="Deshabilitar producto" data-codigo="${codigo}" style="background-color:transparent;">
-                <i class="fa-solid fa-ban" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                <i class="fa-solid fa-ban" ></i>
             </button>
         @endcan
     </div>
@@ -50,7 +50,7 @@
     <div id="enableButtonTemplate" style="display: none;">
         @can('habilitar-producto')
             <button type="button" id="enableButton" class="btn btn-sm btn-enable" title="Habilitar producto" data-codigo="${codigo}" style="background-color:transparent;">
-                <i class="fa-solid fa-check" style="color: #aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9); font-size:20px"></i>
+                <i class="fa-solid fa-check"></i>
             </button>
         @endcan
     </div>
@@ -61,7 +61,7 @@
 <div class="modal fadae" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" >
-            <div class="modal-header " style="background: linear-gradient(to right, #aed5b6, #66a5ad)">
+            <div class="modal-header ">
                 <h4 class="modal-title" id="addProductModalLabel">Agregar Producto</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -69,7 +69,7 @@
                 <form id="addProductForm">
                     @csrf
                     <div class="mb-3">
-                        <label for="codigo" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="codigo" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-barcode"></i> Código
                         </label>
                         <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese el código del producto" required>
@@ -77,7 +77,7 @@
 
                     <!-- Campo Nombre -->
                     <div class="mb-3">
-                        <label for="nombre" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="nombre" class="form-label" style="color: #aed5b6;">
                             <i class="fa-solid fa-pencil"></i> Nombre
                         </label>
                         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" required>
@@ -85,14 +85,14 @@
 
                     <!-- Campo Descripción -->
                     <div class="mb-3">
-                        <label for="descripcion" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="descripcion" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-bars"></i> Descripción
                         </label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción del producto"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="unidad" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="unidad" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-weight-hanging"></i> Unidad
                         </label>
                         <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
@@ -105,7 +105,7 @@
                     <div id="hidden-inputs"></div>
                     <!-- Campo Precio -->
                     <div class="mb-3">
-                        <label for="precioVenta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="precioVenta" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                         </label>
                         <div class="input-group">
@@ -139,7 +139,7 @@
 
                     <!-- Campo Stock -->
                     <div class="mb-3">
-                        <label for="stock" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="stock" class="form-label" style="color: #aed5b6;">
                             <i class="fa-solid fa-warehouse"></i> Stock
                         </label>
                         <input 
@@ -148,19 +148,35 @@
                             id="stock" 
                             name="stock" 
                             placeholder="Ingrese la cantidad de stock disponible"
+                            step="0.01"
                             required
                         >
                     </div>
 
                     <div class="mb-3">
-                        <label for="numero_lote" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
-                            <i class="fa-solid fa-boxes-stacked"></i> Numero de Lote
+                        <label for="stock_minimo" class="form-label" style="color: #aed5b6;">
+                            <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
+                        </label>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="stock_minimo" 
+                            name="stock_minimo" 
+                            placeholder="Ingrese el stock mínimo"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="numero_lote" class="form-label" style="color: #aed5b6; ">
+                            <i class="fa-solid fa-boxes-stacked"></i> Número de Lote
                         </label>
                         <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
                     </div>
 
                     <div class="mb-3">
-                        <label for="fchVto" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="fchVto" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
                         </label>
                         <input type="date" class="form-control" id="fchVto" name="fchVto">
@@ -168,7 +184,7 @@
 
                     <!-- Campo Categoría -->
                     <div class="mb-3">
-                        <label for="categoria_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="categoria_id" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-table-columns"></i> Categoría
                         </label>
                         <select class="form-select" id="categoria_id" name="categoria_id" required>
@@ -193,7 +209,7 @@
 <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(to right, #aed5b6, #66a5ad)">
+            <div class="modal-header">
                 <h4 class="modal-title" id="editProductModalLabel">Editar Producto</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -202,28 +218,28 @@
                     @csrf
                     @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
                     <div class="mb-3">
-                        <label for="edit_codigo" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_codigo" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-barcode"></i> Código
                         </label>
                         <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{old('codigo', $producto->codigo)  }}" readonly required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_nombre" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_nombre" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-pencil"></i> Nombre
                         </label>
                         <input type="text" class="form-control" id="edit_nombre" name="nombre" value="{{ old('nombre', $producto->nombre) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_descripcion" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_descripcion" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-bars"></i> Descripción
                         </label>
                         <textarea class="form-control" id="edit_descripcion" name="descripcion" value="{{ old('descripcion', $producto->descripcion) }}"  rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_unidad" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_unidad" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-weight-hanging"></i> Unidad
                         </label>
                         <select class="form-select" id="edit_unidad" name="unidad" required>
@@ -236,35 +252,35 @@
                     <div id="edit_hidden_inputs"></div>
 
                     <div class="mb-3">
-                        <label for="edit_precioVenta" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_precioVenta" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                         </label>
                         <input type="number" class="form-control" id="edit_precioVenta" name="precio_venta" value="{{ old('precio_venta', $producto->precio_venta) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_stock" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_stock" class="form-label" style="color: #aed5b6;">
                             <i class="fa-solid fa-warehouse"></i> Stock
                         </label>
                         <input type="number" class="form-control" id="edit_stock" name="stock" value="{{ old('stock', $producto->stock) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
-                            <i class="fa-solid fa-boxes-stacked"></i> Numero de Lote
+                        <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; ">
+                            <i class="fa-solid fa-boxes-stacked"></i> Número de Lote
                         </label>
                         <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_fchVto" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_fchVto" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
                         </label>
                         <input type="date" class="form-control" id="edit_fchVto" name="fchVto" value="{{ old('fchVto', $producto->fchVto) }}" >
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);">
+                        <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-table-columns"></i> Categoría
                         </label>
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>

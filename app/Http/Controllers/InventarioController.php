@@ -32,16 +32,15 @@ class InventarioController extends Controller
         $productos = Producto::all();
         $categorias = Categoria::all();
 
-        $productosBajoStockUN = Producto::where('unidad', 'UN')
-            ->where('stock', '<=', 10)
+        $bajoStock = Producto::whereColumn('stock', '<=', 'stock_minimo')
             ->get();
 
-        $productosBajoStockKG = Producto::where('unidad', 'KG')
-            ->where('stock', '<=', 0.5)
-            ->get();
+        // $productosBajoStockKG = Producto::where('unidad', 'KG')
+        //     ->where('stock', '<=', 0.5)
+        //     ->get();
 
         // Aquí puedes combinar los dos resultados si lo necesitas
-        $bajoStock = $productosBajoStockUN->merge($productosBajoStockKG);
+        // $bajoStock = $productosBajoStockUN->merge($productosBajoStockKG);
 
         return view('inventario.edit', compact('productos', 'cajaAbierta', 'bajoStock', 'categorias'));
     }

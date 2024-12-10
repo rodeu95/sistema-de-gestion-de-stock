@@ -5,7 +5,7 @@
         <div class="row g-4">
             <!-- Resumen de Ventas de Hoy -->
             <div class="col-lg-6">
-                <div class="card shadow border-0">
+                <div class="card shadow border-0 mb-4">
                     <div class="card-header text-center" style="background-color:#aed6b5">
                         <h5 class="mb-0 text-white"><i class="fas fa-chart-line me-2"></i>Ventas de Hoy</h5>
                     
@@ -13,41 +13,70 @@
                                 <section class="bg-light p-4 rounded shadow section-index">
                                     <p class="fs-5">Total de Ventas: <strong>{{ $totalVentasHoy }}</strong></p>
                                     <p class="fs-5">Monto Total: <strong>${{ number_format($montoTotalHoy, 2) }}</strong></p>
+                                    <p class="fs-5">
+                                        @can('registrar-venta')
+                                            <a href="{{ route('ventas.create') }}" class="btn btn-access" >
+                                                <i class="fas fa-cash-register me-2"></i>Registrar Venta
+                                            </a>
+                                        @endcan
+                                    </p>
                                 </section>
                             </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Productos con Bajo Stock -->
-            <div class="col-lg-6">
-                <div class="card shadow border-0">
-                    <div class="card-header text-center" style="background-color:#aed6b5">
-                        <h5 class="mb-0 text-white"><i class="fas fa-exclamation-triangle me-2"></i>Productos con Bajo Stock</h5>
-                    
+            @if(count($productosProximosAVencer) === 0 && count($productosVencidos) === 0 && count($bajoStock) === 0)
+                <div class="col-lg-6">
+                    <div class="card shadow border-0">
+                        <div class="card-header  text-center" style="background-color:#aed6b5">
+                            <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Productos Más Vendidos</h5>
+
                             <div class="card-body">
                                 <section class="bg-light p-4 rounded shadow section-index">
-                                    <ul class="list-group list-group-flush">
-                                        @foreach ($bajoStock as $producto)
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                {{ $producto->nombre }}
-                                                @if($producto->unidad === 'UN')
-                                                    <span class="badge text-bg-danger ">{{ $producto->stock }} unidades</span>
-                                                @else
-                                                    <span class="badge text-bg-danger ">{{ $producto->stock }} kg.</span>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div style="width: 300px; height: 300px; margin: 0 auto;">
+                                        <canvas id="topProductosChart"
+                                        data-labels = "{{ json_encode($labelsTop) }}"
+                                        data-data = "{{ json_encode($dataTop) }}">
+                                        </canvas>
+                                    </div>
                                 </section>
                             </div>
+
+
+                        </div>
                     </div>
+
                 </div>
+            @endif
+
+            <div class="col-lg-6 d-flex flex-column gap-3">
+                @if(count($productosProximosAVencer) > 0)
+                    <a href="{{ route('productos.por-vencer') }}" class="btn text-white btn-warning btn-lg w-100 d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos próximos a vencerse</span>
+                        <span class="badge bg-white text-warning cantidad">{{ count($productosProximosAVencer) }}</span>
+                    </a>
+                @endif
+
+                @if(count($productosVencidos) > 0)
+                    <a href="{{ route('productos.vencidos') }}" class="btn btn-danger text-white btn-lg w-100 d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos vencidos</span>
+                        <span class="badge bg-white text-danger cantidad">{{ count($productosVencidos) }}</span>
+                    </a>
+                @endif
+
+                @if(count($bajoStock) > 0)
+                    <button type="button" class="btn btn-warning text-white btn-lg w-100 d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos con bajo stock</span>
+                        <span class="badge bg-white text-warning cantidad">{{ count($bajoStock) }}</span>
+                    </button>
+                @endif
             </div>
+
         </div>
 
         <!-- Ventas de los últimos 7 días -->
-        <div class="row g-4 mt-4">
+        <div class="row g-4">
             <div class="col-lg-12">
                 <div class="card shadow border-0">
                     <div class="card-header  text-center" style="background-color:#aed6b5">
@@ -76,17 +105,17 @@
                     </div>
                     <div class="card-body d-flex justify-content-around">
                         @can('registrar-venta')
-                            <a href="{{ route('ventas.create') }}" class="btn" >
+                            <a href="{{ route('ventas.create') }}" class="btn btn-access" >
                                 <i class="fas fa-cash-register me-2"></i>Registrar Venta
                             </a>
                         @endcan
                         @can('agregar-producto')
-                            <a href="{{ route('productos.create') }}" class="btn">
+                            <a href="{{ route('productos.create') }}" class="btn btn-access">
                                 <i class="fas fa-plus-circle me-2"></i>Agregar Producto
                             </a>
                         @endcan
                         @can('ver-ventas')
-                            <a href="{{ route('ventas.index') }}" class="btn" >
+                            <a href="{{ route('ventas.index') }}" class="btn btn-access" >
                                 <i class="fas fa-history me-2"></i>Ver Historial de Ventas
                             </a>
                         @endcan

@@ -84,6 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
+    function validateStock(productStock, quantity) {
+        if (quantity > productStock) {
+            alert(`La cantidad seleccionada (${quantity}) excede el stock disponible (${productStock}).`);
+            return false; // No permitir agregar el producto
+        }
+        return true; // La cantidad es válida
+    }
     // Función para manejar el evento de agregar producto
     function handleAddProduct() {
         const select = document.getElementById('producto-select');
@@ -92,8 +100,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const productName = select.options[select.selectedIndex]?.text;
         const productPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-precio')) || 0;
         const unidad = select.options[select.selectedIndex]?.getAttribute('data-unidad'); 
+        const productStock = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-stock')) || 0;
         
         let quantity = parseFloat(cantidadInput.value) || 1; 
+
+        if (!validateStock(productStock, quantity)) {
+            return; // Detener si la cantidad supera el stock
+        }
     
         if (productCod && quantity > 0) {
             // Agregar el producto a la lista

@@ -21,6 +21,7 @@ class Producto extends Model
         'fchVto',
         'precio',
         'stock',
+        'stock_minimo',
         'total_vendido',
         'unidad',
         'precio_costo',

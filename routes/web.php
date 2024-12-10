@@ -19,9 +19,9 @@ use App\Http\Controllers\VencimientosController;
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'store'])->name('user.store');
+Route::post('/user/register', [AuthController::class, 'store'])->name('user.store');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('usuario.login');
+Route::post('/user/login', [AuthController::class, 'login'])->name('usuario.login');
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');

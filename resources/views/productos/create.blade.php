@@ -71,23 +71,46 @@
                                                 <label for="descripcion" class="form-label">
                                                     <i class="fa-solid fa-bars"></i> Descripción
                                                 </label>
-                                                <textarea class="form-control" id="descripcion" name="descripcion" rows="1" placeholder="Ingrese una descripción del producto"></textarea>
+                                                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Ingrese una descripción del producto"></textarea>
                                             </div>
-
-                                            <!-- Campo Stock -->
-                                            <div class="mb-3">
-                                                <label for="stock" class="form-label">
-                                                    <i class="fa-solid fa-warehouse"></i> Stock
-                                                </label>
-                                                <input 
-                                                    type="number" 
-                                                    class="form-control" 
-                                                    id="stock" 
-                                                    name="stock" 
-                                                    placeholder="Ingrese la cantidad de stock disponible"
-                                                    required
-                                                >
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="stock" class="form-label">
+                                                            <i class="fa-solid fa-warehouse"></i> Stock
+                                                        </label>
+                                                        <input 
+                                                            type="number" 
+                                                            class="form-control" 
+                                                            id="stock" 
+                                                            name="stock"
+                                                            title="Ingrese la cantidad de stock disponible" 
+                                                            placeholder="Ingrese la cantidad de stock disponible"
+                                                            step="0.01"
+                                                            required
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="stock_minimo" class="form-label">
+                                                            <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
+                                                        </label>
+                                                        <input 
+                                                            type="number" 
+                                                            class="form-control" 
+                                                            id="stock_minimo" 
+                                                            name="stock_minimo" 
+                                                            title="Ingrese el stock mínimo"
+                                                            placeholder="Ingrese el stock mínimo"
+                                                            step="0.01"
+                                                            required
+                                                        >
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
 
                                             <!-- Campo Fecha de Vencimiento -->
                                             <div class="mb-3">

@@ -73,6 +73,7 @@ class ProductoController extends Controller
         $producto->descripcion = $request->descripcion ?? '';
         $producto->categoria_id = $request->categoria_id;
         $producto->stock = $request->stock;
+        $producto->stock_minimo = $request->stock_minimo;
 
         $producto->save();
 
