@@ -43,6 +43,23 @@ class ProductController extends Controller
         
         return view('productos.create', compact('categorias', 'cajaAbierta'));
     }
+    
+    public function show($codigo){
+        $producto = Producto::where('codigo', $codigo)->first();
+        if (!$producto) {
+            return response()->json(['error' => 'Producto no encontrado'], 404);
+        }
+
+        $producto->estado = $producto->estado == 1 ? 'Activo' : 'Inactivo';
+    
+        return response()->json([
+            'codigo' => $producto->codigo,
+            'nombre' => $producto->nombre,
+            'precio_venta' => $producto->precio_venta,
+            'stock' => $producto->stock,
+            'estado' => $producto->estado
+        ]);
+    }
 
     public function store(StoreProductRequest $request)
     {

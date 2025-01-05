@@ -19,9 +19,34 @@ class VentaController extends Controller
         $this->middleware('permission:editar-venta', ['only'=>['edit','store', 'update']]);
         $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
     }
-    public function index()
+    public function index(Request $request)
     {
-        // $token = Auth::user()->tokens->first();
+        $filter = $request->input('filter', 'all');
+        Log::info('Filtro recibido:', ['filter' => $filter]);
+        $ventas = Venta::query();
+
+        switch ($filter) {
+            case 'day':
+                \Log::info('Aplicando filtro del día');
+                $ventas->whereDate('fecha_venta', today());
+                break;
+            case 'week':
+                \Log::info('Aplicando filtro de la semana');
+                $ventas->whereBetween('fecha_venta', [now()->startOfWeek(), now()->endOfWeek()]);
+                break;
+            case 'month':
+                \Log::info('Aplicando filtro del mes');
+                $ventas->whereMonth('fecha_venta', now()->month)->whereYear('fecha_venta', now()->year);
+                break;
+            case 'year':
+                \Log::info('Aplicando filtro del año');
+                $ventas->whereYear('fecha_venta', now()->year);
+                break;
+            default:
+                \Log::info('Mostrando todas las ventas');
+                break;
+        }
+
         $ventas = Venta::with('productos', 'metodoPago', 'vendedor')->get(); // 
         return response()->json(['ventas' => $ventas]);
     }
@@ -38,7 +63,8 @@ class VentaController extends Controller
             'venta' => $venta, 
             'productos' => $productos, 
             'cantidad' => $cantidad, // Devuelve la cantidad como un array
-            'producto_cod' => $producto_cod]);
+            'producto_cod' => $producto_cod
+        ]);
     }
 
     public function create(){
@@ -159,13 +185,12 @@ class VentaController extends Controller
                 }
             }
     
-            // Step 2: Update or add each product in the sale based on the request data
             foreach ($productosCantidad as $codigo => $totalCantidad) {
                 $producto = Producto::where('codigo', $codigo)->first();
     
                 if ($producto) {
                     if ($producto->stock >= $totalCantidad) {
-                        // Check if the product already exists in the sale
+                        
                         if ($venta->productos->contains($codigo)) {
                             $existingCantidad = $venta->productos()->where('producto_cod', $codigo)->first()->pivot->cantidad;
     
@@ -195,7 +220,7 @@ class VentaController extends Controller
                 }
             }
     
-            // Step 3: Remove products that are no longer in the request
+            // Remueve los productos que ya no están en la request
             $currentProductCodes = $venta->productos->pluck('codigo')->toArray();
             $newProductCodes = array_keys($productosCantidad);
             $removedProductCodes = array_diff($currentProductCodes, $newProductCodes);

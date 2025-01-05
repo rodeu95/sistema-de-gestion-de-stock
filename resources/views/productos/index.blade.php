@@ -170,7 +170,7 @@
 
                     <div class="mb-3">
                         <label for="numero_lote" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-boxes-stacked"></i> Número de Lote
+                            <i class="fa-solid fa-dolly"></i> Número de Lote
                         </label>
                         <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
                     </div>
@@ -267,7 +267,7 @@
 
                     <div class="mb-3">
                         <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-boxes-stacked"></i> Número de Lote
+                            <i class="fa-solid fa-dolly"></i> Número de Lote
                         </label>
                         <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
                     </div>

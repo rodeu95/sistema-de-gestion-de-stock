@@ -17,11 +17,12 @@
                             @forelse($bajoStock as $producto)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>{{ $producto->nombre }} (Stock: {{ $producto->stock }})</span>
-                                    <button id="editButton" class="btn shadow btn-sm btn-primary" 
+                                    <button id="editButton" class="btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#editStockModal"
                                     data-codigo="{{ $producto->codigo }}"
-                                    data-nombre="{{ $producto->nombre }}">
+                                    data-nombre="{{ $producto->nombre }}"
+                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                         Actualizar Stock
                                     </button>
                                 </li>

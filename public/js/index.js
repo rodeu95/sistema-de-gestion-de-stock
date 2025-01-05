@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
 window.onload = function() {
     const alertMessage = document.getElementById('alert-box');
     if (alertMessage) {

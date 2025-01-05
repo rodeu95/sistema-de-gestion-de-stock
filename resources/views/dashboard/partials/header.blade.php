@@ -20,14 +20,14 @@
                             <ul class="navbar-nav">
                                 <!-- Resumen -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('inicio') }}">
+                                    <a class="nav-link" href="{{ route('inicio') }}" data-text="Inicio">
                                         <i class="fas fa-home"></i> Inicio
                                     </a>
                                 </li>
                                 
                                 <!-- Gestión de Productos -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Productos">
                                         <i class="fa-solid fa-boxes-stacked"></i> Productos
                                     </a>
                                     <ul class="dropdown-menu shadow">
@@ -46,7 +46,7 @@
                                 
                                 <!-- Registro y Historial de Ventas -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Ventas">
                                         <i class="fas fa-coins"></i> Ventas
                                     </a>
                                     <ul class="dropdown-menu shadow">
@@ -65,7 +65,7 @@
 
                                 <!-- Control de Inventario -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Inventario">
                                         <i class="fas fa-warehouse"></i> Inventario
                                     </a>
                                     <ul class="dropdown-menu shadow">
@@ -77,18 +77,18 @@
                                 <!-- Exportación de Datos -->
                                 <li class="nav-item dropdown">
                                     @can('exportar-archivos')
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Exportar">
                                         <i class="fas fa-file-export"></i> Exportar
                                         </a>
                                         <ul class="dropdown-menu shadow">
                                             <li><a class="dropdown-item" href="{{ route('ventas.export') }}">Exportar Ventas <i class="fa-solid fa-file-excel"></i> </a></li>
-                                            <li><a class="dropdown-item" href=" {{route('generate-pdf')}}">Exportar Productos <i class="fa-solid fa-file-pdf"></i> </a></li>
+                                            <li><a class="dropdown-item" href=" {{route('productos.export')}}">Exportar Productos <i class="fa-solid fa-file-pdf"></i> </a></li>
                                         </ul>
                                     @endcan
                                 </li>
 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Usuarios">
                                         <i class="fas fa-users"></i> Usuarios
                                     </a>
                                     <ul class="dropdown-menu shadow">
@@ -99,7 +99,7 @@
 
                                 @canany(['abrir-caja', 'cerrar-caja'])
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Caja">
                                             <i class="fas fa-cash-register"></i>
                                             @if($cajaAbierta)
                                                 Caja Abierta
@@ -141,7 +141,7 @@
                                 @endcanany
                                 <!-- Perfil o Logout -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="{{ Auth::user()->usuario }}">
                                         <i class="fas fa-user-circle"></i>
                                         @if(Auth::check()) 
                                             {{ Auth::user()->usuario }}

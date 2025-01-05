@@ -13,6 +13,7 @@ use Spatie\Permission\Contracts\Permission;
 use App\Exports\ProductsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Lote;
+use Barryvdh\DomPDF\Facade\PDF;
 
 
 class ProductoController extends Controller
@@ -142,8 +143,37 @@ class ProductoController extends Controller
     }
 
 
-    public function export(){
-        return Excel::download(new ProductsExport, 'productos.xlsx');
+    public function export(Request $request){
+        $categoria = $request->input('categoria');
+        $bajoStock = $request->input('bajo_stock');
+        $fechaVencimiento = $request->input('fchVto');
+        $lote = $request->input('lote');
+
+        // Filtrar los productos
+        $productos = Producto::query();
+
+        if ($categoria) {
+            $productos->where('categoria_id', $categoria);
+        }
+
+        if ($bajoStock) {
+            $productos->whereColumn('stock', '<', 'stock_minimo');
+        }
+
+        if ($fechaVencimiento) {
+            $productos->where('fchVto', '<=', $fechaVencimiento);
+        }
+
+        if ($lote) {
+            $productos->where('numero_lote', 'LIKE', "%$lote%");
+        }
+
+        $productos = $productos->get();
+
+        // Generar el PDF
+        $pdf = PDF::loadView('export.myPDF', compact('productos'));
+
+        // Descargar el archivo PDF
+        return $pdf->download('productos_filtrados.pdf');
     }
-        
 }

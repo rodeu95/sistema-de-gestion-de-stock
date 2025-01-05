@@ -34,39 +34,28 @@
     </style>
 </head>
 <body>
-    <h1>{{ $heading }}</h1>
+    <h1>Productos Filtrados</h1>
     <table>
         <thead>
             <tr>
-                <th>Código</th>
                 <th>Nombre</th>
-                <th>Precio Costo</th>
-                <th>IVA(%)</th>
-                <th>% de Utilidad</th>
-                <th>Precio de Venta</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Lote</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($productos as $producto)
+            @foreach($productos as $producto)
                 <tr>
-                    <td>{{ $producto->codigo }}</td>
                     <td>{{ $producto->nombre }}</td>
-                    @if($producto->unidad === 'UN')
-                        <td>${{ number_format($producto->precio_costo, 2) }} x UN</td>
-                    @elseif($producto->unidad === 'KG')
-                        <td>${{ number_format($producto->precio_costo, 2) }} x KG</td>
-                    @endif
-                    <td>{{ $producto->iva }}%</td>
-                    <td>{{ $producto->utilidad }}%</td>
-                    @if($producto->unidad === 'UN')
-                        <td>${{ number_format($producto->precio_venta, 2) }} x UN</td>
-                    @elseif($producto->unidad === 'KG')
-                        <td>${{ number_format($producto->precio_venta, 2) }} x KG</td>
-                    @endif
+                    <td>{{ $producto->categoria->nombre }}</td>
+                    <td>{{ $producto->stock }}</td>
+                    <td>{{ $producto->fecha_vencimiento }}</td>
+                    <td>{{ $producto->numero_lote }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    
 </body>
 </html>

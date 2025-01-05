@@ -5,7 +5,9 @@
     <h1 class="my-4">Productos Próximos a Vencer</h1>
 
     @if($productosProximosAVencer->isEmpty())
-        <p>No hay productos próximos a vencerse</p>
+        <p id="aviso">
+            <i class="fa-regular fa-thumbs-up"></i> No hay productos próximos a vencerse
+        </p>
     @else
         <table class="table shadow">
             <thead>

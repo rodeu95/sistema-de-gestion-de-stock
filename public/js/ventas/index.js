@@ -4,9 +4,26 @@ let grid;
 let initialTotal = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
-    
-    function renderVentasTable() {
 
+    const yearSelect = document.getElementById('year-select');
+
+    // Rango de años: puedes ajustar el año inicial y cuántos años a futuro incluir
+    const startYear = 2000; // Año inicial
+    const endYear = new Date().getFullYear(); // Año actual
+
+    // Generar las opciones
+    for (let year = startYear; year <= endYear; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    }
+
+    // Establecer un valor predeterminado (opcional)
+    yearSelect.value = endYear;
+
+    function renderVentasTable() {
+        
         if (grid) {
             grid.destroy();
         }
@@ -67,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 then: response => {
+                    console.log('Datos del servidor:', response);
                     const ventas = response.ventas;
                     return ventas.map(venta => {
                         // Acceder a los productos relacionados de cada venta
@@ -93,7 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 enabled: true,
                 limit: 10,
             },
-            search: true,
+            search: {
+                enable:true,
+                id: 'filtro-busqueda',
+            },
             language: {
                 search: {
                     placeholder: 'Buscar...'
@@ -126,6 +147,32 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         }).render(document.getElementById('ventas-table'));
     }
+
+    document.getElementById('apply-filters').addEventListener('click', function () {
+        const fechaVenta = document.getElementById('fecha_venta').value; // Fecha exacta
+        const mes = document.getElementById('select-mes').value; // Mes seleccionado
+        const anio = document.getElementById('year-select').value; // Año seleccionado
+    
+        // Crear el texto de búsqueda combinando los filtros seleccionados
+        let searchValue = '';
+    
+        if (fechaVenta) {
+            searchValue = `${fechaVenta}`;
+        } else if (mes && anio) {
+            searchValue = `${anio}-${mes}`; // Formato de año-mes (e.g., "2024-11")
+        } else if (mes) {
+            searchValue = `${anio}-${mes}`; // Si no hay año, buscar solo el mes
+        } else if (anio) {
+            searchValue = `${anio}`;
+        }
+    
+        // Obtener el cuadro de búsqueda de Grid.js y actualizar su valor
+        const searchInput = document.querySelector('.gridjs-search input'); // Encuentra el input de búsqueda
+        searchInput.value = searchValue;
+    
+        // Disparar el evento "input" para que Grid.js actualice la tabla
+        searchInput.dispatchEvent(new Event('input'));
+    });
 
     // Llamar a renderProductTable cuando se carga la página
     renderVentasTable();

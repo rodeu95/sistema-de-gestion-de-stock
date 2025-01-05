@@ -5,7 +5,9 @@
     <h1 class="my-4">Productos Vencidos</h1>
 
     @if($productosVencidos->isEmpty())
-        <p>No hay productos vencidos</p>
+        <p id="aviso">
+            <i class="fa-regular fa-thumbs-up"></i> No hay productos vencidos
+        </p>
     @else
         <table class="table shadow">
             <thead>

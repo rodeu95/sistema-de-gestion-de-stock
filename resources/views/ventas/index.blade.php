@@ -6,6 +6,43 @@
 </div>
 
 <main class="container-lg">
+
+    <div class="row mb-4">
+        <div class="form-group col-3">
+            <label>Filtrar por fecha</label>
+            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
+        </div>
+
+        <div class="form-group col-3">
+            <label for="select-mes">Filtrar por mes</label>
+            <select id="select-mes" class="form-control">
+                <option value="" disabled selected>Seleccione un mes</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+        </div>
+
+        <div class="form-group col-3">
+            <label for="year-select">Filtrar por año</label>
+            <select id="year-select" class="form-control"></select>
+        </div>
+
+        <div class="form-group col-3">
+            <button id="apply-filters" class="btn btn-filtros">Aplicar filtros</button>
+        </div>
+    </div>
+        
+
     <div id="ventas-table"></div>
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-venta')

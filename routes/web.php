@@ -59,12 +59,9 @@ Route::middleware(['auth', 'permission:ver-total-caja'])->group(function () {
     Route::get('/caja/total', [CajaController::class, 'total'])->name('caja.total');
 });
 
-Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
+Route::get('/generate-pdf', [ProductoController::class, 'export'])->name('generate-pdf');
+Route::get('/export/productos', [PDFController::class, 'generatePDF'])->name('productos.export');
 
-Route::controller(ProductoController::class)->group(function(){
-    Route::get('/productos', 'index')->name('productos.index');
-    Route::get('/productos-export', 'export')->name('productos.export');
-});
 
 Route::controller(VentasController::class)->group(function(){
     Route::get('/ventas', 'index')->name('ventas.index');

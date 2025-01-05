@@ -67,6 +67,7 @@ class InicioController extends Controller
 
         
         $bajoStock = Producto::whereColumn('stock', '<=', 'stock_minimo')
+        ->where('estado', 1)
             ->get();
 
         

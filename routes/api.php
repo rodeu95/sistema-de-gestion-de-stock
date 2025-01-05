@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductoController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
+Route::get('/productos/{codigo}', [ProductController::class, 'show'])->name('api.producto.show');
 Route::put('/productos/{codigo}', [ProductController::class, 'update'])->name('api.productos.update');
 Route::post('/productos', [ProductController::class, 'store'])->name('api.productos.store');
 Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
