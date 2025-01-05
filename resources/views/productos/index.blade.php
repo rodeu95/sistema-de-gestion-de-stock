@@ -31,6 +31,7 @@
 
 <main class="container-lg">
     <div id="gridjs-table"></div>
+
     <div id="editButtonTemplate" style="display: none;">
         @can('editar-producto')
             <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar producto" data-codigo="${codigo}" style="background-color:transparent;">

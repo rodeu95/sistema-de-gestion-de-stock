@@ -16,14 +16,16 @@ h3, h5, h1, h4{
 }
 
 th{
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    background-color:#fff; 
+    color:grey;    
     font-size: 18px;
+    
 }
 
 
 table{
     border: 2px solid #ddd;
-    border-radius: 50%;
+    border-radius: 0;
 }
 
 

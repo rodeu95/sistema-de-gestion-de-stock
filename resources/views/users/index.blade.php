@@ -8,15 +8,15 @@
         <div class="table-responsive">
             <table class="table shadow">
                 <thead >
-                    <tr class="text-center" >
-                        <th style="background-color:#ddd; color:#fff">ID</th>
-                        <th style="background-color:#ddd; color:#fff">Nombre</th>
-                        <th style="background-color:#ddd; color:#fff">Email</th>
-                        <th style="background-color:#ddd; color:#fff">Roles</th>
+                    <tr>
+                        <th style="color:grey">ID</th>
+                        <th style="color:grey">Nombre</th>
+                        <th style="color:grey">Email</th>
+                        <th style="color:grey">Roles</th>
                         @role('Administrador')
-                            <th class="col-4" style="background-color:#ddd; color:#fff">Permisos</th>
+                            <th class="col-4" style="color:grey">Permisos</th>
                         @endrole
-                        <th class="col-2" style="background-color:#ddd; color:#fff">Acciones</th>
+                        <th class="col-2" style="color:grey">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>

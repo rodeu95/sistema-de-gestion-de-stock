@@ -175,21 +175,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             className: {
-                table: 'table',
+                table: 'productos-table',
                 th: 'th',
                 td: 'td',
                 tr: 'tr',
             },
             style: {
-                th: {
-                    'background-color': '#ddd',
-                    'color' : '#fff',
-                    'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
+                table: {
+                    'border-collapse': 'collapse',
                     'border': 'none',
+                    'border-radius' : '0',   
+                },
+                th: {
+                    'background-color': '#fff',
+                    'color' : 'grey',
+                    'text-shadow': 'none',
+                    'border-bottom': '1px solid #ddd',
+                    'border-top': 'none', /* Sin borde superior */
+                    'border-left': 'none', /* Sin borde izquierdo */
+                    'border-right': 'none',
                 },
                 td:{
-                    'border' : 'none'
+                    'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */
+                    'border-top': 'none', /* Sin borde superior */
+                    'border-left': 'none', /* Sin borde izquierdo */
+                    'border-right': 'none', /* Sin borde derecho */
                 }
+                
             },
         }).render(document.getElementById('gridjs-table'));
     }

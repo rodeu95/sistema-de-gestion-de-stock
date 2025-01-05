@@ -111,6 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             resizable: true,
             search: true,
+            language: {
+                search: {
+                    placeholder: 'Buscar...'
+                },
+                pagination: {
+                    previous: 'Anterior',
+                    next: 'Siguiente',
+                    showing: 'Mostrando',
+                    of: 'de',
+                    to: 'a'
+                }
+            },
             pagination: {
                 enabled: true,
                 limit: 10,
@@ -125,16 +137,26 @@ document.addEventListener('DOMContentLoaded', function () {
             style: {
                 table: {
                     'border-collapse': 'collapse',
-                    'border': '1px solid #ddd',
+                    'border': 'none',
+                    'border-radius' : '0',
                     'text-align': 'center',
                     
                 },
                 th: {
-                    'border': 'none',/* Borde para las celdas del encabezado */
+                    'background-color': '#fff',
+                    'color' : 'grey',
+                    'text-shadow': 'none',
+                    'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */
+                    'border-top': 'none', /* Sin borde superior */
+                    'border-left': 'none', /* Sin borde izquierdo */
+                    'border-right': 'none',/* Borde para las celdas del encabezado */
                     'padding': '8px',
                 },
                 td: {
-                    'border': 'none',
+                    'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */
+                    'border-top': 'none', /* Sin borde superior */
+                    'border-left': 'none', /* Sin borde izquierdo */
+                    'border-right': 'none',
                     'padding': '8px',
                 },
                 
