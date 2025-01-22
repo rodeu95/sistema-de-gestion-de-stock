@@ -50,22 +50,31 @@ class InicioController extends Controller
             $data->push($venta ? $venta->total : 0);
         }
 
-        $productosProximosAVencer = Producto::whereBetween('fchVto', [now(), now()->addDays(30)])
+        // $productosProximosAVencer = Producto::whereBetween('fchVto', [now(), now()->addDays(30)])
+        // ->where('estado', 1)
+        // ->get();
+        // $productosVencidos = Producto::where('fchVto', '<', now())
+        // ->where('estado', 1)
+        // ->get();
+
+        $productosProximosAVencer = Producto::whereHas('lotes', function ($query) {
+            $query->whereBetween('fecha_vencimiento', [now(), now()->addDays(30)]);
+        })
         ->where('estado', 1)
+        ->with(['lotes' => function ($query) {
+            $query->whereBetween('fecha_vencimiento', [now(), now()->addDays(30)]);
+        }])
         ->get();
-        $productosVencidos = Producto::where('fchVto', '<', now())
-        ->where('estado', 1)
-        ->get();
-
-        // $productosBajoStockUN = Producto::where('unidad', 'UN')
-        //     ->where('stock', '<=', 10)
-        //     ->get();
-
-        // $productosBajoStockKG = Producto::where('unidad', 'KG')
-        //     ->where('stock', '<=', 0.5)
-        //     ->get();
-
         
+        $productosVencidos = Producto::whereHas('lotes', function ($query) {
+            $query->where('fecha_vencimiento', '<', now());
+        })
+        ->where('estado', 1)
+        ->with(['lotes' => function ($query) {
+            $query->where('fecha_vencimiento', '<', now());
+        }])
+        ->get();
+       
         $bajoStock = Producto::whereColumn('stock', '<=', 'stock_minimo')
         ->where('estado', 1)
             ->get();

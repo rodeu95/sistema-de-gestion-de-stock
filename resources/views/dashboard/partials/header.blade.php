@@ -41,6 +41,9 @@
                                                 <a class="dropdown-item" href="{{ route('productos.create') }}">Agregar producto</a>
                                             @endcan
                                         </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('lotes.index') }}">Ver lotes</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 

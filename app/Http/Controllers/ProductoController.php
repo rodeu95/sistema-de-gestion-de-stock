@@ -37,7 +37,7 @@ class ProductoController extends Controller
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado : false;
 
-        return view('productos.index', compact( 'producto', 'productos', 'cajaAbierta', 'categorias'));
+        return view('productos.index', compact('productos', 'producto', 'cajaAbierta', 'categorias'));
         
     }
     public function create(){
@@ -50,30 +50,17 @@ class ProductoController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        if ($request->unidad == 'UN' && $request->stock < 1) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No se puede registrar un producto con unidad "UN" con stock menor a 1.'
-            ], 400);  // Devuelve un error 400 (Bad Request)
-        }
-
-        $lote = Lote::create([
-            'numero_lote' => $request->numero_lote,
-            'fecha_vencimiento' => $request->fchVto,
-        ]);
         $producto = new Producto();
         $producto->codigo = $request->codigo;
         $producto->nombre = $request->nombre;
         $producto->unidad = $request->unidad;
-        $producto->numero_lote = $lote->numero_lote;
-        $producto->fchVto = $lote->fecha_vencimiento;
         $producto->precio_costo = $request->precio_costo;
         $producto->precio_venta = $request->precio_venta;
         $producto->iva = $request->iva;
         $producto->utilidad = $request->utilidad;
         $producto->descripcion = $request->descripcion ?? '';
         $producto->categoria_id = $request->categoria_id;
-        $producto->stock = $request->stock;
+        // $producto->stock = $request->stock;
         $producto->stock_minimo = $request->stock_minimo;
 
         $producto->save();

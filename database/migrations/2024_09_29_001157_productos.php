@@ -16,20 +16,18 @@ return new class extends Migration
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->string('unidad');
-            $table->string('numero_lote', 50); // Cambia el nombre si es necesario
-            $table->date('fchVto');
             $table->decimal('precio_costo', 10, 2);
             $table->decimal('precio_venta', 10, 2);
             $table->decimal('iva');
             $table->decimal('utilidad');
-            $table->float('stock');
+            $table->float('stock')->default(0);
             $table->float('stock_minimo');
             $table->unsignedBigInteger('categoria_id');
             $table->boolean('estado')->default(true);
             $table->timestamps();
             
             $table->foreign('categoria_id')->references('id')->on('categorias');
-            $table->foreign('numero_lote')->references('numero_lote')->on('lotes')->onDelete('cascade');
+            
             $table->primary('codigo');
             
         });

@@ -434,7 +434,7 @@ function deleteVenta(id) {
     // Muestra el SweetAlert antes de realizar la eliminación
     Swal.fire({
         title: '¿Estás seguro?',
-        text: 'Esta venta será eliminada de manera permanente.',
+        text: '¿Desea eliminar la venta permanentemente?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sí, eliminar',

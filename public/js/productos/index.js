@@ -26,18 +26,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     compare: (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())
                 },
                 {
-                    // name: 'Fecha de vencimiento',
-                    width: '160px',
-                    name: gridjs.html(`<span title="Fecha de Vencimiento">Fecha de Vencimiento</span>`)
-                },
-                {
                     // name: 'Precio de Venta',
                     name: gridjs.html(`<span title="Precio de venta">Precio de venta</span>`),
                     resizable: true,
                     width: '130px',
                     formatter: (cell, row) => {
-                        const precioVenta = parseFloat(row.cells[3].data);
-                        const unidad = row.cells[5].data;
+                        const precioVenta = parseFloat(row.cells[2].data);
+                        const unidad = row.cells[4].data;
                         
                         // Formatea el precio con la unidad para mostrar
                         const displayValue = unidad === 'UN' 
@@ -66,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     name: gridjs.html(`<span title="Stock">Stock</span>`),
                     width: '80px',
                     formatter: (cell, row) => {
-                        const stock = parseFloat(row.cells[4].data);
-                        const unidad = row.cells[5].data;
+                        const stock = parseFloat(row.cells[3].data);
+                        const unidad = row.cells[4].data;
 
                         const displayValue = unidad === 'UN' 
                             ? `${stock} UN` 
@@ -124,11 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${editButtonHtml} ${buttonHtml}
                             
                         `);
-                        // <form id="disable-form-${codigo}" action="/sistema/public/productos/${codigo}/disable" method="POST">
-                        //         <input type="hidden" name="_token" value="${csrfToken}">
-                        //         <input type="hidden" name="_method" value="PATCH">
-                        //         ${editButtonHtml} ${buttonHtml}
-                        //     </form>
                     }
                 }
             ],
@@ -138,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 then: data => {
+                    console.log(data);
                     return data.map(producto => {
                         const precioVenta = parseFloat(producto.precio_venta) || 0;
                         const stock = parseFloat(producto.stock) || 0;
@@ -145,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         return [
                             producto.codigo,
                             producto.nombre,
-                            producto.fchVto,
                             `${precioVenta.toFixed(2)}`,
                             `${stock}`,
                             producto.unidad,
                             producto.estado === 0 ? "Inactivo" : "Activo",
+                            null,
                         ];
                     });
                 }

@@ -64,33 +64,18 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
     try {
-
-        if ($request->unidad == 'UN' && $request->stock < 1) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No se puede registrar un producto con unidad "UN" con stock menor a 1.'
-            ], 400);  // Devuelve un error 400 (Bad Request)
-        }
-        // Crear el lote
-        $lote = Lote::create([
-            'numero_lote' => $request->numero_lote,
-            'fecha_vencimiento' => $request->fchVto,
-        ]);
-
         // Crear el producto y asociarlo con el lote
         $producto = new Producto();
         $producto->codigo = $request->codigo;
         $producto->nombre = $request->nombre;
         $producto->unidad = $request->unidad;
-        $producto->numero_lote = $lote->numero_lote;
-        $producto->fchVto = $lote->fecha_vencimiento;
         $producto->precio_costo = $request->precio_costo;
         $producto->precio_venta = $request->precio_venta;
         $producto->iva = $request->iva;
         $producto->utilidad = $request->utilidad;
         $producto->descripcion = $request->descripcion ?? '';
         $producto->categoria_id = $request->categoria_id;
-        $producto->stock = $request->stock;
+        // $producto->stock = $request->stock;
         $producto->stock_minimo = $request->stock_minimo;
         $producto->save();
 

@@ -18,7 +18,6 @@ class Producto extends Model
         'codigo',
         'nombre',
         'descripcion',
-        'fchVto',
         'precio',
         'stock',
         'stock_minimo',
@@ -26,7 +25,6 @@ class Producto extends Model
         'unidad',
         'precio_costo',
         'precio_venta',
-        'numero_lote',
         'iva',
         'utilidad',
         'categoria_id'
@@ -40,10 +38,12 @@ class Producto extends Model
     }
 
     public function lotes(){
-        return $this->hasMany(Lote::class, 'numero_lote', 'numero_lote');
+        return $this->hasMany(Lote::class, 'producto_cod', 'codigo');
     }
 
     public function categoria(){
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
+
+
 }

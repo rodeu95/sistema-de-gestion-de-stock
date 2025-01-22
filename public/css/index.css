@@ -19,7 +19,18 @@ th{
     background-color:#fff; 
     color:grey;    
     font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    border-top: none; /* Sin borde superior */
+    border-left: none; /* Sin borde izquierdo */
+    border-right: none;
     
+}
+
+td{
+    border-bottom: 1px solid #ddd;
+    border-top: none; /* Sin borde superior */
+    border-left: none; /* Sin borde izquierdo */
+    border-right: none;
 }
 
 

@@ -17,14 +17,14 @@
                             @forelse($bajoStock as $producto)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>{{ $producto->nombre }} (Stock: {{ $producto->stock }})</span>
-                                    <button id="editButton" class="btn" 
+                                    <!-- <button id="editButton" class="btn" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#editStockModal"
                                     data-codigo="{{ $producto->codigo }}"
                                     data-nombre="{{ $producto->nombre }}"
                                     style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                         Actualizar Stock
-                                    </button>
+                                    </button> -->
                                 </li>
                             @empty
                                 <li class="list-group-item text-center">No hay productos con bajo stock.</li>
@@ -39,35 +39,52 @@
         <div class="col-md-6">
             <div class="card shadow mb-4">
                 <div class="card-header" style="background-color:#aed6b5;">
-                    <h5 class="justify-content text-white text-center">Buscar y Actualizar Stock</h5>
+                    <h5 class="justify-content text-white text-center">Actualizar Stock</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">            
-                        <form id="filter-form" class="mb-4">
-                            <select id="categoria-select" class="form-select" >
-                                <option value="">Seleccione una categoría</option>
-                                @foreach($categorias as $categoria)
-                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                                @endforeach
-                            </select>
-                        </form>
 
-                        <form action="{{ route('inventario.update') }}" method="POST">
+                        <form action="{{ route('lotes.store') }}" method="POST">
                             @csrf
-                            <div id="filtered-products">
-                                <p class="text-center text-muted">Seleccione una categoría para ver productos.</p>
+                            <div class="mb-3">
+                                <label for="producto_cod" class="form-label" style="color: #aed5b6;">
+                                    <i class="fa-solid fa-barcode"></i> Código de producto
+                                </label>
+                                <input type="text" class="form-control" id="producto_cod" name="producto_cod" placeholder="Ingrese el código del producto" required>
                             </div>
-
-                            <div class="d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn" style="margin-right:10px">
-                                    Actualizar inventario
+                            <div class="mb-3">
+                                <label for="numero-lote" class="form-label" style="color: #aed5b6;">
+                                    <i class="fa-solid fa-dolly"></i> Número de Lote
+                                </label>
+                                <input type="text" id="numero-lote" name="numero_lote" class="form-control" placeholder="Ingrese el número del lote" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cantidad-lote" class="form-label" style="color: #aed5b6;">
+                                    <i class="fa-solid fa-boxes-stacked"></i> Cantidad
+                                </label>
+                                <input type="number" id="cantidad-lote" name="cantidad" class="form-control" placeholder="Ingrese la cantidad en el lote" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha-expiracion" class="form-label" style="color: #aed5b6;">
+                                    <i class="fa-regular fa-calendar"></i> Fecha de Expiración
+                                </label>
+                                <input type="date" id="fecha-expiracion" name="fecha_vencimiento" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha-ingreso" class="form-label" style="color: #aed5b6;">
+                                    <i class="fa-regular fa-calendar"></i> Fecha de Ingreso
+                                </label>
+                                <input type="date" id="fecha-ingreso" name="fecha_ingreso" class="form-control" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn" style="background-color: #aed6b5; color: white;">
+                                    Agregar Lote
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-            
+            </div>            
         </div>
     </div>
 </div>
@@ -83,7 +100,6 @@
                 <form id="update-stock-form" action="{{ route('inventario.update') }}" method="POST">
                     @csrf
 
-
                     <div class="mb-3">
                         <label for="modal-producto-codigo" class="form-label" style="color: #aed5b6;">Código del producto</label>
                         <input type="text" id="modal-producto-codigo" class="form-control" readonly>
@@ -94,11 +110,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="modal-cantidad" class="form-label" style="color: #aed5b6;">Cantidad</label>
-                        <input type="number" name="cantidad" id="modal-cantidad" class="form-control" min="1" required>
+                        <input type="number" name="cantidad" id="modal-cantidad" class="form-control" required>
                     </div>
 
                     <div id="hidden-inputs"></div>
-
 
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn">Actualizar</button>

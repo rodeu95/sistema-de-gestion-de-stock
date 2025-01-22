@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\VentaController;
 Use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\Api\LoteController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
@@ -25,5 +26,9 @@ Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ve
 Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
 Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
 Route::get('/inventario/edit/{codigo}', [InventoryController::class, 'edit'])->name('api.inventario.edit');
+
+Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
+Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');
+Route::delete('lotes/{id}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
 
 

@@ -92,17 +92,25 @@ namespace App\Models{
 /**
  * 
  *
+ * @property int $id
  * @property string $numero_lote
+ * @property string $producto_cod
+ * @property float $cantidad
+ * @property string $fecha_ingreso
  * @property string|null $fecha_vencimiento
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Producto|null $producto
+ * @property-read \App\Models\Producto $producto
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereCantidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereFechaIngreso($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereFechaVencimiento($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereNumeroLote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereProductoCod($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereUpdatedAt($value)
  */
 	class Lote extends \Eloquent {}
@@ -135,13 +143,12 @@ namespace App\Models{
  * @property string $nombre
  * @property string|null $descripcion
  * @property string $unidad
- * @property string $numero_lote
- * @property string $fchVto
  * @property string $precio_costo
  * @property string $precio_venta
  * @property string $iva
  * @property string $utilidad
  * @property float $stock
+ * @property float $stock_minimo
  * @property int $categoria_id
  * @property int $estado
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -159,13 +166,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereEstado($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereFchVto($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereIva($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereNombre($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereNumeroLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto wherePrecioCosto($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto wherePrecioVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereStock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereStockMinimo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUnidad($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUtilidad($value)

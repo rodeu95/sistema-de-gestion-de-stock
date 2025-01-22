@@ -15,6 +15,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\VencimientosController;
+use App\Http\Controllers\LoteController;
 
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
@@ -27,6 +28,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');
 });
 
+// Route::post('lote/store', [LoteController::class, 'store'])->name('lotes.store');
+Route::get('lotes', [LoteController::class, 'index'])->name('lotes.index');
+// Route::delete('lotes/{id}/destroy', [LoteController::class, 'destroy'])->name('lotes.destroy');
 
 Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPermisosPorRol'])->name('roles.permissions');
 

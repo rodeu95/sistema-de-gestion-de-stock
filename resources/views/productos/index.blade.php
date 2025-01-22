@@ -169,20 +169,6 @@
                         >
                     </div>
 
-                    <div class="mb-3">
-                        <label for="numero_lote" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-dolly"></i> Número de Lote
-                        </label>
-                        <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fchVto" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
-                        </label>
-                        <input type="date" class="form-control" id="fchVto" name="fchVto">
-                    </div>
-
                     <!-- Campo Categoría -->
                     <div class="mb-3">
                         <label for="categoria_id" class="form-label" style="color: #aed5b6; ">

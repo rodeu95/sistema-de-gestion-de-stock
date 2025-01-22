@@ -65,7 +65,7 @@
 
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
-                                            <button type="submit" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')" style="background-color:transparent;">
+                                            <button type="button" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')" style="background-color:transparent;">
                                                 <i class="fa-solid fa-trash-can" title="Eliminar usuario"></i>
                                             </button>
                                         @endif

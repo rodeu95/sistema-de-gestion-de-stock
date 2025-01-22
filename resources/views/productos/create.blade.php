@@ -52,14 +52,6 @@
                                     </select>
                                 </div>
 
-
-                                <!-- Campo Número de Lote -->
-                                <div class="mb-3">
-                                    <label for="numero_lote" class="form-label">
-                                        <i class="fa-solid fa-dolly"></i> Número de Lote
-                                    </label>
-                                    <input type="text" class="form-control" id="numero_lote" name="numero_lote" placeholder="Ingrese el número de lote">
-                                </div>
                             </div>
 
                             <!-- Segunda columna -->
@@ -71,8 +63,24 @@
                                     </label>
                                     <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Ingrese una descripción del producto"></textarea>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="stock_minimo" class="form-label">
+                                        <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        class="form-control" 
+                                        id="stock_minimo" 
+                                        name="stock_minimo" 
+                                        title="Ingrese el stock mínimo"
+                                        placeholder="Ingrese el stock mínimo"
+                                        step="0.01"
+                                        required
+                                    >
+                                </div>
                                 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="stock" class="form-label">
@@ -107,16 +115,7 @@
                                             >
                                         </div>
                                     </div>
-                                </div>
-                                
-
-                                <!-- Campo Fecha de Vencimiento -->
-                                <div class="mb-3">
-                                    <label for="fchVto" class="form-label">
-                                        <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
-                                    </label>
-                                    <input type="date" class="form-control" id="fchVto" name="fchVto">
-                                </div>
+                                </div> -->
 
                                 <!-- Campo Categoría -->
                                 <div class="mb-3">

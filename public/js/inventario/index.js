@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             producto.lotes && producto.lotes.length > 0 
                                 ? producto.lotes.map(lote => 
                                     `Lote: ${lote.numero_lote}, Vence: ${new Date(lote.fecha_vencimiento).toLocaleDateString('es-AR')}`
-                                ).join('<br>') 
+                                ).join(`
+                                    `) 
                                 : 'Sin lotes'
                         ];
                         
