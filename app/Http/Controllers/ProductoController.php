@@ -151,10 +151,6 @@ class ProductoController extends Controller
             $productos->where('fchVto', '<=', $fechaVencimiento);
         }
 
-        if ($lote) {
-            $productos->where('numero_lote', 'LIKE', "%$lote%");
-        }
-
         $productos = $productos->get();
 
         // Generar el PDF

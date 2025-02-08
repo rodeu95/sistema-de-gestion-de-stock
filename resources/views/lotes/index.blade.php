@@ -17,7 +17,7 @@
 </main>
 
 @push('js')
-<script src="{{ asset('js/lotes/eliminar.js') }}"></script>
+<script src="{{ asset('js/lotes/index.js') }}"></script>
 <script>
     var loteIndexUrl = "{{ route('api.lotes.index') }}";
     var eliminarLoteUrl = "{{ route('api.lotes.destroy', 'id')}}";

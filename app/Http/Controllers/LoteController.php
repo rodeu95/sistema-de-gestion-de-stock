@@ -12,6 +12,7 @@ class LoteController extends Controller
     public function index(){
 
         $lotes = Lote::with('producto') 
+        ->where('cantidad', '>', 0)
         ->orderBy('fecha_ingreso', 'desc') 
         ->get();
 

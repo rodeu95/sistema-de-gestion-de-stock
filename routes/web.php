@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');
 });
 
-// Route::post('lote/store', [LoteController::class, 'store'])->name('lotes.store');
+Route::post('lote/store', [LoteController::class, 'store'])->name('lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('lotes.index');
 // Route::delete('lotes/{id}/destroy', [LoteController::class, 'destroy'])->name('lotes.destroy');
 

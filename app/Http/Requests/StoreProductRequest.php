@@ -26,7 +26,6 @@ class StoreProductRequest extends FormRequest
             'nombre' => 'required|string|max:250',
             'descripcion' => 'nullable|string|max:1000',
             'unidad' => 'required|string',
-            'fchVto' => 'date',
             'stock_minimo' => 'required|numeric',
             'precio_costo' => 'required|numeric',
             'iva' => 'required|numeric',

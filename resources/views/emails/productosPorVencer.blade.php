@@ -11,7 +11,7 @@
     <ul>
         @foreach($productos as $producto)
             <li>
-                {{ $producto->nombre }} - Vence el: {{ $producto->fchVto->format('d/m/Y') }}
+                {{ $producto->nombre }} - Vence el: {{ $producto->lote->fecha_vencimiento->format('d/m/Y') }}
                 Código: {{$producto->codigo}}
             </li>
         @endforeach

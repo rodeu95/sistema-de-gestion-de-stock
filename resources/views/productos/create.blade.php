@@ -4,7 +4,7 @@
 
     <div class="container" style="margin: 2%;">
         <!-- Título de la página -->
-        <h3 class="mb-4">Agregar nuevo producto</h3>
+        <h3 class="mb-2">Agregar nuevo producto</h3>
         <div class="row">
             <div class="col-lg-12">
 
@@ -45,11 +45,21 @@
                                     <label for="unidad" class="form-label">
                                         <i class="fa-solid fa-weight-hanging"></i> Unidad
                                     </label>
-                                    <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()"  required>
+                                    <div>
+                                        
+                                        <input type="radio" id="unidad_un" name="unidad" value="UN" onchange="updateStockStep()" required>
+                                        <label for="unidad_un" style="margin-right:10px;">UN</label>
+                                       
+                                        <input type="radio" id="unidad_kg" name="unidad" value="KG" onchange="updateStockStep()" required>
+                                        <label for="unidad_kg">KG</label>
+                                    </div>
+                                    
+                                    <!-- <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()"  required>
                                         <option value="" selected disabled>Seleccione la unidad</option>
                                         <option value="UN">UN</option>
                                         <option value="KG">KG</option>
-                                    </select>
+                                    </select> -->
+
                                 </div>
 
                             </div>

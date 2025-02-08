@@ -10,6 +10,7 @@ use App\Models\Caja;
 use App\Models\MetodoDePago;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lote;
 
 class VentaController extends Controller
 {
@@ -79,9 +80,11 @@ class VentaController extends Controller
 
     }
 
-    public function store(Request $request){
-
-        try{
+    public function store(Request $request)
+    {
+        
+        try {
+            dd($request->all());
             $validatedData = $request->validate([
                 'producto_cod' => 'required|array',
                 'producto_cod.*' => 'required|exists:productos,codigo',
@@ -103,7 +106,6 @@ class VentaController extends Controller
             $cantidades = $validatedData['cantidad'];
 
             foreach ($productos as $index => $producto_cod) {
-
                 $cantidad = (float) $cantidades[$index];
                 $producto = Producto::findOrFail($producto_cod);
 
@@ -111,22 +113,39 @@ class VentaController extends Controller
                     return response()->json([
                         'success' => false,
                         'stock' => "No se puede vender fraccionado el producto: {$producto->nombre}, ya que es de tipo unidad."
-                    ], 400);  // Devuelve error 400 (Bad Request)
+                    ], 400); // Devuelve error 400 (Bad Request)
                 }
-                
-                if ($producto->stock >= $cantidad) {
-                    // Disminuye el stock total del producto
-                    $producto->stock -= $cantidad;
-                    $producto->save();
-            
-                    // Asocia el producto a la venta con la cantidad vendida
-                    $venta->productos()->attach($producto_cod, ['cantidad' => $cantidad]);
-                } else {
-                    // Maneja el caso en el que no hay suficiente stock
+
+                $stockRestante = $cantidad; // Cantidad total que se debe vender
+
+                // Obtener lotes del producto ordenados por fecha de vencimiento (FIFO)
+                $lotes = Lote::where('producto_id', $producto_cod)
+                            ->where('cantidad', '>', 0) // Solo lotes con stock disponible
+                            ->orderBy('fecha_vencimiento', 'asc') // FIFO por fecha de vencimiento
+                            ->get();
+
+                foreach ($lotes as $lote) {
+                    if ($stockRestante <= 0) break; // Si ya se vendió todo, salimos del bucle
+
+                    $cantidadLote = min($lote->cantidad, $stockRestante); // Tomar lo máximo posible del lote
+                    $lote->cantidad -= $cantidadLote; // Reducir el stock del lote
+                    $lote->save();
+
+                    $stockRestante -= $cantidadLote; // Reducir la cantidad restante por vender
+
+                    // Registrar la venta del lote en la tabla pivot
+                    $venta->productos()->attach($producto_cod, [
+                        'cantidad' => $cantidadLote,
+                        'numero_lote' => $lote->numero_lote, // Asociar el lote utilizado
+                    ]);
+                }
+
+                // Si no se pudo cubrir la cantidad requerida
+                if ($stockRestante > 0) {
                     return response()->json([
                         'success' => false,
                         'stock' => "No hay suficiente stock para el producto: {$producto->nombre}"
-                    ]);
+                    ], 400); // Devuelve error 400 (Bad Request)
                 }
             }
 
@@ -144,7 +163,7 @@ class VentaController extends Controller
                 'venta' => $venta,
                 'usuario' => Auth::user()->usuario
             ], 201);
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             // Respuesta JSON en caso de error
             return response()->json([
                 'success' => false,
@@ -152,8 +171,8 @@ class VentaController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
-
     }
+
 
     public function update(Request $request, $id) {
         $venta = Venta::find($id);

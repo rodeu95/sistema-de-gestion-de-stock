@@ -96,11 +96,19 @@
                         <label for="unidad" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-weight-hanging"></i> Unidad
                         </label>
-                        <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
+                        <div>
+                                        
+                            <input type="radio" id="unidad_un" name="unidad" value="UN" onchange="updateStockStep()" required>
+                            <label for="unidad_un" style="margin-right:10px; color:grey;">UN</label>
+                            
+                            <input type="radio" id="unidad_kg" name="unidad" value="KG" onchange="updateStockStep()" required>
+                            <label for="unidad_kg" style="color:grey;">KG</label>
+                        </div>
+                        <!-- <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
                             <option value="" selected disabled></option>
                             <option value="UN">UN</option>
                             <option value="KG">KG</option>
-                        </select>
+                        </select> -->
                     </div>
 
                     <div id="hidden-inputs"></div>
@@ -139,7 +147,7 @@
                     </div>
 
                     <!-- Campo Stock -->
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="stock" class="form-label" style="color: #aed5b6;">
                             <i class="fa-solid fa-warehouse"></i> Stock
                         </label>
@@ -152,7 +160,7 @@
                             step="0.01"
                             required
                         >
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <label for="stock_minimo" class="form-label" style="color: #aed5b6;">
@@ -247,24 +255,24 @@
 
                     <div class="mb-3">
                         <label for="edit_stock" class="form-label" style="color: #aed5b6;">
-                            <i class="fa-solid fa-warehouse"></i> Stock
+                            <i class="fa-solid fa-warehouse"></i> Stock mínimo
                         </label>
-                        <input type="number" class="form-control" id="edit_stock" name="stock" value="{{ old('stock', $producto->stock) }}"  required>
+                        <input type="number" class="form-control" id="edit_stock_minimo" name="stock_minimo" value="{{ old('stock', $producto->stock_minimo) }}"  required>
                     </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-solid fa-dolly"></i> Número de Lote
                         </label>
                         <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
-                    </div>
-
+                    </div> -->
+<!-- 
                     <div class="mb-3">
                         <label for="edit_fchVto" class="form-label" style="color: #aed5b6; ">
                             <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
                         </label>
                         <input type="date" class="form-control" id="edit_fchVto" name="fchVto" value="{{ old('fchVto', $producto->fchVto) }}" >
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; ">

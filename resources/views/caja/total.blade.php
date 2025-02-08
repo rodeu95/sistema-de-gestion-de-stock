@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="text-center my-4" style="margin:2%;">Resumen de Ventas en Efectivo - Hoy</h1>
+    <h1 class="my-4" style="margin:2%;">Resumen de Ventas en Efectivo - Hoy</h1>
 
     <div class="table-responsive">
-        <table class="table shadow table-hover">
+        <table class="table shadow">
             <thead>
                 <tr class="table-warning text-center" >
-                    <th style="background-color:#ddd; color:#fff;">ID venta</th>
-                    <th style="background-color:#ddd; color:#fff">Fecha</th>
-                    <th style="background-color:#ddd; color:#fff">Monto Total</th>
+                    <th style="background-color:#fff; color:grey;">ID venta</th>
+                    <th style="background-color:#fff; color:grey">Fecha</th>
+                    <th style="background-color:#fff; color:grey">Monto Total</th>
                 </tr>
             </thead>
             <tbody class="text-center">

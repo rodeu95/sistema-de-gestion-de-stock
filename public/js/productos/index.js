@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 modal.find('#edit_descripcion').val(data.descripcion);
                 modal.find('#edit_unidad').val(data.unidad);
                 modal.find('#edit_precioVenta').val(data.precio_venta);
-                modal.find('#edit_stock').val(data.stock);
+                modal.find('#edit_stock_minimo').val(data.stock_minimo);
                 modal.find('#edit_numero_lote').val(data.numero_lote);
                 modal.find('#edit_fchVto').val(data.fchVto);
                 modal.find('#edit_categoria_id').val(data.categoria_id);

@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'PUT',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': csrfToken
             },
             data: formData,
             success: function (response) {

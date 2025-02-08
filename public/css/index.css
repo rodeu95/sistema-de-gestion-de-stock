@@ -138,7 +138,7 @@ span.cantidad{
     transform: scale(1.2);
 }
 
-input, select, textarea{
+input:not(input[type="radio"]), select, textarea{
     border-color:#aed5b6 !important; 
     border-width: 2px !important;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3) !important;

@@ -15,9 +15,11 @@ class EmailController extends Controller
     {
         // Buscar productos que vencerán en 15 días
         $fechaLimite = Carbon::now()->addDays(15);
-        $productosPorVencer = Producto::where('fecha_vencimiento', '<=', $fechaLimite)
-                                        ->where('fecha_vencimiento', '>=', Carbon::now())
-                                        ->get();
+        $productosPorVencer = Producto::with(['lotes' => function ($query) use ($fechaLimite) {
+            $query->where('fecha_vencimiento', '<=', $fechaLimite)
+                  ->where('fecha_vencimiento', '>=', Carbon::now())
+                  ->where('cantidad', '>', 0);
+        }])->get();
 
         // Verificar si hay productos que notificar
         if ($productosPorVencer->isEmpty()) {

@@ -31,11 +31,6 @@
                 <input type="date" name="fchVto" id="fecha_vencimiento" class="form-control">
             </div>
 
-            <!-- Filtro por Lote -->
-            <div class="col-md-3">
-                <label for="lote" class="form-label">Lote</label>
-                <input type="text" name="lote" id="lote" class="form-control" placeholder="Número de Lote">
-            </div>
         </div>
 
         <!-- Botones -->

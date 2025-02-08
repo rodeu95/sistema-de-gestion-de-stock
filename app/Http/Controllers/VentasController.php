@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use App\Exports\VentasExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Lote;
 
 class VentasController extends Controller
 {
@@ -53,15 +54,14 @@ class VentasController extends Controller
 
     }
 
-    public function store(Request $request){
-        // dd($request->all());
+    public function store(Request $request) {
         $caja = Caja::first();
-
-    // Validar si la caja está cerrada
+    
+        // Validar si la caja está cerrada
         if (!$caja || !$caja->estado) {
             return redirect()->route('inicio')->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
         }
-
+    
         $validatedData = $request->validate([
             'producto_cod' => 'required|array',
             'producto_cod.*' => 'required|exists:productos,codigo',
@@ -70,54 +70,82 @@ class VentasController extends Controller
             'monto_total' => 'required|numeric|min:0',
             'metodo_pago_id' => 'required|exists:metodos_de_pago,id', 
             'fecha_venta' => 'nullable|date',
-            // 'vendedor_id' => 'required|exists:users,id'
         ]);
-
+    
+        $productos = $validatedData['producto_cod'];
+        $cantidades = $validatedData['cantidad'];
+    
+        // Validar stock de todos los productos antes de crear la venta
+        foreach ($productos as $index => $producto_cod) {
+            $cantidad = (float) $cantidades[$index];
+            $producto = Producto::findOrFail($producto_cod);
+    
+            // Validar si el producto no puede ser fraccionado
+            if ($producto->unidad == 'UN' && floor($cantidad) != $cantidad) {
+                return response()->json([
+                    'success' => false,
+                    'stock' => "No se puede vender fraccionado el producto: {$producto->nombre}, ya que es de tipo unidad."
+                ], 400);
+            }
+    
+            // Verificar stock total del producto
+            if ($producto->stock < $cantidad) {
+                return response()->json([
+                    'success' => false,
+                    'stock' => "Stock insuficiente para el producto: {$producto->nombre}."
+                ], 400);
+            }
+        }
+    
+        // Crear la venta solo después de todas las validaciones
         $venta = Venta::create([
             'monto_total' => $validatedData['monto_total'],
             'metodo_pago_id' => $validatedData['metodo_pago_id'],
             'fecha_venta' => $validatedData['fecha_venta'] ?? now(),
             'vendedor_id' => Auth::id(),
         ]);
-
-        $productos = $validatedData['producto_cod'];
-        $cantidades = $validatedData['cantidad'];
-
+    
+        // Procesar la reducción de stock y registrar la venta
         foreach ($productos as $index => $producto_cod) {
-
             $cantidad = (float) $cantidades[$index];
             $producto = Producto::findOrFail($producto_cod);
-
-            if ($producto->unidad == 'UN' && floor($cantidad) != $cantidad) {
-                return response()->json([
-                    'success' => false,
-                    'stock' => "No se puede vender fraccionado el producto: {$producto->nombre}, ya que es de tipo unidad."
-                ], 400);  // Devuelve error 400 (Bad Request)
+            $stockRestante = $cantidad; // Cantidad total que se debe vender
+    
+            // Obtener lotes del producto ordenados por fecha de vencimiento (FIFO)
+            $lotes = Lote::where('producto_cod', $producto_cod)
+                        ->where('cantidad', '>', 0) // Solo lotes con stock disponible
+                        ->orderBy('fecha_vencimiento', 'asc') // FIFO por fecha de vencimiento
+                        ->get();
+    
+            foreach ($lotes as $lote) {
+                if ($stockRestante <= 0) break;
+    
+                $cantidadLote = min($lote->cantidad, $stockRestante); // Tomar lo máximo posible del lote
+                $lote->cantidad -= $cantidadLote; // Reducir el stock del lote
+                $lote->save();
+    
+                $stockRestante -= $cantidadLote;
+    
+                // Registrar la venta del lote en la tabla pivot
+                $venta->productos()->attach($producto_cod, [
+                    'cantidad' => $cantidadLote,
+                ]);
             }
-            
-            if ($producto->stock >= $cantidad) {
-                // Disminuye el stock total del producto
-                $producto->stock -= $cantidad;
-                $producto->save();
-        
-                // Asocia el producto a la venta con la cantidad vendida
-                $venta->productos()->attach($producto_cod, ['cantidad' => $cantidad]);
-            } else {
-                // Maneja el caso en el que no hay suficiente stock
-                return back()->withErrors(['stock' => "No hay suficiente stock para el producto: {$producto->nombre}"]);
-            }
+    
+            // Reducir el stock total del producto
+            $producto->stock -= $cantidad;
+            $producto->save();
         }
-
-        $venta->save();
-
+    
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Nueva venta',
             'text' => 'Venta agregada'
         ]);
-
+    
         return redirect()->route('ventas.create');
     }
+    
 
     public function show(Venta $venta){
         $caja = Caja::find(1);

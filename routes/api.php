@@ -27,7 +27,7 @@ Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inve
 Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
 Route::get('/inventario/edit/{codigo}', [InventoryController::class, 'edit'])->name('api.inventario.edit');
 
-Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
+// Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');
 Route::delete('lotes/{id}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
 

@@ -57,7 +57,8 @@ class ProductController extends Controller
             'nombre' => $producto->nombre,
             'precio_venta' => $producto->precio_venta,
             'stock' => $producto->stock,
-            'estado' => $producto->estado
+            'estado' => $producto->estado,
+            'unidad' => $producto->unidad,
         ]);
     }
 

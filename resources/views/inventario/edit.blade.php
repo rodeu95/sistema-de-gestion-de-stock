@@ -35,7 +35,6 @@
             </div>            
         </div>
 
-        <!-- Columna 2: Actualizar stock filtrando por categorías -->
         <div class="col-md-6">
             <div class="card shadow mb-4">
                 <div class="card-header" style="background-color:#aed6b5;">
@@ -44,7 +43,7 @@
                 <div class="card-body">
                     <div class="mb-3">            
 
-                        <form action="{{ route('lotes.store') }}" method="POST">
+                        <form action="{{ route('lotes.store') }}" id="addLoteForm" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="producto_cod" class="form-label" style="color: #aed5b6;">
@@ -89,40 +88,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="editStockModal" tabindex="-1" aria-labelledby="editStockModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="editProductModalLabel">Actualizar Stock</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="update-stock-form" action="{{ route('inventario.update') }}" method="POST">
-                    @csrf
-
-                    <div class="mb-3">
-                        <label for="modal-producto-codigo" class="form-label" style="color: #aed5b6;">Código del producto</label>
-                        <input type="text" id="modal-producto-codigo" class="form-control" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modal-producto-nombre" class="form-label" style="color: #aed5b6;">Producto</label>
-                        <input type="text" id="modal-producto-nombre" class="form-control" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="modal-cantidad" class="form-label" style="color: #aed5b6;">Cantidad</label>
-                        <input type="number" name="cantidad" id="modal-cantidad" class="form-control" required>
-                    </div>
-
-                    <div id="hidden-inputs"></div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn">Actualizar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 @push('js')
 <script src="{{ asset('js/inventario/inventarioUpdate.js') }}"></script>

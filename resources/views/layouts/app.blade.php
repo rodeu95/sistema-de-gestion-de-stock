@@ -20,6 +20,60 @@
     <body>
         @include('dashboard.partials.header')
 
+        <!-- Modal para mostrar detalles del producto -->
+        <div class="modal fade" id="barcodeModal" tabindex="-1" aria-labelledby="barcodeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="barcodeModalLabel">Detalles del Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" id="barcodeModalContent">
+                        <!-- Aquí se mostrarán los datos del producto -->
+                        <div class="mb-3 text-center">
+                            <strong><h3 id="producto-nombre" style="color:#aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);"></h3></strong>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <!-- Columna para labels -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="producto-codigo" class="form-label" style="color: #aed5b6;">
+                                        Código
+                                    </label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="producto-precio" class="form-label" style="color: #aed5b6;">
+                                        Precio
+                                    </label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="producto-stock" class="form-label" style="color: #aed5b6;">
+                                        Stock disponible
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Columna para datos -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <p id="producto-codigo" class="form-control-plaintext text-dark"></p>
+                                </div>
+                                <div class="mb-3">
+                                    <strong><p id="producto-precio" class="form-control-plaintext text-dark"></p></strong>
+                                </div>
+                                <div class="mb-3">
+                                    <p id="producto-stock" class="form-control-plaintext text-dark"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="container">
             {{-- Mostrar mensaje de error si existe --}}
             @if (session('error'))
@@ -52,13 +106,14 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-
         <!-- <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script> -->
         <script src="{{ mix('js/app.js') }}"></script>
         <script src="{{ asset('js/index.js') }}"></script>
-        <!-- <script src="{{ asset('js/login.js') }}"></script> -->
+        <script src="{{ asset('js/barcode.js') }}"></script>
         <script src="{{ asset('js/logout.js') }}"></script>
-
+        <script>
+            var productoShowUrl = "{{ route('api.producto.show', 'codigo') }}";
+        </script>
         @stack('js')
 
         <script>

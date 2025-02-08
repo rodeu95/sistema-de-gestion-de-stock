@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container" style="margin:2%;">
-    <h3 style="margin:2%;">Registrar Venta</h3>
+    <h3 class="mb-4">Registrar Venta</h3>
     
     <!-- Mostrar mensaje de advertencia si la caja está cerrada -->
     @if(!$cajaAbierta)
@@ -15,45 +15,37 @@
     <form action="{{ route('ventas.store') }}" method="POST" id="ventasForm">
         @csrf
         <div class="row">
-            <div class="col-lg-4">
-                <!-- Sección de selección de productos -->
-                <div class="card shadow mb-4">
-                    <div class="card-header">
-                        <h5 class="justify-content text-white text-center">Seleccionar Producto</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="producto-select" class="form-label" style="color: #aed5b6; ">Producto</label>
-                            <select id="producto-select" class="form-select" name="producto_cod[]">
-                                <option value="" disabled selected>Seleccione un producto</option>
-                                @foreach($productos as $producto)
-                                    @if($producto->stock > 0 && $producto->estado === 1)
-                                        <option value="{{ $producto->codigo }}" data-precio="{{ $producto->precio_venta }}" data-unidad="{{$producto->unidad}}" data-stock="{{$producto->stock}}">
-                                            {{ $producto->nombre }} - ${{ $producto->precio_venta }} x {{$producto->unidad}}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="cantidad-input" class="form-label" style="color: #aed5b6; ">Cantidad</label>
-                            <input 
-                                type="number" 
-                                id="cantidad-input" 
-                                class="form-control" 
-                                name="cantidad" 
-                                value="" 
-                                min="1"
-                            >
-                        </div>
+            <input 
+                type="hidden" 
+                id="codigo-input" 
+                class="form-control" 
+                name="producto_cod"
+            >
+                            
+            <input 
+            id="producto-nombre"
+            type="hidden"
+            class="form-control"
+            readonly
+            >
 
-                        <button type="button" id="add-product" class="btn btn-secondary mb-3" @if(!$cajaAbierta) disabled @endif style="background-color: grey">Agregar Producto</button>
-                    </div>
-                </div>
-            </div>
+            <input 
+                type="hidden" 
+                id="cantidad-input" 
+                class="form-control" 
+                name="cantidad" 
+                value="" 
+            >
 
-            <div class="col-lg-4">
+            <input type="hidden" id="producto-stock">
+            <input type="hidden" id="producto-precio">
+            <input type="hidden" id="producto-unidad">
+
+            <button type="button" id="add-product" class="btn btn-secondary mb-3" @if(!$cajaAbierta) disabled @endif style="background-color: grey; display: none;">Agregar Producto</button>
+                    
+                
+            <div class="col-lg-6">
                 <!-- Sección de productos seleccionados -->
                 <div class="card shadow mb-4">
                     <div class="card-header">
@@ -69,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <!-- Sección de monto total -->
                 <div class="card shadow mb-4">
                     <div class="card-header">
@@ -106,6 +98,28 @@
         </div>
     </form>          
 </div>
+<!-- Modal para editar la cantidad -->
+<div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="editQuantityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editQuantityModalLabel">Editar Cantidad</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="newQuantity" class="form-label" style="color:#aed5b6;">Nueva Cantidad:</label>
+        <input type="number" id="newQuantity" class="form-control" min="0.1" step="0.1" required>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" id="confirmEditQuantity">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 @push('js')
 <script src="{{ asset('js/ventas.js') }}"></script>
