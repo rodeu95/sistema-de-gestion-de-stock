@@ -191,8 +191,31 @@ class VentasController extends Controller
                 // ->withSuccess('La venta fue eliminada exitosamente.');
     }
 
-    public function export(){
-        return Excel::download(new VentasExport, 'ventas.xlsx');
+
+    public function export(Request $request)
+    {
+    $fecha = $request->input('fecha_venta');
+    $año = $request->input('year');
+    $mes = $request->input('month');
+
+    $ventas = Venta::query();
+
+    if ($fecha) {
+        $ventas->whereDate('fecha_venta', $fecha);
     }
+
+    if ($año) {
+        $ventas->whereYear('fecha_venta', $año);
+    }
+
+    if ($mes) {
+        $ventas->whereMonth('fecha_venta', $mes);
+    }
+
+    $ventas = $ventas->get();
+
+    return Excel::download(new VentasExport($ventas), 'ventas.xlsx');
+    }
+
 }
 

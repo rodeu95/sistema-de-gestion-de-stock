@@ -213,7 +213,7 @@ nav{
 
 #logo img:hover{
     transform: scale(1.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 4px 6px rgb(248, 246, 246);
     border-radius: 10px;
 }
 

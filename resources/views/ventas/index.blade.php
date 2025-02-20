@@ -44,85 +44,43 @@
         
 
     <div id="ventas-table"></div>
-    <div id="editButtonTemplate" style="display: none;">
-        @can('editar-venta')
-            <a href="javascript:void(0);" type="button" class="btn btn-sm" data-bs-toggle="modal" title="Editar venta" data-bs-target="#editVentaModal" data-id="${id}" style="background-color:transparent;">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-        @endcan
-    </div>
-
-    <div id="deleteButtonTemplate" style="display: none;">
-        @can('eliminar-venta')
-            <button type="button" title="Eliminar venta" class="btn btn-sm btn-delete" data-id="${id}" style="background-color:transparent;">
-                <i class="fa-solid fa-trash-can"></i>
+    
+    <div id="anularButtonTemplate" style="display: none;">
+        @can('anular-venta')
+            <button id="anular-venta-btn" type="button" class="btn btn-sm" title="Anular venta" data-id="${id}" style="background-color:transparent;">
+                <i class="fa-solid fa-ban" ></i>
             </button>
         @endcan
     </div>
+    <div id="showVentaTemplate" style="display: none;">
+        <button id="show-venta-btn" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#showVentaModal" title="Detalles de  venta" data-id="${id}" style="background-color:transparent;">
+            <i class="fa-solid fa-eye" ></i>
+        </button>
+    </div>
+
+    
 </main>
 
-<!-- MODAL DE EDICIÓN -->
-<div class="modal fade" id="editVentaModal" tabindex="-1" aria-labelledby="editVentaModalLabel" aria-hidden="true">
+<div class="modal fade" id="showVentaModal" tabindex="-1" aria-labelledby="showVentaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="editVentaModalLabel">Editar Venta</h4>
+                <h4 class="modal-title" id="editProductModalLabel">Detalles de venta</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
-                <form id="editVentasForm" method="POST">
-
-                    @csrf
-                    @method('PUT') 
-
-                    <div class="mb-3">
-                        <label for="edit_id" class="form-label" style="color: #aed5b6; ">ID Venta</label>
-                        <input type="text" class="form-control" id="edit_id" name="id" value="{{old('id', $venta->id)  }}" readonly required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="producto-select" class="form-label" style="color: #aed5b6; ">Producto</label>
-                        <select id="producto-select" class="form-select">
-                            <option value="" disabled selected>Seleccione un producto</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="cantidad-input" class="form-label" style="color: #aed5b6; ">Cantidad</label>
-                        <input type="number" id="cantidad-input" class="form-control" value="">
-                    </div>
-
-                    <button type="button" id="add-product" class="btn mb-3" style="background-color:grey;">Agregar Producto</button>
-
-                    <ul id="product-list" class="list-group mb-3">
-                        
-                    </ul>
-
-                    <div id="hidden-inputs"></div>
-
-                    <div class="mb-3">
-                        <label for="monto_total" class="form-label" style="color: #aed5b6;margin-top:1%;">Monto Total</label>
-                        <input type="number" name="monto_total" id="monto_total" class="form-control" value="" readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="fecha_venta" class="form-label" style="color: #aed5b6; margin-top:1%;">Fecha de Venta</label>
-                        <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
-                    </div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn" style=" margin-right:10px">
-                            Actualizar Venta
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:grey;">Cancelar</button>
-                    </div>    
-                </form>
+                <p><strong>ID Venta: </strong> <span id="venta-id"></span></p>
+                <p><strong>Monto Total: </strong> <span id="venta-monto"></span></p>
+                <p><strong>Fecha: </strong> <span id="venta-fecha"></span></p>
+                <p><strong>Estado: </strong> <span id="venta-estado"></span></p>
+                <h5 style="color:#aed5b6">Productos</h5>
+                <ul id="lista-productos"></ul>
             </div>
         </div>
     </div>
 </div>
-    
+
+
 
 @push('js')
 <script src="{{ asset('js/ventas/index.js') }}"></script>
@@ -132,8 +90,10 @@
     var ventasStoreUrl = "{{ route('api.ventas.store') }}";
     var ventaUpdatetUrl = "{{ route('api.ventas.update', 'id') }}";
     var editVentaUrlTemplate = "{{ route('api.ventas.edit', ':id') }}"; 
-    var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}"
+    var eliminarVentaUrl = "{{ route('api.ventas.destroy', 'id') }}";
     console.log(editVentaUrlTemplate);
+    var showVentatUrl = "{{ route('api.ventas.show', ':id') }}";
+    var anularVentaUrl = "{{ route('api.ventas.anular', 'id') }}";
 </script>
 
 @endpush

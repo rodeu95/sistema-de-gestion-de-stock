@@ -25,6 +25,11 @@ document.addEventListener('keydown', function (e) {
   if (isVentasCreatePage() || isProductosCreatePage() || isInventarioEditPage()) {
     return; 
   }
+  const modalAddProductAbierto = document.getElementById('addProductModal')?.classList.contains('show');
+
+    if (modalAddProductAbierto) {
+        return; // No ejecutar la lógica de escaneo si el modal está abierto
+    }
 
   clearTimeout(timeout);
 

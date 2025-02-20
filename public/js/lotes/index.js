@@ -9,11 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         grid = new gridjs.Grid({
-            columns: [   
-                {
-                    name: 'id',
-                    hidden: true,
-                },             
+            columns: [               
                 {
                     name: 'Producto',
                     sort: true,
@@ -45,12 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     name: 'Acciones',
                     formatter: (cell, row) => {
 
-                        const id = row.cells[0].data;
+                        const numero_lote = row.cells[1].data;
    
-                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${id}', id);
+                        const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${numero_lote}', numero_lote);
 
                         return gridjs.html(`
-                            <form id="delete-form-lote" action="/sistema/public/lotes/${id}/destroy" method="post">
+                            <form id="delete-form-lote" action="{{ route('api.lotes.destroy', ['numero_lote' => 'numero_lote']) }}" method="DELETE">
                                 <input type="hidden" name="_token" value="${csrfToken}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 ${deleteButtonHtml}
@@ -66,9 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRF-TOKEN': csrfToken,
                 },
                 then: data => {
+                    console.log(data);
                     return data.map(lote => {            
+                    
                        return [
-                            lote.id,
                             lote.producto.nombre,
                             lote.numero_lote,
                             lote.cantidad,
@@ -133,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     renderLotesTable();
 });
 
-function eliminarLote(id) {
+function eliminarLote(numero_lote) {
     Swal.fire({
         title: '¿Estás seguro?',
         text: '¿Desea eliminar el lote permanentemente?',
@@ -145,7 +142,7 @@ function eliminarLote(id) {
         cancelButtonColor: "#d33",
     }).then((result) => {
         if (result.isConfirmed) {
-            const eliminarLoteUrlFinal = eliminarLoteUrl.replace("id", id);
+            const eliminarLoteUrlFinal = eliminarLoteUrl.replace("numero_lote", numero_lote);
             console.log(eliminarLoteUrlFinal);
             $.ajax({
                 url:eliminarLoteUrlFinal,
@@ -178,6 +175,7 @@ function eliminarLote(id) {
 }
 
 $(document).on('click', '.btn-delete-lote', function() {
-    const id = $(this).data('id');
-    eliminarLote(id);
+    const numero_lote = $(this).data('numero_lote');
+    console.log(eliminarLoteUrl.replace("numero_lote", numero_lote));
+    eliminarLote(numero_lote);
 });

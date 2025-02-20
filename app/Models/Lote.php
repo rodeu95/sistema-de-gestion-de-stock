@@ -10,6 +10,10 @@ class Lote extends Model
     use HasFactory;
 
     protected $table = 'lotes';
+    protected $primaryKey = 'numero_lote';
+    protected $casts = [
+        'numero_lote' => 'string' // Asegura que no se interprete como número
+    ];
     
     protected $fillable = [
         'numero_lote',

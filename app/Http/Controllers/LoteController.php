@@ -10,7 +10,7 @@ use App\Models\Caja;
 class LoteController extends Controller
 {
     public function index(){
-
+       
         $lotes = Lote::with('producto') 
         ->where('cantidad', '>', 0)
         ->orderBy('fecha_ingreso', 'desc') 
@@ -18,7 +18,7 @@ class LoteController extends Controller
 
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado : false;
-
+        
         return view('lotes.index', compact('lotes', 'cajaAbierta'));
     }
 
@@ -30,8 +30,8 @@ class LoteController extends Controller
             'producto_cod' => 'required|exists:productos,codigo',
             'numero_lote' => 'required',
             'cantidad' => 'required|numeric|min:1',
-            'fecha_ingreso' => 'required|date',
-            'fecha_vencimiento' => 'nullable|date|after_or_equal:fecha_ingreso',
+            'fecha_ingreso' => 'nullable|date',
+            'fecha_vencimiento' => 'required|date|after_or_equal:fecha_ingreso',
         ]);
 
         $producto = Producto::where('codigo', $request->producto_cod)->first();
@@ -57,7 +57,7 @@ class LoteController extends Controller
 
         session()->flash('swal', [
             'icon' => 'success',
-            'title' => 'Lote agregado!',
+            'title' => '¡Lote agregado!',
             'text' => 'El lote se ha agregado correctamente'
         ]);
 

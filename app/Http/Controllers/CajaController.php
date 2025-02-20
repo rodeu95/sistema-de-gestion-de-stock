@@ -52,6 +52,7 @@ class CajaController extends Controller
 
         $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])
         ->where('metodo_pago_id', 1)
+        ->where('estado', '=', 1)
         ->get();
         $montoTotalHoy = $totalVentasHoy->sum('monto_total'); 
 

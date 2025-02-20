@@ -41,18 +41,14 @@
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Stock</th>
-                <th>Fecha de Vencimiento</th>
-                <th>Lote</th>
             </tr>
         </thead>
         <tbody>
             @foreach($productos as $producto)
                 <tr>
                     <td>{{ $producto->nombre }}</td>
-                    <td>{{ $producto->categoria->nombre }}</td>
+                    <td>{{ $producto->categoria->nombre ?? 'Sin Categoría' }}</td>
                     <td>{{ $producto->stock }}</td>
-                    <td>{{ $producto->fecha_vencimiento }}</td>
-                    <td>{{ $producto->numero_lote }}</td>
                 </tr>
             @endforeach
         </tbody>

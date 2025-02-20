@@ -20,7 +20,7 @@ class LoteController extends Controller
         $lotes = Lote::with('producto') 
         ->orderBy('fecha_ingreso', 'desc') 
         ->get();
-
+        
         return response()->json($lotes);
     }
 
@@ -32,8 +32,8 @@ class LoteController extends Controller
             'producto_cod' => 'required|exists:productos,codigo',
             'numero_lote' => 'required',
             'cantidad' => 'required|numeric|min:1',
-            'fecha_ingreso' => 'required|date',
-            'fecha_vencimiento' => 'nullable|date|after_or_equal:fecha_ingreso',
+            'fecha_ingreso' => 'nullable|date',
+            'fecha_vencimiento' => 'requires|date|after_or_equal:fecha_ingreso',
         ]);
 
         $producto = Producto::where('codigo', $request->producto_cod)->first();
@@ -59,7 +59,7 @@ class LoteController extends Controller
 
         session()->flash('swal', [
             'icon' => 'success',
-            'title' => 'Lote agregado!',
+            'title' => '¡Lote agregado!',
             'text' => 'El lote se ha agregado correctamente'
         ]);
 
@@ -67,16 +67,15 @@ class LoteController extends Controller
         return redirect()->back()->with('success', 'Lote agregado exitosamente.');
     }
 
-    public function destroy($id)
+    public function destroy($numero_lote)
     {
-        
-        try{
-            $lote = Lote::find($id);
-            $cantidad = $lote->cantidad;
+        $numero_lote = trim($numero_lote);
 
-            \Log::debug($lote);
+        try{
+            $lote = Lote::where('numero_lote', $numero_lote)->first();;
+                       
             if (!$lote) {
-                \Log::warning("Lote no encontrado");
+                \Log::info("Lote no encontrado");
                 session()->flash('swal', [
                     'icon' => 'error',
                     'title' => 'Error',
@@ -84,6 +83,7 @@ class LoteController extends Controller
                 ]);
                 return response()->json(['message' => 'Lote no encontrado'], 404);
             }
+            $cantidad = $lote->cantidad;
 
             $producto = Producto::where('codigo', $lote->producto_cod)->first();
             

@@ -22,6 +22,8 @@ Route::post('/ventas', [VentaController::class, 'store'])->name('api.ventas.stor
 Route::get('/ventas/{id}/edit', [VentaController::class, 'edit'])->name('api.ventas.edit');
 Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('api.ventas.update');
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
+Route::put('/ventas/{id}/anular', [VentaController::class, 'anularVenta'])->name('api.ventas.anular');
+Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('api.ventas.show');
 
 Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
 Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
@@ -29,6 +31,6 @@ Route::get('/inventario/edit/{codigo}', [InventoryController::class, 'edit'])->n
 
 // Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');
-Route::delete('lotes/{id}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
+Route::delete('lotes/{numero_lote}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
 
 

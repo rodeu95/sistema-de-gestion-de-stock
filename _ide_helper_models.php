@@ -92,7 +92,6 @@ namespace App\Models{
 /**
  * 
  *
- * @property int $id
  * @property string $numero_lote
  * @property string $producto_cod
  * @property float $cantidad
@@ -108,7 +107,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereFechaIngreso($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereFechaVencimiento($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereNumeroLote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereProductoCod($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Lote whereUpdatedAt($value)
@@ -231,6 +229,7 @@ namespace App\Models{
  * @property string $monto_total
  * @property int $metodo_pago_id
  * @property string $fecha_venta
+ * @property int $estado
  * @property int $vendedor_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -242,6 +241,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereEstado($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereFechaVenta($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Venta whereMetodoPagoId($value)

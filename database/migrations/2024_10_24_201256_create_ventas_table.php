@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('monto_total', 10, 2);
             $table->unsignedBigInteger('metodo_pago_id'); 
             $table->date('fecha_venta')->default(DB::raw('CURRENT_DATE')); // Fecha de la venta
+            $table->boolean('estado')->default(true);
             $table->unsignedBigInteger('vendedor_id');
             $table->timestamps();
             

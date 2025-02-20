@@ -12,7 +12,7 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\VentasController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\InventarioController;
-use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\VencimientosController;
 use App\Http\Controllers\LoteController;
@@ -64,13 +64,10 @@ Route::middleware(['auth', 'permission:ver-total-caja'])->group(function () {
 });
 
 Route::get('/generate-pdf', [ProductoController::class, 'export'])->name('generate-pdf');
-Route::get('/export/productos', [PDFController::class, 'generatePDF'])->name('productos.export');
+Route::get('/export/productos', [ExportController::class, 'generatePDF'])->name('productos.export');
+Route::get('/export/ventas', [ExportController::class, 'generateExcel'])->name('ventas.export');
+Route::get('/generate-excel', [VentasController::class, 'export'])->name('generate-excel');
 
-
-Route::controller(VentasController::class)->group(function(){
-    Route::get('/ventas', 'index')->name('ventas.index');
-    Route::get('/ventas-export', 'export')->name('ventas.export');
-});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

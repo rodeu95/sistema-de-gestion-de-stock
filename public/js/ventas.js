@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Función para agregar un producto a la lista
         function addProductToList(codigo, nombre, precio, cantidad, unidadProducto) {
-            document.getElementById('hidden-inputs').innerHTML = '';
+            
             if (!validateProductQuantity(unidadProducto, cantidad)) {
                 return; // Detener la ejecución si la cantidad no es válida
             }
@@ -141,16 +141,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         <strong>${nombre}</strong> - ${cantidad} x $${precio} = $${(precio * cantidad).toFixed(2)}                        
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" class="btn float-end remove-product" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; " title="Quitar"><i class="fa-solid fa-minus remove-product" style="color:#fff; font-size: .75rem;"></i></button>
+                        <button type="button" class="btn float-end remove-product" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; " title="Quitar" data-codigo=""><i class="fa-solid fa-minus remove-product" style="color:#fff; font-size: .75rem;"></i></button>
                         
                         <button type="button" id="editar-cantidad" class="btn float-end edit-product" style= " margin-right:5px; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; " title="Cantidad">Cantidad</button>
                     </div>
                 </div>               
             `;
-            // --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;
+            
             console.log(`Producto agregado: ${nombre}, Cantidad: ${cantidad}`);
 
             const hiddenInputs = document.getElementById('hidden-inputs');
+            const oldHiddenInputs = hiddenInputs.querySelectorAll(`input[name="producto_cod[]"][value="${codigo}"]`);
+            oldHiddenInputs.forEach(input => {
+                const cantidadInput = input.nextElementSibling;
+                if (cantidadInput && cantidadInput.name === "cantidad[]") {
+                    cantidadInput.remove(); // Eliminar solo la cantidad del producto específico
+                }
+                input.remove(); // Eliminar el código del producto
+            });
+
             if (cantidad != null) {
                 hiddenInputs.innerHTML += `<input type="hidden" name="producto_cod[]" value="${codigo}">
                                             <input type="hidden" name="cantidad[]" value="${cantidad}">`;
@@ -165,6 +174,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Agregar evento de eliminar
             listItem.querySelector('.remove-product').addEventListener('click', function() {
+                hiddenInputs.querySelectorAll(`input[name="producto_cod[]"][value="${codigo}"]`).forEach(input => {
+                    const cantidadInput = input.nextElementSibling; // Buscar el input de cantidad asociado
+                    if (cantidadInput && cantidadInput.name === "cantidad[]") {
+                        cantidadInput.remove(); // Eliminar la cantidad asociada
+                    }
+                    input.remove(); // Eliminar el código del producto
+                });
                 listItem.remove();
                 calculateTotal(); // Recalcular el total después de eliminar
             });

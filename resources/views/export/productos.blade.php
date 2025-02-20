@@ -27,9 +27,13 @@
 
             <!-- Filtro por Fecha de Vencimiento -->
             <div class="col-md-3">
-                <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
-                <input type="date" name="fchVto" id="fecha_vencimiento" class="form-control">
+                <label for="top_productos" class="form-label">Productos más vendidos</label>
+                <select name="top_productos" id="top_productos" class="form-control">
+                    <option value="">No filtrar</option>
+                    <option value="1">Sí</option>
+                </select>
             </div>
+
 
         </div>
 

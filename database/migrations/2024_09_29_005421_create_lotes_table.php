@@ -14,15 +14,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lotes', function (Blueprint $table) {
-            $table->id();
             $table->string('numero_lote', 50);
             $table->string('producto_cod');
             $table->float('cantidad');
-            $table->date('fecha_ingreso');
-            $table->date('fecha_vencimiento')->nullable();
+            $table->date('fecha_ingreso')->nullable();
+            $table->date('fecha_vencimiento');
             $table->timestamps();
 
             $table->foreign('producto_cod')->references('codigo')->on('productos')->onDelete('cascade');
+            $table->primary('numero_lote');
         });
     }
 

@@ -133,10 +133,9 @@ class ProductoController extends Controller
     public function export(Request $request){
         $categoria = $request->input('categoria');
         $bajoStock = $request->input('bajo_stock');
-        $fechaVencimiento = $request->input('fchVto');
         $lote = $request->input('lote');
-
-        // Filtrar los productos
+        $topProductos = $request->input('top_productos');
+                // Filtrar los productos
         $productos = Producto::query();
 
         if ($categoria) {
@@ -147,9 +146,17 @@ class ProductoController extends Controller
             $productos->whereColumn('stock', '<', 'stock_minimo');
         }
 
-        if ($fechaVencimiento) {
-            $productos->where('fchVto', '<=', $fechaVencimiento);
+        if ($topProductos) {
+            $productos = Producto::select('productos.nombre',
+                                            'productos.categoria_id',
+                                            'productos.stock',
+                                            \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
+                ->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
+                ->groupBy('productos.nombre', 'productos.categoria_id', 'productos.stock')
+                ->orderByDesc('total_vendido')
+                ->limit(3);
         }
+        
 
         $productos = $productos->get();
 

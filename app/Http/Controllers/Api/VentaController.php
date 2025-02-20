@@ -11,6 +11,8 @@ use App\Models\MetodoDePago;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Lote;
+use Carbon\Carbon;
+
 
 class VentaController extends Controller
 {
@@ -19,6 +21,7 @@ class VentaController extends Controller
         $this->middleware('permission:registrar-venta', ['only'=>['create','store']]);
         $this->middleware('permission:editar-venta', ['only'=>['edit','store', 'update']]);
         $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
+        $this->middleware('permission:anular-venta', ['only' => ['anularVenta']]);
     }
     public function index(Request $request)
     {
@@ -173,16 +176,24 @@ class VentaController extends Controller
         }
     }
 
+    public function show($id){
+        $venta = Venta::with(['productos'])->find($id);
+        // $venta->created_at = Carbon::parse($venta->created_at)->format('d/m/Y H:i:s');
+        return response()->json([
+            'success' => true,
+            'venta' => $venta
+        ]);
+    }
+
 
     public function update(Request $request, $id) {
         $venta = Venta::find($id);
-    
         // Validate input data
         $request->validate([
             'producto_cod' => 'required|array',
             'producto_cod.*' => 'required|exists:productos,codigo',
             'cantidad' => 'required|array|min:1',
-            'cantidad.*' => 'required|numeric|min:0.01',
+            'cantidad.*' => 'required|numeric|min:0.1',
             'monto_total' => 'required|numeric|min:0',
             'fecha_venta' => 'nullable|date',
         ]);
@@ -298,5 +309,40 @@ class VentaController extends Controller
         }else{
             return response()->json(['message' => 'venta no encontrada'], 404);
         }
+    }
+
+    public function anularVenta($id){
+        $venta = Venta::find($id);
+        
+        if (!$venta) {
+            return response()->json(['error' => 'Venta no encontrada'], 404);
+        }
+        $limiteTiempo = now()->subMinutes(30);
+        if ($venta->created_at < $limiteTiempo) {
+            return redirect()->back()->with('error', 'Ya no es posible anular la venta.');
+        }
+        foreach ($venta->productos as $producto) {
+            $cantidadVendida = $producto->pivot->cantidad;
+    
+            // Buscar el lote con la fecha de vencimiento más cercana
+            $lote = $producto->lotes()->orderBy('fecha_vencimiento', 'asc')->first();
+            // dd($lote);
+    
+            if ($lote) {
+                $lote->cantidad += $cantidadVendida;
+                $producto->stock += $cantidadVendida;
+                $lote->save();
+                $producto->save();
+            } 
+        }
+    
+        // Marcar la venta como anulada
+        $venta->estado = false;
+        $venta->save();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Venta anulada exitosamente'
+        ]);
     }
 }

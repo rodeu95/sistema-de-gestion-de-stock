@@ -19,6 +19,8 @@ class InicioController extends Controller
 
         $topProductos = Producto::select('nombre', \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
         ->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
+        ->join('ventas', 'ventas.id', '=', 'venta_producto.venta_id')
+        ->where('ventas.estado', '=', 1 )
         ->groupBy('productos.nombre')
         ->orderByDesc('total_vendido')
         ->limit(3)
@@ -28,8 +30,12 @@ class InicioController extends Controller
         $dataTop = $topProductos->pluck('total_vendido');
        
         // Contar las ventas de hoy y calcular el monto total de hoy
-        $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->count();
-        $montoTotalHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])->sum('monto_total');
+        $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])
+        ->where('estado', '=', 1)
+        ->count();
+        $montoTotalHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])
+        ->where('estado', '=', 1)
+        ->sum('monto_total');
  
         $sevenDaysAgo = Carbon::now()->subDays(6)->startOfDay();
         $ventas = Venta::whereBetween('fecha_venta', [$sevenDaysAgo, $endOfToday])
