@@ -230,6 +230,51 @@ nav{
     margin-left: 5%;
 }
 
+.container-botones {
+    position: relative;
+}
+
+.main-btn {
+    background-color: #aed5b6;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+}
+
+.hidden-btn {
+    background-color: #aed5b6;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    transition: transform 0.3s ease, opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.container-botones .hidden-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+.container-botones.active .main-btn {
+    opacity: 0.5;
+}
+
+.btn-1 { transform: translate(130px, -60px); }
+.btn-2 { transform: translate(230px, 0); }
+.btn-3 { transform: translate(130px, 60px); }
+
+/* Estado inicial */
+.container-botones:not(.active) .hidden-btn {
+    opacity: 0;
+    transform: translate(0, 0);
+    pointer-events: none;
+}
+
 
 @media (max-width: 995px) {
     #logo {

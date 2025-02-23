@@ -42,7 +42,9 @@
                                             @endcan
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('lotes.index') }}">Ver lotes</a>
+                                            @can('ver-lotes')
+                                                <a class="dropdown-item" href="{{ route('lotes.index') }}">Ver lotes</a>
+                                            @endcan
                                         </li>
                                     </ul>
                                 </li>
@@ -68,13 +70,16 @@
 
                                 <!-- Control de Inventario -->
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Inventario">
-                                        <i class="fas fa-warehouse"></i> Inventario
-                                    </a>
-                                    <ul class="dropdown-menu shadow">
-                                        <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Ver inventario</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('inventario.edit' ) }}">Actualizar inventario</a></li>
-                                    </ul>
+                                    @can('gestionar-inventario')
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Inventario">
+                                            <i class="fas fa-warehouse"></i> Inventario
+                                        </a>
+
+                                        <ul class="dropdown-menu shadow">
+                                            <li><a class="dropdown-item" href="{{ route('inventario.index') }}">Ver inventario</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('inventario.edit' ) }}">Actualizar inventario</a></li>
+                                        </ul>
+                                    @endcan
                                 </li>
 
                                 <!-- Exportación de Datos -->
@@ -96,7 +101,9 @@
                                     </a>
                                     <ul class="dropdown-menu shadow">
                                         <li><a class="dropdown-item" href="{{ route  ('users.index')}}">Lista de usuarios</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('users.create') }}">Agregar usuario</a></li>
+                                        @can('agregar-usuario')
+                                            <li><a class="dropdown-item" href="{{ route('users.create') }}">Agregar usuario</a></li>
+                                        @endcan
                                     </ul>
                                 </li>
 

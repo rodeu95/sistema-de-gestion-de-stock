@@ -319,7 +319,10 @@ class VentaController extends Controller
         }
         $limiteTiempo = now()->subMinutes(30);
         if ($venta->created_at < $limiteTiempo) {
-            return redirect()->back()->with('error', 'Ya no es posible anular la venta.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Ya no es posible anular la venta.'
+            ]);
         }
         foreach ($venta->productos as $producto) {
             $cantidadVendida = $producto->pivot->cantidad;

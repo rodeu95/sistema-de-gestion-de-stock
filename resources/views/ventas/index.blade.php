@@ -69,10 +69,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>ID Venta: </strong> <span id="venta-id"></span></p>
-                <p><strong>Monto Total: </strong> <span id="venta-monto"></span></p>
-                <p><strong>Fecha: </strong> <span id="venta-fecha"></span></p>
-                <p><strong>Estado: </strong> <span id="venta-estado"></span></p>
+                <p ><strong class="text-muted text-uppercase small mb-0">ID Venta: </strong> <span id="venta-id" class="text-muted"></span></p>
+                <p ><strong class="text-muted text-uppercase small mb-0">Monto Total: </strong> <span id="venta-monto" class="text-muted"></span></p>
+                <p ><strong class="text-muted text-uppercase small mb-0">Fecha: </strong> <span id="venta-fecha" class="text-muted"></span></p>
+                <p ><strong class="text-muted text-uppercase small mb-0">Estado: </strong> <span id="venta-estado" class="text-muted"></span></p>
+                <hr>
                 <h5 style="color:#aed5b6">Productos</h5>
                 <ul id="lista-productos"></ul>
             </div>

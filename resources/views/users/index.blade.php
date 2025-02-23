@@ -62,7 +62,6 @@
                                         {{-- Evitar que el administrador se elimine a sí mismo --}}
                                     @if(Auth::user()->hasRole('Administrador') && $user->id !== Auth::user()->id)
                                         
-
                                         @if (Auth::user()->id != $user->id)
                                             {{-- Mostrar botón para eliminar --}}
                                             <button type="button" class="btn btn-sm" onclick="confirmDelete('{{$user->id}}')" style="background-color:transparent;">

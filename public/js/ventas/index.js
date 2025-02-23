@@ -288,7 +288,7 @@ function anularVenta(id) {
                             window.location.reload(); // Recargar la página después de 2 segundos
                         });
                     } else {
-                        alert('Error: ' + data.message); // Mensaje de error si no se encontró el producto
+                        alert('Error: ' + data.message); 
                     }
                 },
                 error: function(xhr, status, error) {

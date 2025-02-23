@@ -216,7 +216,8 @@ class UserController extends Controller
     {
         if ($user->hasRole('Administrador') || $user->id == Auth::user()->id)
         {
-            abort(403, 'NO TIENES PERMISO PARA ELIMINAR USUARIOS');
+            abort(403, 'NO PUEDES ELIMINAR A OTROS ADMINISTRADORES');
+            
         }
 
         $user->syncRoles([]);

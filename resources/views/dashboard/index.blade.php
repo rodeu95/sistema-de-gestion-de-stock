@@ -43,8 +43,10 @@
                 </div>
             </div>
             <div class="col-lg-6 d-flex flex-column gap-3">
+               
+
                 @if(count($productosVencidos) > 0)
-                    <a href="{{ route('productos.vencidos') }}" class="btn btn-danger text-white btn-sm w-100 d-flex justify-content-between align-items-center">
+                    <a href="{{ route('productos.vencidos') }}" class="btn btn-danger text-white btn-sm w-100 d-flex justify-content-between align-items-center ">
                         <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos vencidos</span>
                         <span class="badge bg-white text-danger cantidad">{{ count($productosVencidos) }}</span>
                     </a>
@@ -57,32 +59,29 @@
                     </a>
                 @endif
 
-                
-
                 @if(count($bajoStock) > 0)
-                    <a href="{{ route('inventario.edit' ) }}" class="btn btn-warning text-white btn-sm w-100 d-flex justify-content-between align-items-center">
+                    <a href="{{ route('inventario.edit' ) }}" class="btn btn-warning text-white btn-sm w-100 d-flex justify-content-between align-items-center ">
                         <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos con bajo stock</span>
                         <span class="badge bg-white text-warning cantidad">{{ count($bajoStock) }}</span>
                     </a>
                 @endif
-                
-                    
-                    <div class="card shadow border-0">
-                        <div class="card-header  text-center" style="background-color:#aed6b5">
-                            <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Productos Más Vendidos</h5>
+ 
+                <div class="card shadow border-0">
+                    <div class="card-header  text-center" style="background-color:#aed6b5">
+                        <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Productos Más Vendidos</h5>
 
-                            <div class="card-body">
-                                <section class="bg-light p-4 rounded shadow section-index">
-                                    <div style="width: 300px; height: 300px; margin: 0 auto;">
-                                        <canvas id="topProductosChart"
-                                        data-labels = "{{ json_encode($labelsTop) }}"
-                                        data-data = "{{ json_encode($dataTop) }}">
-                                        </canvas>
-                                    </div>
-                                </section>
-                            </div>
+                        <div class="card-body">
+                            <section class="bg-light p-4 rounded shadow section-index">
+                                <div style="width: 300px; height: 300px; margin: 0 auto;">
+                                    <canvas id="topProductosChart"
+                                    data-labels = "{{ json_encode($labelsTop) }}"
+                                    data-data = "{{ json_encode($dataTop) }}">
+                                    </canvas>
+                                </div>
+                            </section>
                         </div>
-                    </div>                    
+                    </div>
+                </div>                    
                 
             </div>
                             
@@ -116,4 +115,13 @@
             </div>
         </div>
     </div>
+
+@push('js')
+
+<script>
+    function toggleButtons() {
+        document.querySelector('.container-botones').classList.toggle('active');
+    }
+</script>
+@endpush
 @endsection

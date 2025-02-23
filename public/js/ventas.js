@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 <div class="row">
                     <div class="col-lg-8">
-                        <strong>${nombre}</strong> - ${cantidad} x $${precio} = $${(precio * cantidad).toFixed(2)}                        
+                        <p class="text-muted text-uppercase small mb-0"><strong>${nombre}</p></strong> - ${cantidad} x $${precio} = $${(precio * cantidad).toFixed(2)}                        
                     </div>
                     <div class="col-lg-4">
                         <button type="button" class="btn float-end remove-product" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; " title="Quitar" data-codigo=""><i class="fa-solid fa-minus remove-product" style="color:#fff; font-size: .75rem;"></i></button>

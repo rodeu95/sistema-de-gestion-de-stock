@@ -31,42 +31,37 @@
                     <div class="modal-body" id="barcodeModalContent">
                         <!-- Aquí se mostrarán los datos del producto -->
                         <div class="mb-3 text-center">
-                            <strong><h3 id="producto-nombre" style="color:#aed5b6; text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);"></h3></strong>
+                            <strong><div id="producto-nombre" class="text-muted text-uppercase large" ></div></strong>
                         </div>
                         <hr>
                         <div class="row">
-                            <!-- Columna para labels -->
+                            <!-- Columna de etiquetas -->
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="producto-codigo" class="form-label" style="color: #aed5b6;">
-                                        Código
-                                    </label>
+                                <div class="d-flex align-items-center mb-2">
+                                    <p class="text-muted text-uppercase small mb-0">Código:</p>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="producto-precio" class="form-label" style="color: #aed5b6;">
-                                        Precio
-                                    </label>
+                                <div class="d-flex align-items-center mb-2">
+                                    <p class="text-muted text-uppercase small mb-0">Precio:</p>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="producto-stock" class="form-label" style="color: #aed5b6;">
-                                        Stock disponible
-                                    </label>
+                                <div class="d-flex align-items-center">
+                                    <p class="text-muted text-uppercase small mb-0">Stock disponible:</p>
                                 </div>
                             </div>
 
-                            <!-- Columna para datos -->
+                            <!-- Columna de datos -->
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <p id="producto-codigo" class="form-control-plaintext text-dark"></p>
+                                <div class="d-flex align-items-center mb-2">
+                                    <p id="producto-codigo" class="text-dark mb-0 text-muted"></p>
                                 </div>
-                                <div class="mb-3">
-                                    <strong><p id="producto-precio" class="form-control-plaintext text-dark"></p></strong>
+                                <div class="d-flex align-items-center mb-2">
+                                    <strong><p id="producto-precio" class="text-dark mb-0 text-muted"></p></strong>
                                 </div>
-                                <div class="mb-3">
-                                    <p id="producto-stock" class="form-control-plaintext text-dark"></p>
+                                <div class="d-flex align-items-center">
+                                    <p id="producto-stock" class="text-dark mb-0 text-muted"></p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

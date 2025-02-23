@@ -15,16 +15,13 @@
                     <div class="mb-3">
                         <ul class="list-group">
                             @forelse($bajoStock as $producto)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ $producto->nombre }} (Stock: {{ $producto->stock }})</span>
-                                    <!-- <button id="editButton" class="btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#editStockModal"
-                                    data-codigo="{{ $producto->codigo }}"
-                                    data-nombre="{{ $producto->nombre }}"
-                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                        Actualizar Stock
-                                    </button> -->
+                                <li class="list-group-item justify-content-between align-items-center">
+                                    <span>
+                                        <div class="text-muted text-uppercase large"><Strong>{{ $producto->nombre }}</Strong></div>
+                                        <hr>
+                                        <p class="text-muted text-uppercase small">Código: <span class="text-dark">{{ $producto->codigo }}</span></p>
+                                        <p class="text-muted text-uppercase small">Stock: <span class="text-dark">{{ $producto->stock }}</span></p>
+                                    </span>
                                 </li>
                             @empty
                                 <li class="list-group-item text-center">No hay productos con bajo stock.</li>

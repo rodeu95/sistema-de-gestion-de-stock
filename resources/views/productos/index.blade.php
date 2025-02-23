@@ -3,7 +3,9 @@
 
 <div class="container-lg">
     <h1 class="my-4">Lista de Productos</h1>
-    <div class="d-flex justify-content-center gap-3 mb-4">
+    <div class="d-flex justify-content-center gap-3 mb-4 container container-botones">
+
+        <!-- <button class="btn main-btn" onclick="toggleButtons()">¿Qué deseas hacer?</button> -->
 
         @can('agregar-producto')
             <a href="javascript:void(0);" class="btn btn-lg" 
@@ -16,14 +18,14 @@
             <a href="{{ route('productos.vencidos') }}" 
             id="vencidosBtn"
             class="btn btn-lg" 
-            ><i class="fa-regular fa-calendar-xmark"></i> Productos vencidos</a>
+            ><i class="fa-regular fa-calendar-xmark"></i> Ver productos vencidos</a>
         @endcan
 
         @can('ver-productos-a-vencer')
             <a href="{{ route('productos.por-vencer') }}"
             id="porVencerBtn" 
             class="btn btn-lg" 
-            ><i class="fa-regular fa-clock"></i> Próximos a vencer</a>
+            ><i class="fa-regular fa-clock"></i> Ver próximos a vencer</a>
         @endcan
     </div>
     
@@ -307,6 +309,10 @@
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
     var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";
     var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";
+
+    function toggleButtons() {
+        document.querySelector('.container-botones').classList.toggle('active');
+    }
 </script>
 
 
