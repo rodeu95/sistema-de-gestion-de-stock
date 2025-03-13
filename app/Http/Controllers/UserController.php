@@ -25,7 +25,7 @@ class UserController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:agregar-usuario', ['only' => ['create','store']]);
         $this->middleware('permission:eliminar-usuario', ['only' => ['destroy']]);
-        // $this->middleware('permission:editar-usuario',['only'=>['edit', 'update']]);
+        $this->middleware('permission:ver-usuarios',['only'=>['index']]);
     }
     
     public function index()
@@ -131,6 +131,7 @@ class UserController extends Controller
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
         $permissions = Permission::all();
+        
 
         if ($user->hasRole('Administrador')){
             if($user->id != Auth::user()->id){
@@ -144,6 +145,7 @@ class UserController extends Controller
             'userRoles' => $user->getRoleNames()->all(),
             'cajaAbierta' => $cajaAbierta,  
             'permissions' => $permissions,
+            
         ]);
     }
 

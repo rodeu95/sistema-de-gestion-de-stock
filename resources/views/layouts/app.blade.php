@@ -72,19 +72,19 @@
         <div class="container">
             {{-- Mostrar mensaje de error si existe --}}
             @if (session('error'))
-                <div id="message" class="alert alert-danger" style="margin:1%;">
+                <div id="messageError" class="alert alert-danger message" style="margin:1%;">
                     <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
                 </div>
             @endif
 
             @if(session('info'))
-                <div id="message" class="alert alert-warning" style="margin:1%;">
+                <div id="messageInfo" class="alert alert-warning message" style="margin:1%;">
                 <i class="fa-solid fa-circle-info"></i> {{ session('info') }}
                 </div>
             @endif
 
             @if(session('success'))
-                <div id="message" class="alert alert-success" style="margin:1%;">
+                <div id="messageSuccess" class="alert alert-success message" style="margin:1%;">
                     <i class="fa-solid fa-square-check"></i> {{ session('success') }}
                 </div>
             @endif
@@ -114,7 +114,7 @@
         <script>
             // Función para ocultar el mensaje de error después de 5 segundos (5000 ms)
             window.onload = function() {
-                const message = document.getElementById('message');
+                const message = document.querySelector(".message");
                 if (message) {
                     setTimeout(() => {
                         message.style.display = 'none';

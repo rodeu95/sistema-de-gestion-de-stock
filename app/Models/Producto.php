@@ -45,5 +45,11 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
+    public function proveedores()
+    {
+        return $this->belongsToMany(Proveedor::class, 'producto_proveedor')
+                    ->withPivot('precio', 'tiempo_entrega')
+                    ->withTimestamps();
+    }
 
 }

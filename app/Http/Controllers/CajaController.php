@@ -24,12 +24,11 @@ class CajaController extends Controller
     
 
     public function abrir()
-    {
-  
-        
+    {    
         Caja::updateOrCreate(['id' => 1], ['estado' => true]);
 
-        return redirect()->route('inicio')->with('info', 'Caja abierta')->with('user', Auth::user());
+        session()->flash('info', 'Caja abierta');
+        return redirect()->back();
 
     }
 
@@ -39,7 +38,8 @@ class CajaController extends Controller
     // Cambiar el estado de la caja
         Caja::updateOrCreate(['id' => 1], ['estado' => false]);
 
-        return redirect()->route('inicio')->with('info', 'Caja cerrada. No puede registrar más ventas.')->with('user', Auth::user());
+        session()->flash('info', 'Caja cerrada. No puede registrar más ventas.');
+        return redirect()->back();
 
     }
 
@@ -49,6 +49,7 @@ class CajaController extends Controller
 
         $today = Carbon::now()->startOfDay();
         $endOfToday = Carbon::now()->endOfDay();
+        $fechaHoy = Carbon::now('America/Argentina/Buenos_Aires')->format('d/m/Y');
 
         $totalVentasHoy = Venta::whereBetween('fecha_venta', [$today, $endOfToday])
         ->where('metodo_pago_id', 1)
@@ -60,6 +61,7 @@ class CajaController extends Controller
             'totalVentasHoy' => $totalVentasHoy,
             'montoTotalHoy' => $montoTotalHoy,
             'cajaAbierta' => $cajaAbierta,
+            'fechaHoy' => $fechaHoy,
         ]);
     }
 

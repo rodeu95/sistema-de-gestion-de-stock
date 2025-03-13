@@ -48,7 +48,7 @@ class VentasController extends Controller
         $metodosdepago = MetodoDePago::all();
         $cajaAbierta = $caja ? $caja->estado:false;
         if ($caja && !$caja->estado) {
-            return redirect()->back()->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
+            return view('ventas.create', compact('productos', 'cajaAbierta', 'metodosdepago'))->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
         }
         return view('ventas.create', compact('productos', 'cajaAbierta', 'metodosdepago'));
 

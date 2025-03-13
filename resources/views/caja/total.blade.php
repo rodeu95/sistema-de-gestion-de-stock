@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="my-4" style="margin:2%;">Resumen de Ventas en Efectivo - Hoy</h1>
+    <h1 class="my-4" style="margin:2%;">Ventas en Efectivo - Hoy</h1>
 
     <div class="table-responsive">
         <table class="table shadow">

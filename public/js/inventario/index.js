@@ -167,7 +167,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }).render(document.getElementById("inventario"));
     }
 
-    renderInventarioTable()
+    renderInventarioTable();
+
+    
 })
 
 

@@ -13,8 +13,7 @@ class LoteController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('permission:ver-lotes', ['only' => ['index']]);
-        $this->middleware('permission:agregar-lote', ['only' => ['store']]);
-        $this->middleware('permission:eliminar-lote', ['only' => ['destroy']]);
+        $this->middleware('permission:gestionar-inventario', ['only' => ['store', 'destroy']]);
     }
     public function index(){
        

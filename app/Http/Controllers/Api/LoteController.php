@@ -13,7 +13,8 @@ class LoteController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
-        $this->middleware('permission:gestionar-inventario', ['only' => ['index', 'store', 'destroy']]);
+        $this->middleware('permission:gestionar-inventario', ['only' => ['store', 'destroy']]);
+        $this->middleware('permission:ver-lotes', ['only' => ['index']]);
     }
     public function index(){
 

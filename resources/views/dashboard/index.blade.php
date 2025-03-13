@@ -68,7 +68,7 @@
  
                 <div class="card shadow border-0">
                     <div class="card-header  text-center" style="background-color:#aed6b5">
-                        <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Productos Más Vendidos</h5>
+                        <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Top productos del mes</h5>
 
                         <div class="card-body">
                             <section class="bg-light p-4 rounded shadow section-index">

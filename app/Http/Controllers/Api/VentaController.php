@@ -77,7 +77,7 @@ class VentaController extends Controller
         $metodosdepago = MetodoDePago::all();
         $cajaAbierta = $caja ? $caja->estado:false;
         if ($caja && !$caja->estado) {
-            return redirect()->back()->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
+            return view('ventas.create', compact('productos', 'cajaAbierta', 'metodosdepago'))->with('error', 'No se pueden registrar ventas mientras la caja está cerrada.');
         }
         return view('ventas.create', compact('productos', 'cajaAbierta', 'metodosdepago'));
 
@@ -319,10 +319,7 @@ class VentaController extends Controller
         }
         $limiteTiempo = now()->subMinutes(30);
         if ($venta->created_at < $limiteTiempo) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Ya no es posible anular la venta.'
-            ]);
+            return response()->json(['message' => 'Ya no es posible anular la venta'], 403);
         }
         foreach ($venta->productos as $producto) {
             $cantidadVendida = $producto->pivot->cantidad;

@@ -8,6 +8,7 @@ Use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Api\LoteController;
+use App\Http\Controllers\Api\ProveedorController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
@@ -28,6 +29,14 @@ Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('api.ventas.s
 Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
 Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
 Route::get('/inventario/edit/{codigo}', [InventoryController::class, 'edit'])->name('api.inventario.edit');
+
+Route::get('/proveedores', [ProveedorController::class, 'index'])->name('api.proveedores.index');
+Route::post('/proveedores', [ProveedorController::class, 'store'])->name('api.proveedores.store');
+Route::get('/proveedores/{id}/edit', [ProveedorController::class, 'edit'])->name('api.proveedores.edit');
+Route::put('/proveedores/{id}', [ProveedorController::class, 'update'])->name('api.proveedores.update');
+Route::delete('/proveedores/{id}', [ProveedorController::class, 'destroy'])->name('api.proveedores.destroy');
+Route::put('/proveedores/{id}/disable', [ProveedorController::class, 'disable'])->name('proveedores.disable');
+Route::put('/proveedores/{id}/enable', [ProveedorController::class, 'enable'])->name('proveedores.enable');
 
 // Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');

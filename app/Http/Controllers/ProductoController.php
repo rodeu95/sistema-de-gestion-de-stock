@@ -133,7 +133,6 @@ class ProductoController extends Controller
     public function export(Request $request){
         $categoria = $request->input('categoria');
         $bajoStock = $request->input('bajo_stock');
-        $lote = $request->input('lote');
         $topProductos = $request->input('top_productos');
                 // Filtrar los productos
         $productos = Producto::query();

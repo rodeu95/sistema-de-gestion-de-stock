@@ -16,6 +16,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\VencimientosController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\ProveedorController;
 
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
@@ -32,12 +33,14 @@ Route::post('lote/store', [LoteController::class, 'store'])->name('lotes.store')
 Route::get('lotes', [LoteController::class, 'index'])->name('lotes.index');
 // Route::delete('lotes/{id}/destroy', [LoteController::class, 'destroy'])->name('lotes.destroy');
 
+Route::get('/roles/{id}/permissions/{userId}', [RolePermissionController::class, 'getPermisosPorRolEdit'])->name('roles.permissions.edit');
 Route::get('/roles/{id}/permissions', [RolePermissionController::class, 'getPermisosPorRol'])->name('roles.permissions');
 
 Route::resources([
     'users' => UserController::class,
     'productos' => ProductoController::class,
     'ventas' => VentasController::class,
+    'proveedores' => ProveedorController::class,
 ]);
 
 Route::get('/productos-vencidos', [VencimientosController::class, 'vencidos'])->name('productos.vencidos');

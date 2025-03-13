@@ -43,8 +43,13 @@
                                         </li>
                                         <li>
                                             @can('ver-lotes')
-                                                <a class="dropdown-item" href="{{ route('lotes.index') }}">Ver lotes</a>
+                                                <a class="dropdown-item" href="{{ route('lotes.index') }}">Lotes</a>
                                             @endcan
+                                        </li>
+                                        <li>
+                                            <!-- @can('ver-lotes') -->
+                                                <a class="dropdown-item" href="{{ route('proveedores.index') }}">Proveedores</a>
+                                            <!-- @endcan -->
                                         </li>
                                     </ul>
                                 </li>
@@ -100,7 +105,9 @@
                                         <i class="fas fa-users"></i> Usuarios
                                     </a>
                                     <ul class="dropdown-menu shadow">
-                                        <li><a class="dropdown-item" href="{{ route  ('users.index')}}">Lista de usuarios</a></li>
+                                        @can('ver-usuarios')
+                                            <li><a class="dropdown-item" href="{{ route  ('users.index')}}">Lista de usuarios</a></li>
+                                        @endcan
                                         @can('agregar-usuario')
                                             <li><a class="dropdown-item" href="{{ route('users.create') }}">Agregar usuario</a></li>
                                         @endcan
@@ -112,16 +119,16 @@
                                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-text="Caja">
                                             <i class="fas fa-cash-register"></i>
                                             @if($cajaAbierta)
-                                                Caja Abierta
+                                                Caja abierta
                                             @else
-                                                Caja Cerrada
+                                                Caja cerrada
                                             @endif
                                         </a>
                                         <ul class="dropdown-menu shadow">                           
                                             @can('abrir-caja')
                                                 @if(!$cajaAbierta)    
                                                     <li>
-                                                        <form action="{{ route('caja.abrir') }}" method="POST">
+                                                        <form id="abrir-caja-form" action="{{ route('caja.abrir') }}" method="POST">
                                                             @csrf
                                                         
                                                             <button type="submit" class="dropdown-item">Abrir caja</button>
@@ -130,11 +137,11 @@
                                                     </li>
                                                 @endif
                                             @endcan    
-                                            @can('cerrar-caja')
+                                            @can('cerrar-caja-form')
                                                 @if($cajaAbierta)
                                                     <li>
                                                     
-                                                        <form action="{{ route('caja.cerrar') }}" method="POST">
+                                                        <form id="cerrar-caja" action="{{ route('caja.cerrar') }}" method="POST">
                                                             @csrf
                                                             
                                                             <button type="submit" class="dropdown-item">Cerrar caja</button>

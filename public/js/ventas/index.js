@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     width: '80px',
                     formatter: (cell, row) => {
                         const id = row.cells[0].data;
-                        const estado = row.cell(6).data;
+                        const estado = row.cells[6].data;
  
                         const showVentaButtonHtml = document.getElementById('showVentaTemplate').innerHTML.replace('${id}', id);
                         
@@ -265,8 +265,8 @@ function anularVenta(id) {
         showCancelButton: true,
         confirmButtonText: 'Sí, anular',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#aed5b6",
+        cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
             const anularVentaUrlFinal = anularVentaUrl.replace("id", id);
@@ -279,7 +279,7 @@ function anularVenta(id) {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 },
                 success: function(data) {
-                    if (data.message === 'Venta anulada exitosamente') {
+                    
                         Swal.fire(
                             'Anulada',
                             'Venta anulada exitosamente.',
@@ -287,13 +287,22 @@ function anularVenta(id) {
                         ).then(function() {
                             window.location.reload(); // Recargar la página después de 2 segundos
                         });
-                    } else {
-                        alert('Error: ' + data.message); 
-                    }
+                    
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error al anular la venta:', error);
-                    alert('Hubo un problema al intentar anular la venta.');
+                error: function(xhr) {
+                    if (xhr.status === 403) {
+                        Swal.fire(
+                            'Error',
+                            xhr.responseJSON.message, // Muestra "Ya no es posible anular la venta"
+                            'error'
+                        );
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al intentar anular la venta.',
+                            'error'
+                        );
+                    }
                 }
             });
         }

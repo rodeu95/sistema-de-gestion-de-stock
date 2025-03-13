@@ -138,8 +138,8 @@ function eliminarLote(numero_lote) {
         showCancelButton: true,
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#aed5b6",
+        cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
             const eliminarLoteUrlFinal = eliminarLoteUrl.replace("numero_lote", numero_lote);

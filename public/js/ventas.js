@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('add-product').addEventListener('click', handleAddProduct);
         
         // Validar el formulario al enviarlo
-        const form = document.querySelector('form');
+        const form = document.getElementById('ventasForm');
         if (form) {
             form.addEventListener('submit', validateForm);
         }

@@ -31,6 +31,8 @@
                                     </label>
                                     <input type="text" name="usuario" id="usuario" class="form-control" value="{{ $user->usuario }}" required>
                                 </div>
+                                <input type="hidden" id="userId" value="{{ $user->id ?? '' }}">
+
 
                                 <!-- Correo electrónico -->
                                 <div class="form-group">
@@ -67,9 +69,11 @@
                                             <i class="fa-solid fa-circle-user"></i> Roles
                                         </label>
                                         <select id="tipoUsuario" name="roles[]" class="form-select">
-                                            @foreach($roles as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                                {{ $role->name }}
+                                            </option>
+                                        @endforeach
                                         </select>
                                     </div>
                                     
@@ -78,7 +82,12 @@
                                         <div id="atributos-container" class="mb-3" style="overflow-y: auto; max-height: 230px; border-radius: 0.25rem; display:none;">
                                         @foreach ($permissions as $permission)
                                             <div class="form-check">
-                                                <input type="checkbox" name="permissions[]" class="form-check-input" value="{{ $permission->id }}" id="{{ $permission->id }}" style="margin-left:20px;">
+                                                <input type="checkbox" 
+                                                name="permissions[]" 
+                                                class="form-check-input" 
+                                                value="{{ $permission->id }}" 
+                                                id="{{ $permission->id }}" style="margin-left:20px;"
+                                                {{ $user->hasPermissionTo($permission->name) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="{{ $permission->id }}">{{ $permission->description }}</label>
                                             </div>
                                         @endforeach
@@ -105,6 +114,6 @@
     </div>
 
 @push('js')
-<script src="{{ asset('js/createUser.js') }}"></script>
+<script src="{{ asset('js/editUser.js') }}"></script>
 @endpush
 @endsection

@@ -20,6 +20,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'anular-venta', 'description' =>  'Puede anular ventas']);
         Permission::create(['name' => 'ver-ventas', 'description' =>  'Puede ver las ventas']);
         Permission::create(['name' => 'ver-lotes', 'description' =>  'Puede ver los lotes']);
+        Permission::create(['name' => 'ver-usuarios', 'description' => 'Puede ver la lista de usuarios']);
         Permission::create(['name' => 'eliminar-usuario', 'description' => 'Puede eliminar un usuario']);
         Permission::create(['name' => 'editar-usuario', 'description' => 'Puede editar un usuario']);
         Permission::create(['name' => 'agregar-usuario', 'description' => 'Puede agregar un usuario']);

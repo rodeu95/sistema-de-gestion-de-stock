@@ -17,10 +17,12 @@ class InicioController extends Controller
         $today = Carbon::now()->startOfDay();
         $endOfToday = Carbon::now()->endOfDay();
 
-        $topProductos = Producto::select('nombre', \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
+        $topProductos = Producto::select('productos.nombre', \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
         ->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
         ->join('ventas', 'ventas.id', '=', 'venta_producto.venta_id')
         ->where('ventas.estado', '=', 1 )
+        ->whereMonth('ventas.fecha_venta', Carbon::now()->month)
+        ->whereYear('ventas.fecha_venta', Carbon::now()->year)
         ->groupBy('productos.nombre')
         ->orderByDesc('total_vendido')
         ->limit(3)

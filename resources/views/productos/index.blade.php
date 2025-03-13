@@ -32,6 +32,7 @@
 </div>
 
 <main class="container-lg">
+
     <div id="gridjs-table"></div>
 
     <div id="editButtonTemplate" style="display: none;">
@@ -106,11 +107,7 @@
                             <input type="radio" id="unidad_kg" name="unidad" value="KG" onchange="updateStockStep()" required>
                             <label for="unidad_kg" style="color:grey;">KG</label>
                         </div>
-                        <!-- <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()" required>
-                            <option value="" selected disabled></option>
-                            <option value="UN">UN</option>
-                            <option value="KG">KG</option>
-                        </select> -->
+ 
                     </div>
 
                     <div id="hidden-inputs"></div>
@@ -147,22 +144,6 @@
                             </div>
                         </p>
                     </div>
-
-                    <!-- Campo Stock -->
-                    <!-- <div class="mb-3">
-                        <label for="stock" class="form-label" style="color: #aed5b6;">
-                            <i class="fa-solid fa-warehouse"></i> Stock
-                        </label>
-                        <input 
-                            type="number" 
-                            class="form-control" 
-                            id="stock" 
-                            name="stock" 
-                            placeholder="Ingrese la cantidad de stock disponible"
-                            step="0.01"
-                            required
-                        >
-                    </div> -->
 
                     <div class="mb-3">
                         <label for="stock_minimo" class="form-label" style="color: #aed5b6;">
@@ -261,20 +242,6 @@
                         </label>
                         <input type="number" class="form-control" id="edit_stock_minimo" name="stock_minimo" value="{{ old('stock', $producto->stock_minimo) }}"  required>
                     </div>
-
-                    <!-- <div class="mb-3">
-                        <label for="edit_numero_lote" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-dolly"></i> Número de Lote
-                        </label>
-                        <input type="text" class="form-control" id="edit_numero_lote" name="numero_lote" value="{{ $producto->numero_lote }}"  readonly>
-                    </div> -->
-<!-- 
-                    <div class="mb-3">
-                        <label for="edit_fchVto" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-regular fa-calendar"></i> Fecha de Vencimiento
-                        </label>
-                        <input type="date" class="form-control" id="edit_fchVto" name="fchVto" value="{{ old('fchVto', $producto->fchVto) }}" >
-                    </div> -->
 
                     <div class="mb-3">
                         <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; ">

@@ -223,8 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 modal.find('#edit_unidad').val(data.unidad);
                 modal.find('#edit_precioVenta').val(data.precio_venta);
                 modal.find('#edit_stock_minimo').val(data.stock_minimo);
-                modal.find('#edit_numero_lote').val(data.numero_lote);
-                modal.find('#edit_fchVto').val(data.fchVto);
                 modal.find('#edit_categoria_id').val(data.categoria_id);
             }
         });
@@ -331,8 +329,8 @@ function disableProducto(codigo) {
         showCancelButton: true,
         confirmButtonText: 'Sí, deshabilitar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#aed5b6",
+        cancelButtonColor: "#grey",
     }).then((result) => {
         if (result.isConfirmed) {
             const disableProductoUrlFinal = disableProductoUrl.replace("codigo", codigo);

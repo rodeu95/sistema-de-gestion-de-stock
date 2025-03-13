@@ -6,6 +6,7 @@
 </div>
 
 <main class="container-lg">
+
     <div id="inventario"></div>
 
     <!-- <table class="table shadow table-bordered">

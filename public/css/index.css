@@ -46,6 +46,10 @@ label{
     color: #fff;   
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
+.gridjs-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
 
 #aviso{
     background-color: #aed5b6;
@@ -281,5 +285,36 @@ nav{
         display: none !important; /* Ocultar el logo */
     }
 }
+
+@media (max-width: 768px) {
+    .gridjs-th, .gridjs-td {
+      font-size: 10px;
+      padding: 10px;
+    }
+    .gridjs-wrapper .btn i{
+        font-size: 12px !important;
+      }
+    .btn{
+        font-size: 12px;
+        margin: 2px;
+    }
+    .modal-dialog {
+        max-width: 90%; /* Reduce el ancho del modal */
+        margin: 10px auto; /* Ajusta el margen para que no ocupe toda la pantalla */
+    }
+    
+    .modal-content {
+        font-size: 14px; /* Reduce el tamaño del texto */
+        padding: 10px; /* Reduce el padding */
+    }
+
+    .modal-header, .modal-footer {
+        padding: 8px; /* Reduce los espacios en el header y footer */
+    }
+
+    .modal-body {
+        padding: 10px; /* Ajusta el espacio interno */
+    }
+  }
 
 

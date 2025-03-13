@@ -95,8 +95,8 @@ namespace App\Models{
  * @property string $numero_lote
  * @property string $producto_cod
  * @property float $cantidad
- * @property string $fecha_ingreso
- * @property string|null $fecha_vencimiento
+ * @property string|null $fecha_ingreso
+ * @property string $fecha_vencimiento
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Producto $producto
@@ -154,6 +154,8 @@ namespace App\Models{
  * @property-read \App\Models\Categoria $categoria
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Lote> $lotes
  * @property-read int|null $lotes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Proveedor> $proveedores
+ * @property-read int|null $proveedores_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Venta> $ventas
  * @property-read int|null $ventas_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto newModelQuery()
@@ -175,6 +177,39 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Producto whereUtilidad($value)
  */
 	class Producto extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $nombre
+ * @property string $contacto
+ * @property int $telefono
+ * @property string|null $email
+ * @property string $direccion
+ * @property string $cuit
+ * @property int $estado
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Producto> $productos
+ * @property-read int|null $productos_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereContacto($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereCuit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereDireccion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereEstado($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereNombre($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereTelefono($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor whereUpdatedAt($value)
+ */
+	class Proveedor extends \Eloquent {}
 }
 
 namespace App\Models{
