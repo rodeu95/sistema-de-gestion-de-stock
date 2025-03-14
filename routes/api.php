@@ -17,6 +17,7 @@ Route::put('/productos/{codigo}', [ProductController::class, 'update'])->name('a
 Route::post('/productos', [ProductController::class, 'store'])->name('api.productos.store');
 Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
 Route::put('/productos/{codigo}/enable', [ProductController::class, 'enable'])->name('productos.enable');
+Route::post('/productos/actualizar-precios', [ProductController::class, 'actualizarPrecios'])->name('productos.actualizar-precios');
 
 Route::get('/ventas', [VentaController::class, 'index'])->name('api.ventas.index');
 Route::post('/ventas', [VentaController::class, 'store'])->name('api.ventas.store');

@@ -12,6 +12,18 @@
             </div>
 
             <div class="form-group col-3">
+                <label>Filtrar entre fechas</label>
+                <div>
+                    <span>Desde</span>
+                    <input type="date" name="fechaIni" id="fechaIni" class="form-control" placeholder="Desde">
+                </div>
+                <div class="mt-2">
+                    <span class="mt-4">Hasta</span>
+                    <input type="date" name="fechaFin" id="fechaFin" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group col-3">
                 <label for="select-mes">Filtrar por mes</label>
                 <select id="select-mes" class="form-control" name="month">
                     <option value="" disabled selected>Seleccione un mes</option>

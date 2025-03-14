@@ -205,4 +205,36 @@ class ProductController extends Controller
         return view('productos.proximos_a_vencer', compact('productosProximosAVencer'));
     }
 
+    public function actualizarPrecios(Request $request){
+        \Log::info('Datos recibidos:', $request->all());
+        $productos = Producto::all();
+        $request->validate([
+            'porcentaje' => 'required|numeric|min:0.01',
+        ]);
+        try{
+            foreach($productos as $producto){
+                $producto->update([
+                    'precio_venta' => round($producto->precio_venta * (1 + ($request->porcentaje / 100)))
+                ]);
+            }
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => 'Actualizados',
+                'text' => 'Precios actualizados correctamente'
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Precios actualizados exitosamente',
+                'productos' => $productos
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => 'Hubo un error al actualizar los precios',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+        
+    }
+
 }

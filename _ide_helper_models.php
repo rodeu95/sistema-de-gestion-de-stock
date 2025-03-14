@@ -137,7 +137,7 @@ namespace App\Models{
 /**
  * 
  *
- * @property int $codigo
+ * @property string $codigo
  * @property string $nombre
  * @property string|null $descripcion
  * @property string $unidad

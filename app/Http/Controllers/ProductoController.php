@@ -146,12 +146,16 @@ class ProductoController extends Controller
         }
 
         if ($topProductos) {
-            $productos = Producto::select('productos.nombre',
-                                            'productos.categoria_id',
-                                            'productos.stock',
-                                            \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
-                ->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
-                ->groupBy('productos.nombre', 'productos.categoria_id', 'productos.stock')
+            $productos->join('venta_producto', 'productos.codigo', '=', 'venta_producto.producto_cod')
+                ->select('productos.codigo',
+                'productos.nombre',
+                'productos.categoria_id',
+                'productos.stock', 
+                \DB::raw('SUM(venta_producto.cantidad) as total_vendido'))
+                ->groupBy('productos.codigo', 
+                'productos.nombre', 
+                'productos.categoria_id', 
+                'productos.stock') 
                 ->orderByDesc('total_vendido')
                 ->limit(3);
         }

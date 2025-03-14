@@ -197,6 +197,8 @@ class VentasController extends Controller
     $fecha = $request->input('fecha_venta');
     $año = $request->input('year');
     $mes = $request->input('month');
+    $fechaIni = $request->input('fechaIni');
+    $fechaFin = $request->input('fechaFin');
 
     $ventas = Venta::query();
 
@@ -210,6 +212,10 @@ class VentasController extends Controller
 
     if ($mes) {
         $ventas->whereMonth('fecha_venta', $mes);
+    }
+
+    if($fechaIni && $fechaFin){
+        $ventas->whereBetween('fecha_venta', [$fechaIni, $fechaFin]);
     }
 
     $ventas = $ventas->get();

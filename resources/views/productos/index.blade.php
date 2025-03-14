@@ -18,15 +18,23 @@
             <a href="{{ route('productos.vencidos') }}" 
             id="vencidosBtn"
             class="btn btn-lg" 
-            ><i class="fa-regular fa-calendar-xmark"></i> Ver productos vencidos</a>
+            ><i class="fa-regular fa-calendar-xmark"></i> Productos vencidos</a>
         @endcan
 
         @can('ver-productos-a-vencer')
             <a href="{{ route('productos.por-vencer') }}"
             id="porVencerBtn" 
-            class="btn btn-lg" 
-            ><i class="fa-regular fa-clock"></i> Ver próximos a vencer</a>
+            class="btn btn-lg"> 
+            <i class="fa-regular fa-clock"></i> Próximos a vencer</a>
         @endcan
+
+        <!-- @can('ver-productos-a-vencer') -->
+            <a href="javascript:void(0);"
+            id="actualizarPreciosBtn" 
+            class="btn btn-lg"
+            data-bs-toggle="modal" data-bs-target="#actualizarPreciosModal" 
+            ><i class="fa-solid fa-dollar-sign"></i> Actualizar precios</a>
+        <!-- @endcan -->
     </div>
     
 </div>
@@ -255,11 +263,35 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        <button type="submit" class="btn shadow">Actualizar</button>
+                        <button type="submit" class="btn">Actualizar</button>
                     </div>
                     
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="actualizarPreciosModal" tabindex="-1" aria-labelledby="actualizarPreciosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="actualizarPreciosModalLabel">Actualizar precios</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="actualizarPreciosForm">
+                    @method('POST')
+                    <label class="form-label" style="color: #aed5b6; ">Porcentaje de aumento</label>
+                    <div>El porcentaje de aumento será aplicado sobre todos los productos.</div>
+                    <input type="number" name="porcentaje" class="form-control" min="0.01" step="0.01">
+                    
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn">Actualizar</button>
+                    </div>
+
+                </form>
+            </div> 
         </div>
     </div>
 </div>
@@ -276,6 +308,7 @@
     var editProductUrlTemplate = "{{ route('productos.edit', ':codigo') }}"; 
     var disableProductoUrl = "{{ route('productos.disable', 'codigo') }}";
     var enableProductoUrl = "{{ route('productos.enable', 'codigo') }}";
+    var actualizarPreciosUrl = "{{ route('productos.actualizar-precios') }}"
 
     function toggleButtons() {
         document.querySelector('.container-botones').classList.toggle('active');

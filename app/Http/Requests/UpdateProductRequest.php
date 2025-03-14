@@ -25,11 +25,6 @@ class UpdateProductRequest extends FormRequest
             'codigo' => 'required|string|max:250',
             'nombre' => 'required|string|max:250',
             'descripcion' => 'nullable|string|max:1000',
-            // 'precio' => [
-            //     'required',
-            //     'numeric',
-            //     'regex:/^\d+(\.\d{1,2})?$/',
-            // ],
             'precio_venta' => 'required|numeric',
             'stock_minimo' => 'required|numeric'
         ];

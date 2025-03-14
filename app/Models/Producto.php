@@ -13,6 +13,8 @@ class Producto extends Model
     
     protected $table = 'productos';
     protected $primaryKey = 'codigo';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable=[
         'codigo',

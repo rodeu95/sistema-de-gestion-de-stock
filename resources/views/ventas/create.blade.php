@@ -123,5 +123,10 @@
 
 @push('js')
 <script src="{{ asset('js/ventas.js') }}"></script>
+
+<script>
+    document.getElementById("fecha_venta").value = new Date().toISOString().split("T")[0];
+</script>
+
 @endpush
 @endsection

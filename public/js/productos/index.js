@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: (cell, row) => {
 
                         const codigo = row.cell(0).data;
-                        const estado = row.cell(6).data;
+                        const estado = row.cell(5).data;
                         
                         const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${codigo}', codigo);
 
@@ -262,6 +262,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    $('#actualizarPreciosForm').on('submit', function (e) {
+        e.preventDefault();
+        const formData = $(this).serialize();
+        console.log(formData);
+        console.log(actualizarPreciosUrl);
+        $.ajax({
+            url: actualizarPreciosUrl,
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                'Accept': 'application/json'
+            },
+            data: formData,
+            success: function (response) {
+                if(response.success){
+                    $('#actualizarPreciosModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Actualizado!',
+                        text: 'Precios actualizados correctamente.',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderProductTable(); 
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText); // Muestra los errores de la respuesta
+            }
+        });
+    });
 
 
     // Función para manejar el formulario de agregar un producto mediante AJAX
@@ -373,8 +405,8 @@ function enableProducto(codigo) {
         showCancelButton: true,
         confirmButtonText: 'Sí, habilitar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#aed5b6",
+        cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
             const enableProductoUrlFinal = enableProductoUrl.replace("codigo", codigo);
