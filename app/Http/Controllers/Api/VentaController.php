@@ -23,37 +23,15 @@ class VentaController extends Controller
         $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
         $this->middleware('permission:anular-venta', ['only' => ['anularVenta']]);
     }
-    public function index(Request $request)
+    public function index()
     {
-        $filter = $request->input('filter', 'all');
-        Log::info('Filtro recibido:', ['filter' => $filter]);
-        $ventas = Venta::query();
-
-        switch ($filter) {
-            case 'day':
-                \Log::info('Aplicando filtro del día');
-                $ventas->whereDate('fecha_venta', today());
-                break;
-            case 'week':
-                \Log::info('Aplicando filtro de la semana');
-                $ventas->whereBetween('fecha_venta', [now()->startOfWeek(), now()->endOfWeek()]);
-                break;
-            case 'month':
-                \Log::info('Aplicando filtro del mes');
-                $ventas->whereMonth('fecha_venta', now()->month)->whereYear('fecha_venta', now()->year);
-                break;
-            case 'year':
-                \Log::info('Aplicando filtro del año');
-                $ventas->whereYear('fecha_venta', now()->year);
-                break;
-            default:
-                \Log::info('Mostrando todas las ventas');
-                break;
-        }
-
-        $ventas = Venta::with('productos', 'metodoPago', 'vendedor')->get(); // 
-        return response()->json(['ventas' => $ventas]);
+        \Log::info('Obteniendo todas las ventas con sus relaciones');
+    
+        $ventas = Venta::with(['productos', 'metodoPago', 'vendedor'])->get();
+    
+        return response()->json($ventas);
     }
+    
 
     public function edit($id)
     {
@@ -158,6 +136,7 @@ class VentaController extends Controller
                 'icon' => 'success',
                 'title' => '¡Nueva Venta!',
                 'text' => 'Nueva venta registrada',
+                'confirmButtonColor' => "#aed5b6",
             ]);
 
             return response()->json([
@@ -279,6 +258,7 @@ class VentaController extends Controller
                 'icon' => 'success',
                 'title' => 'Actualizada',
                 'text' => 'Venta actualizada correctamente',
+                'confirmButtonColor' => "#aed5b6",
             ]);
     
             return response()->json([
@@ -303,7 +283,8 @@ class VentaController extends Controller
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => 'Eliminada',
-                'text' => 'Venta eliminada correctamente'
+                'text' => 'Venta eliminada correctamente',
+                'confirmButtonColor' => "#aed5b6",
             ]);
             return response()->json(['message' => 'Venta eliminada exitosamente']);
         }else{
@@ -317,7 +298,7 @@ class VentaController extends Controller
         if (!$venta) {
             return response()->json(['error' => 'Venta no encontrada'], 404);
         }
-        $limiteTiempo = now()->subMinutes(30);
+        $limiteTiempo = now()->subHours(24);
         if ($venta->created_at < $limiteTiempo) {
             return response()->json(['message' => 'Ya no es posible anular la venta'], 403);
         }
@@ -344,5 +325,37 @@ class VentaController extends Controller
             'success' => true,
             'message' => 'Venta anulada exitosamente'
         ]);
+    }
+
+    public function filtarPorFechas(Request $request)
+    {
+        \Log::info($request->all());
+
+        try{
+            $fecha = $request->input('fecha_venta');
+            $año = $request->input('year');
+            $mes = $request->input('month');
+            $fechaIni = $request->input('fechaIni');
+            $fechaFin = $request->input('fechaFin');
+
+            $ventas = Venta::with(['productos', 'metodoPago', 'vendedor']) 
+            ->when($fecha, fn($query) => $query->whereDate('fecha_venta', $fecha))
+            ->when($año, fn($query) => $query->whereYear('fecha_venta', $año))
+            ->when($mes, fn($query) => $query->whereMonth('fecha_venta', $mes))
+            ->when($fechaIni && $fechaFin, fn($query) => $query->whereBetween('fecha_venta', [$fechaIni, $fechaFin]))
+            ->get();
+
+            // \Log::info($ventas);
+            return response()->json($ventas);
+        }catch (\Exception $e) {
+            // Registrar errores
+            \Log::error('Error al filtrar ventas:', ['error' => $e->getMessage()]);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al filtrar ventas.',
+            ], 500);
+        }
+        
     }
 }

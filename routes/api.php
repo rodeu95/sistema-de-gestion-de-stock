@@ -9,10 +9,12 @@ use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Api\LoteController;
 use App\Http\Controllers\Api\ProveedorController;
+use App\Http\Controllers\Api\CategoriaController;
 
 
 Route::get('/productos', [ProductController::class, 'index'])->name('api.productos.index');
 Route::get('/productos/{codigo}', [ProductController::class, 'show'])->name('api.producto.show');
+Route::get('/productos/create', [ProductController::class, 'create'])->name('api.producto.create');
 Route::put('/productos/{codigo}', [ProductController::class, 'update'])->name('api.productos.update');
 Route::post('/productos', [ProductController::class, 'store'])->name('api.productos.store');
 Route::put('/productos/{codigo}/disable', [ProductController::class, 'disable'])->name('productos.disable');
@@ -26,6 +28,7 @@ Route::put('/ventas/{id}', [VentaController::class, 'update'])->name('api.ventas
 Route::delete('/ventas/{id}', [VentaController::class, 'destroy'])->name('api.ventas.destroy');
 Route::put('/ventas/{id}/anular', [VentaController::class, 'anularVenta'])->name('api.ventas.anular');
 Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('api.ventas.show');
+Route::get('/ventas/filtrar/fechas', [VentaController::class, 'filtarPorFechas'])->name('api.ventas.filtrar');
 
 Route::get('/inventario', [InventoryController::class, 'index'])->name('api.inventario.index');
 Route::put('/inventario/update/{codigo}', [InventoryController::class, 'update'])->name('api.inventario.update');
@@ -38,9 +41,13 @@ Route::put('/proveedores/{id}', [ProveedorController::class, 'update'])->name('a
 Route::delete('/proveedores/{id}', [ProveedorController::class, 'destroy'])->name('api.proveedores.destroy');
 Route::put('/proveedores/{id}/disable', [ProveedorController::class, 'disable'])->name('proveedores.disable');
 Route::put('/proveedores/{id}/enable', [ProveedorController::class, 'enable'])->name('proveedores.enable');
+Route::get('/proveedores/{id}/categorias', [ProveedorController::class, 'categorias'])->name('proveedores.categorias');
+Route::get('/proveedores/{id}/categorias', [ProveedorController::class, 'getCategoriaPorProveedor'])->name('categorias.proveedor');
+Route::get('/proveedores/filtrar', [ProveedorController::class, 'filtrarPorCategoria'])->name('proveedores.filtar');
 
 // Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');
 Route::delete('lotes/{numero_lote}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
 
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
 

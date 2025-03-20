@@ -287,6 +287,11 @@ nav{
 }
 
 @media (max-width: 768px) {
+
+    #proveedores-table .gridjs-th{
+        width: 120px; /* Ajusta el ancho según lo necesites */
+        overflow-x: auto;
+    }
     .gridjs-th, .gridjs-td {
       font-size: 10px;
       padding: 10px;

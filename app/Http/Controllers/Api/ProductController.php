@@ -20,9 +20,9 @@ class ProductController extends Controller
 
     {
         $this->middleware('auth:sanctum');
-        $this->middleware('permission:ver-productos|agregar-producto|editar-producto|eliminar-producto', ['only' => ['index','show']]);
+        $this->middleware('permission:ver-productos', ['only' => ['index','show']]);
         $this->middleware('permission:agregar-producto', ['only' => ['create','store']]);
-        $this->middleware('permission:editar-producto|modificar-precio', ['only' => ['edit','update']]);
+        $this->middleware('permission:editar-producto', ['only' => ['edit','update', 'actualizarPrecios']]);
         $this->middleware('permission:deshabilitar-producto', ['only' => ['disable']]);
         $this->middleware('permission:habilitar-producto', ['only' => ['enable']]);
         $this->middleware('permission:ver-productos-vencidos', ['only' => ['vencidos']]);
@@ -120,7 +120,8 @@ class ProductController extends Controller
                 session()->flash('swal', [
                     'icon' => 'success',
                     'title' => 'Actualizado',
-                    'text' => 'Producto actualizado correctamente'
+                    'text' => 'Producto actualizado correctamente',
+                    'confirmButtonColor' => "#aed5b6",
                 ]);
                 return response()->json([
                     'success' => true,
@@ -152,7 +153,8 @@ class ProductController extends Controller
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => 'Eliminado',
-                'text' => 'Producto eliminado correctamente'
+                'text' => 'Producto eliminado correctamente',
+                'confirmButtonColor' => "#aed5b6",
             ]);
             return response()->json(['message' => 'Producto eliminado exitosamente']);
         }else{
@@ -220,7 +222,8 @@ class ProductController extends Controller
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => 'Actualizados',
-                'text' => 'Precios actualizados correctamente'
+                'text' => 'Precios actualizados correctamente',
+                'confirmButtonColor' => "#aed5b6",
             ]);
             return response()->json([
                 'success' => true,

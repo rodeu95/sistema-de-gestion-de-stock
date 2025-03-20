@@ -7,6 +7,7 @@ use App\Models\Producto;
 use App\Models\Lote;
 use App\Models\Caja;
 use App\Models\Categoria;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class InventarioController extends Controller
 {
@@ -73,6 +74,17 @@ class InventarioController extends Controller
             'success' => true,
             'producto_cod' => $producto->codigo,
         ]);
+    }
+
+    public function export(Request $request){
+
+        $productos = Producto::with('lotes', 'categoria')->get();
+
+        // Generar el PDF
+        $pdf = PDF::loadView('export.inventarioPDF', compact('productos'));
+
+        // Descargar el archivo PDF
+        return $pdf->download('inventario.pdf');
     }
     
 }

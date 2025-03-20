@@ -101,7 +101,8 @@ class UserController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Agregado',
-            'text' => 'Nuevo usuario agregado'
+            'text' => 'Nuevo usuario agregado',
+            'confirmButtonColor' => "#aed5b6",
         ]);
 
         return redirect()->route('users.index');
@@ -204,7 +205,8 @@ class UserController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Actualizado',
-            'text' => 'Usuario actualizado correctamente'
+            'text' => 'Usuario actualizado correctamente',
+            'confirmButtonColor' => "#aed5b6",
         ]);
         // Redirecciona con un mensaje de éxito
         return redirect()->route('users.index');
@@ -228,7 +230,8 @@ class UserController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Eliminado',
-            'text' => 'Usuario eliminado correctamente'
+            'text' => 'Usuario eliminado correctamente',
+            'confirmButtonColor' => "#aed5b6",
         ]);
 
         return redirect()->route('users.index');

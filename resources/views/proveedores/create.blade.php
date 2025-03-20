@@ -80,6 +80,19 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label id="cat_prov" class="form-label" style="margin-bottom:20px;">Categorías</label>
+                                    <div id="categorias-container" class="mb-3" style="overflow-y: auto; margin-bottom: 20px; max-height: 250px; border-radius: 0.25rem;">
+                                        @foreach ($categorias as $categoria)
+                                            <div class="form-check">
+                                                <input type="checkbox" name="categorias[]" class="form-check-input" value="{{ $categoria->id }}" id="{{ $categoria->id }}" style="margin-left:20px;">
+                                                <label class="form-check-label" for="{{ $categoria->id }}">{{ $categoria->nombre }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Botones de acción -->

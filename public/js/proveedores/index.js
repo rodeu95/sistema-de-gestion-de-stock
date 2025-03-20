@@ -1,10 +1,16 @@
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let grid;
 
+$.ajaxSetup({
+    headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+});
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // Configuración inicial para el renderizado de la tabla de productos
-    function renderProveedoresTable() {
+    function renderProveedoresTable(proveedores) {
 
         if (grid) {
             grid.destroy();
@@ -19,84 +25,97 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 {
                     name: gridjs.html(`<span title="Nombre">Nombre</span>`),
-                    width: '150px',
+                    width: '100px',
                     sort: true,
+                    resizable: true,
                     formatter: (cell) => cell,
                     compare: (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())
                 },
                 {
                     name: gridjs.html(`<span title="Contacto">Contacto</span>`),
                     resizable: true,
-                    width: '100px',
+                    width: '80px',
                 },
                 {
                     name: gridjs.html(`<span title="Teléfono">Teléfono</span>`),
-                    width: '150px',
+                    width: '100px',
+                    resizable: true,
                 },
                 {
                     name: gridjs.html(`<span title="E-mail">E-mail</span>`),
+                    width: '130px',
+                    resizable: true,
                 },
                 {
                     name: gridjs.html(`<span title="Dirección">Dirección</span>`),
+                    width: '90px',
                     resizable: true,
-                },
-                {
-                    name: gridjs.html(`<span title="CUIT">CUIT</span>`),
-                    resizable: true,
-                    width: '130px',
                 },
                 {
                     name: gridjs.html(`<span title="Estado">Estado</span>`),
+                    width: '60px',
                     resizable: true,
                 },
                 {
                     name: 'Acciones',
-                    width: '110px',
+                    width: '60px',
+                    resizable: true,
                     formatter: (cell, row) => {
 
                         const id = row.cell(0).data;
-                        const estado = row.cell(7).data;
+                        const estado = row.cell(6).data;
                         
                         const editButtonHtml = document.getElementById('editProveedorButton').innerHTML.replace('${id}', id);
 
+                        const categoriasButtonHtml =  document.getElementById('mostrarCategorias').innerHTML.replace('${id}', id);
+
+
                         let buttonHtml = '';
                         if (estado === 'Inactivo') {
-                            buttonHtml = document.getElementById('enableProveedor').innerHTML.replace('${id}', id);
+                            buttonHtml = document.getElementById('enableProveedorButton').innerHTML.replace('${id}', id);
                         } else {
-                            buttonHtml = document.getElementById('disableProveedor').innerHTML.replace('${id}', id);
+                            buttonHtml = document.getElementById('disableProveedorButton').innerHTML.replace('${id}', id);
                         }
-                        
+
                         return gridjs.html(`
-                            ${editButtonHtml} ${buttonHtml}
+                            ${editButtonHtml} ${buttonHtml} ${categoriasButtonHtml}
                             
                         `);
                     }
                 }
             ],
-            server: {
-                url: proveedoresIndexUrl,
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                then: data => {
-                    console.log(data);
-                    return data.map(proveedor => {
-
-                        return [
-                            proveedor.id,
-                            proveedor.nombre,
-                            proveedor.contacto,
-                            proveedor.telefono,
-                            proveedor.email,
-                            proveedor.direccion,
-                            proveedor.cuit,
-                            proveedor.estado === 0 ? "Inactivo" : "Activo",
-                            null,
-                        ];
-                    });
-                }
-            },
-            resizable: true,
+            data:            
+            proveedores.map(proveedor => [ 
+                // console.log(proveedor),                       
+                proveedor.id,
+                proveedor.nombre,
+                proveedor.contacto,
+                proveedor.telefono,
+                proveedor.email,
+                proveedor.direccion,
+                proveedor.estado === 0 ? "Inactivo" : "Activo",
+                null,
+            ]), 
+            // server: {
+            //     url: url,
+            //     headers: {
+            //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+            //     },
+            //     then: data => {
+            //         console.log(data);
+            //         return data.map(proveedor => [
+            //             proveedor.id,
+            //             proveedor.nombre,
+            //             proveedor.contacto,
+            //             proveedor.telefono,
+            //             proveedor.email,
+            //             proveedor.direccion,
+            //             proveedor.estado === 0 ? "Inactivo" : "Activo",
+            //             null,
+            //         ]);
+            //     }
+            // },
+            // resizable: true,
             sort: true,
 
             pagination: {
@@ -136,6 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     'border-top': 'none', /* Sin borde superior */
                     'border-left': 'none', /* Sin borde izquierdo */
                     'border-right': 'none',
+                    'text-align': 'center',
+                    'padding': '10px',
                 },
                 td:{
                     'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */
@@ -148,8 +169,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }).render(document.getElementById('proveedores-table'));
     }
 
-    // Llamar a renderProductTable cuando se carga la página
-    renderProveedoresTable();
+    function proveedoresIndex() {
+        
+        console.log(proveedoresIndexUrl);
+        $.ajax({
+            url: proveedoresIndexUrl,
+            method: 'GET',
+            success: function (response) {
+                console.log(response);
+                renderProveedoresTable(response)
+            },
+            error: function () {
+                console.error('Error al filtrar proveedores.');
+            }
+        });
+    };
+    proveedoresIndex()
+    // renderProveedoresTable(proveedoresIndexUrl);
 
     $('#editProveedorModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
@@ -164,17 +200,128 @@ document.addEventListener('DOMContentLoaded', function () {
             }, // Ruta para obtener los datos del producto
             method: 'GET',
             success: function (data) {
-
+                console.log('Datos recibidos:', data);
                 const modal = $('#editProveedorModal');
                 // Rellenar el formulario con los datos del producto
-                modal.find('#edit_id').val(data.id);
-                modal.find('#edit_nombre').val(data.nombre);
-                modal.find('#edit_contacto').val(data.contacto);
-                modal.find('#edit_telefono').val(data.telefono);
-                modal.find('#edit_email').val(data.email);
-                modal.find('#edit_direccion').val(data.direccion);
-                modal.find('#edit_cuit').val(data.cuit);
+                modal.find('#edit_id').val(data.proveedor.id);
+                modal.find('#edit_nombre').val(data.proveedor.nombre);
+                modal.find('#edit_contacto').val(data.proveedor.contacto);
+                modal.find('#edit_telefono').val(data.proveedor.telefono);
+                modal.find('#edit_email').val(data.proveedor.email);
+                modal.find('#edit_direccion').val(data.proveedor.direccion);
+                modal.find('#edit_cuit').val(data.proveedor.cuit);
+
+                $.ajax({
+                    url: categoriasIndex,
+                    method: 'GET',
+                    success: function (categorias) {
+                        console.log('Categorías:', categorias);
+                        const categoriasContainer = modal.find('#categorias-container');
+                        categoriasContainer.empty(); // Limpiamos el contenedor antes de llenarlo
+    
+                        categorias.forEach(categoria => {
+                            const isChecked = data.categoriasProveedor.includes(categoria.id)? 'checked' : ''; // Comprobar si la categoría pertenece al proveedor
+                            const checkbox = `
+                                <div class="form-check" >
+                                    <input type="checkbox" name="categorias[]" class="form-check-input" value="${categoria.id}" id="categoria_${categoria.id}" ${isChecked ? 'checked' : ''}>
+                                    <label class="form-check-label" for="categoria_${categoria.id}">${categoria.nombre}</label>
+                                </div>
+                            `;
+                            categoriasContainer.append(checkbox);
+                        });
+                    },
+                    error: function () {
+                        console.log('Error al obtener las categorías del proveedor.');
+                    }
+                });
+
             }
         });
     })
+
+    $('#editProveedorForm').on('submit', function (e) {
+        /*EDICION DEL PRODUCTO DEL MODAL */
+        e.preventDefault();
+        const formData = $(this).serialize();
+        
+        const id = $('#edit_id').val();
+        let proveedorUpdatetUrlFinal = proveedoresUpdatetUrl.replace("id", id);
+        console.log(proveedorUpdatetUrlFinal);
+        $.ajax({
+            url: proveedorUpdatetUrlFinal, // URL del formulario establecida dinámicamente
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            data: formData,
+            success: function (response) {
+                if(response.success){
+                    $('#editProveedorModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Actualizado!',
+                        text: 'El proveedor se ha actualizado correctamente.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderProveedoresTable(); 
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText); // Muestra los errores de la respuesta
+            }
+        });
+    });
+
+    $('#categoriasProveedorModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const id = button.data('id');
+
+        categoriasProveedorUrlFinal = categoriasProveedorUrl.replace("id", id);
+        $.ajax({
+            url: categoriasProveedorUrlFinal,
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+                let categorias = data.categoriasProveedor;
+                let categoriasLista = '';
+                categorias.forEach(categoria => {
+                    categoriasLista += `<li>${categoria.nombre}</li>`
+                });
+                $('#listaCategorias').html(categoriasLista);
+
+                $('#categoriasProveedorModal').modal('show');
+
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al obtener categorías:', error);
+                console.log('Respuesta completa:', xhr.responseText);
+            }
+        });
+    })
+
+    document.getElementById('categoriaFiltro').addEventListener('change', function () {
+        const categoriaId = this.value;
+        filtrarProveedores(categoriaId);
+    });
+    function filtrarProveedores(categoriaId) {
+        console.log(categoriaId);
+        console.log(proveedoresFiltradoUrl);
+        $.ajax({
+            url: proveedoresFiltradoUrl,
+            method: 'GET',
+            data: { categoria_id: categoriaId },
+            success: function (response) {
+                console.log(response);
+                renderProveedoresTable(response)
+            },
+            error: function () {
+                console.error('Error al filtrar proveedores.');
+            }
+        });
+    };
+
+    
+    
 });

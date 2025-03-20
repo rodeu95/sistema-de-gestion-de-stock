@@ -67,6 +67,7 @@
         @endcan
     </div>
 
+
 </main>
 
 <!-- MODAL DE AGREGACIÓN -->
@@ -78,7 +79,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" >
-                <form id="addProductForm">
+                <form id="addProductFormModal">
                     @csrf
                     <div class="mb-3">
                         <label for="codigo" class="form-label" style="color: #aed5b6; ">
@@ -109,10 +110,10 @@
                         </label>
                         <div>
                                         
-                            <input type="radio" id="unidad_un" name="unidad" value="UN" onchange="updateStockStep()" required>
+                            <input type="radio" id="unidad_un" name="unidad" value="UN" required>
                             <label for="unidad_un" style="margin-right:10px; color:grey;">UN</label>
                             
-                            <input type="radio" id="unidad_kg" name="unidad" value="KG" onchange="updateStockStep()" required>
+                            <input type="radio" id="unidad_kg" name="unidad" value="KG" required>
                             <label for="unidad_kg" style="color:grey;">KG</label>
                         </div>
  

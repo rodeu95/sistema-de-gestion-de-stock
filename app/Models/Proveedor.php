@@ -22,7 +22,11 @@ class Proveedor extends Model
     public function productos()
     {
         return $this->belongsToMany(Producto::class, 'producto_proveedor')
-                    ->withPivot('precio', 'tiempo_entrega')
+                    ->withPivot('precio')
                     ->withTimestamps();
+    }
+
+    public function categorias(){
+        return $this->belongsToMany(Categoria::class, 'proveedor_categoria');
     }
 }

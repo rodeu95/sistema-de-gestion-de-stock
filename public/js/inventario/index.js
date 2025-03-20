@@ -22,19 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     name: gridjs.html(`<span title="Precio de costo">Precio costo</span>`),
                     
                 },
-                {
-                    name: gridjs.html(`<span title="IVA %">IVA %</span>`),
-                    
-                },
-                {
-                    name: gridjs.html(`<span title="Porcentaje de utilidad">% Utilidad</span>`),
-                    
-                },
+
                 {
                     name: gridjs.html(`<span title="Precio de venta">Precio Venta</span>`),
                     formatter: (cell, row) => {
-                        const precioVenta = parseFloat(row.cells[6].data);
-                        const unidad = row.cells[8].data;
+                        const precioVenta = parseFloat(row.cells[4].data);
+                        const unidad = row.cells[6].data;
                         console.log('Precio Venta:', { precioVenta, unidad }); // Asume que la unidad está en la columna 3
                         
                         // Formatea el precio con la unidad para mostrar
@@ -83,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.map(producto => {
                         const precioCosto = parseFloat(producto.precio_costo) || 0;
                         const precioVenta = parseFloat(producto.precio_venta) || 0;
-                        const iva = parseFloat(producto.iva) || 0;
-                        const utilidad = parseFloat(producto.utilidad) || 0;
                         const stock = parseFloat(producto.stock) || 0;
                         
                         return [
@@ -94,16 +85,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             (producto.unidad === 'UN' 
                                 ? `${precioCosto.toFixed(2)} x UN` 
                                 : `${precioCosto.toFixed(2)} x KG`),
-                            `${iva}%`,
-                            `${utilidad}%`,
                             `${precioVenta.toFixed(2)}`,
                             stock,
                             producto.unidad,
                             producto.lotes && producto.lotes.length > 0 
                                 ? producto.lotes.map(lote => 
-                                    `Lote: ${lote.numero_lote}, Vence: ${new Date(lote.fecha_vencimiento).toLocaleDateString('es-AR')}`
-                                ).join(`
-                                    `) 
+                                    `Lote: ${lote.numero_lote} Vence: ${new Date(lote.fecha_vencimiento).toLocaleDateString('es-AR')} Cantidad: ${lote.cantidad}`
+                                    ).join('\n') 
                                 : 'Sin lotes'
                         ];
                         

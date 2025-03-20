@@ -140,7 +140,8 @@ class VentasController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => 'Nueva venta',
-            'text' => 'Venta agregada'
+            'text' => 'Venta agregada',
+            'confirmButtonColor' => "#aed5b6",
         ]);
     
         return redirect()->route('ventas.create');

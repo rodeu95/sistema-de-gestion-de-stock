@@ -7,12 +7,12 @@
     <form id="filterForm" method="GET" action="{{ route('generate-excel') }}">
         <div class="row mb-4">
             <div class="form-group col-3">
-                <label>Filtrar por fecha</label>
+                <label>Por fecha</label>
                 <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
             </div>
 
             <div class="form-group col-3">
-                <label>Filtrar entre fechas</label>
+                <label>Por rango de fechas</label>
                 <div>
                     <span>Desde</span>
                     <input type="date" name="fechaIni" id="fechaIni" class="form-control" placeholder="Desde">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="form-group col-3">
-                <label for="select-mes">Filtrar por mes</label>
+                <label for="select-mes">Por mes</label>
                 <select id="select-mes" class="form-control" name="month">
                     <option value="" disabled selected>Seleccione un mes</option>
                     <option value="01">Enero</option>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group col-3">
-                <label for="year-select">Filtrar por año</label>
+                <label for="year-select">Por año</label>
                 <select id="year-select" class="form-control" name="year"></select>
             </div>
 

@@ -43,6 +43,8 @@ Route::resources([
     'proveedores' => ProveedorController::class,
 ]);
 
+Route::get('/proveedores/filtrar', [ProveedorController::class, 'filtrarPorCategoria']);
+
 Route::get('/productos-vencidos', [VencimientosController::class, 'vencidos'])->name('productos.vencidos');
 Route::get('/productos-por-vencerse', [VencimientosController::class, 'porVencer'])->name('productos.por-vencer');
 
@@ -70,7 +72,7 @@ Route::get('/generate-pdf', [ProductoController::class, 'export'])->name('genera
 Route::get('/export/productos', [ExportController::class, 'generatePDF'])->name('productos.export');
 Route::get('/export/ventas', [ExportController::class, 'generateExcel'])->name('ventas.export');
 Route::get('/generate-excel', [VentasController::class, 'export'])->name('generate-excel');
-
+Route::get('/export/inventario', [InventarioController::class, 'export'])->name('export.inventario');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -66,6 +66,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Producto> $productos
  * @property-read int|null $productos_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Proveedor> $proveedores
+ * @property-read int|null $proveedores_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Categoria newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Categoria newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Categoria query()
@@ -193,6 +195,8 @@ namespace App\Models{
  * @property int $estado
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Categoria> $categorias
+ * @property-read int|null $categorias_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Producto> $productos
  * @property-read int|null $productos_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Proveedor newModelQuery()

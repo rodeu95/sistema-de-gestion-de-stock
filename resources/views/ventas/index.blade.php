@@ -7,16 +7,28 @@
 
 <main class="container-lg">
 
-    <div class="row mb-4">
+    <div class="row mb-4 text-center">
         <div class="form-group col-3">
-            <label>Filtrar por fecha</label>
-            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
+            <label for="filtro-principal" class="mb-2">Filtrar por...</label>
+            <select id="filtro-principal" class="form-control">
+                <option value="" disabled selected>Seleccione un filtro</option>
+                <option value="fecha">Fecha exacta</option>
+                <option value="mes">Mes</option>
+                <option value="año">Año</option>
+                <option value="rango">Rango de fechas</option>
+            </select>
+        </div>
+        
+        <div class="form-group col-3 filtro" id="filtro_fecha" style="display: none;">
+            <label class="mb-2">Fecha</label>
+            <input type="date" name="fecha_venta" id="fecha_exacta" class="form-control">
         </div>
 
-        <div class="form-group col-3">
-            <label for="select-mes">Filtrar por mes</label>
-            <select id="select-mes" class="form-control">
+        <div class="form-group col-3 filtro" id="filtro_mes" style="display: none;">
+            <label for="select-mes" class="mb-2">Mes</label>
+            <select id="select-mes" name="month" class="form-control">
                 <option value="" disabled selected>Seleccione un mes</option>
+                <option value="">Sin filtro</option>
                 <option value="01">Enero</option>
                 <option value="02">Febrero</option>
                 <option value="03">Marzo</option>
@@ -32,17 +44,27 @@
             </select>
         </div>
 
-        <div class="form-group col-3">
-            <label for="year-select">Filtrar por año</label>
-            <select id="year-select" class="form-control"></select>
+        <div class="form-group col-3 filtro" id="filtro_año" style="display: none;">
+            <label for="year-select" class="mb-2">Año</label>
+            <select id="year-select" name="year" class="form-control"></select>
         </div>
 
-        <div class="form-group col-3">
-            <button id="apply-filters" class="btn btn-filtros">Aplicar filtros</button>
+        <div class="form-group col-8 filtro" id="filtro_rango" style="display: none;">
+            <label>Rango de fechas</label>
+            <div class="form-group row d-flex mt-2">
+                <div class="d-flex align-items-center w-50">
+                    <label class="mr-2" style="margin-right: 10px;">Desde: </label>
+                    <input type="date" name="fechaIni" id="fechaIni" class="form-control ml-4">
+                </div>
+                <div class="d-flex align-items-center w-50 ml-3">
+                    <label class="mr-2" style="margin-right: 10px;">Hasta: </label>
+                    <input type="date" name="fechaFin" id="fechaFin" class="form-control ml-4">
+                </div>
+            </div>
         </div>
+
     </div>
-        
-
+    
     <div id="ventas-table"></div>
     
     <div id="anularButtonTemplate" style="display: none;">
@@ -95,6 +117,7 @@
     console.log(editVentaUrlTemplate);
     var showVentatUrl = "{{ route('api.ventas.show', ':id') }}";
     var anularVentaUrl = "{{ route('api.ventas.anular', 'id') }}";
+    var ventasFiltradasUrl = "{{ route('api.ventas.filtrar') }}";
 </script>
 
 @endpush

@@ -61,7 +61,8 @@ class LoteController extends Controller
         session()->flash('swal', [
             'icon' => 'success',
             'title' => '¡Lote agregado!',
-            'text' => 'El lote se ha agregado correctamente'
+            'text' => 'El lote se ha agregado correctamente',
+            'confirmButtonColor' => "#aed5b6",
         ]);
 
         // Redirigir con mensaje de éxito
@@ -80,7 +81,8 @@ class LoteController extends Controller
                 session()->flash('swal', [
                     'icon' => 'error',
                     'title' => 'Error',
-                    'text' => 'El lote no fue encontrado.'
+                    'text' => 'El lote no fue encontrado.',
+                    'confirmButtonColor' => "#aed5b6",
                 ]);
                 return response()->json(['message' => 'Lote no encontrado'], 404);
             }
@@ -99,7 +101,8 @@ class LoteController extends Controller
             session()->flash('swal', [
                 'icon' => 'success',
                 'title' => 'Eliminado',
-                'text' => 'Lote eliminado correctamente.'
+                'text' => 'Lote eliminado correctamente.',
+                'confirmButtonColor' => "#aed5b6",
             ]);
 
             return response()->json(['message' => 'Lote eliminado exitosamente']);

@@ -33,5 +33,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'exportar-archivos', 'description' => 'Puede exportar archivos']);
         Permission::create(['name' => 'ver-productos-vencidos', 'description' => 'Puede ver productos vencidos']);
         Permission::create(['name' => 'ver-productos-a-vencer', 'description' => 'Puede ver productos a vencer']);
+        Permission::create(['name' => 'ver-proveedores', 'description' => 'Puede ver proveedores']);
+        Permission::create(['name' => 'agregar-proveedor', 'description' => 'Puede agregar proveedor']);
+        Permission::create(['name' => 'editar-proveedor', 'description' => 'Puede editar proveedor']);
+        Permission::create(['name' => 'deshabilitar-proveedor', 'description' => 'Puede deshabilitar proveedor']);
+        Permission::create(['name' => 'habilitar-proveedor', 'description' => 'Puede habilitar proveedor']);
     }
 }

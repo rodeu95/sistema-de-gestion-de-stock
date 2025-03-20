@@ -154,11 +154,12 @@ function eliminarLote(numero_lote) {
                 },
                 success: function (data) {
                     if (data.message === 'Lote eliminado exitosamente') {
-                        Swal.fire(
-                            'Eliminado',
-                            'Lote eliminado exitosamente',
-                            'info'
-                        ).then(function () {
+                        Swal.fire({
+                            title: 'Eliminado',
+                            text: 'Lote eliminado exitosamente',
+                            icon: 'info',
+                            confirmButtonColor: "#aed5b6",
+                        }).then(function () {
                             window.location.reload(); // Recargar la página
                         });
                     } else {

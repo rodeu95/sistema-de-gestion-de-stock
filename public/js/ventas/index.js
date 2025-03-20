@@ -3,7 +3,27 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('
 let grid;
 let initialTotal = 0;
 
+$.ajaxSetup({
+    headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+});
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    const filtroPrincipal = document.getElementById("filtro-principal");
+    const filtrosSelect = document.querySelectorAll(".filtro");
+
+    filtroPrincipal.addEventListener("change", function () {
+        // Ocultamos todos los filtros primero
+        filtrosSelect.forEach(filtro => filtro.style.display = "none");
+
+        // Mostramos el filtro seleccionado
+        const filtroSeleccionado = document.getElementById("filtro_" + this.value);
+        if (filtroSeleccionado) {
+            filtroSeleccionado.style.display = "block";
+        }
+    });
 
     const yearSelect = document.getElementById('year-select');
 
@@ -22,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Establecer un valor predeterminado (opcional)
     yearSelect.value = endYear;
 
-    function renderVentasTable() {
+    function renderVentasTable(ventas) {
         
         if (grid) {
             grid.destroy();
@@ -90,32 +110,48 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             ],
-            server: {
-                url: ventasIndexUrl,
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                then: response => {
-                    console.log('Datos del servidor:', response);
-                    const ventas = response.ventas;
-                    return ventas.map(venta => {
-                        // Acceder a los productos relacionados de cada venta
-                        const productos = venta.productos.map(producto => `${producto.nombre} (${producto.pivot.cantidad})`).join(', '); 
-                        const metodoPago = venta.metodo_pago ? venta.metodo_pago.nombre : 'No especificado';
-                        const vendedor = venta.vendedor.usuario
-                        return [
-                            venta.id, 
-                            productos,  
-                            metodoPago,  
-                            parseFloat(venta.monto_total),  // Monto total
-                            venta.fecha_venta,  // Fecha de venta
-                            vendedor,
-                            venta.estado === 0 ? "Anulada" : "Confirmada",
-                        ];
-                    });
-                },
+            
+            data:
+            ventas.map(venta => {
+                const productos = venta.productos.map(producto => `${producto.nombre} (${producto.pivot.cantidad})`).join(', '); 
+                const metodoPago = venta.metodo_pago ? venta.metodo_pago.nombre : 'No especificado';
+                const vendedor = venta.vendedor.usuario
+                return [
+                    venta.id, 
+                    productos,  
+                    metodoPago,  
+                    parseFloat(venta.monto_total),  // Monto total
+                    venta.fecha_venta,  // Fecha de venta
+                    vendedor,
+                    venta.estado === 0 ? "Anulada" : "Confirmada",
+                ];
+            }),
+            // server: {
+            //     url: ventasIndexUrl,
+            //     headers: {
+            //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+            //     },
+            //     then: response => {
+            //         console.log('Datos del servidor:', response);
+            //         const ventas = response.ventas;
+            //         return ventas.map(venta => {
+            //             // Acceder a los productos relacionados de cada venta
+            //             const productos = venta.productos.map(producto => `${producto.nombre} (${producto.pivot.cantidad})`).join(', '); 
+            //             const metodoPago = venta.metodo_pago ? venta.metodo_pago.nombre : 'No especificado';
+            //             const vendedor = venta.vendedor.usuario
+            //             return [
+            //                 venta.id, 
+            //                 productos,  
+            //                 metodoPago,  
+            //                 parseFloat(venta.monto_total),  // Monto total
+            //                 venta.fecha_venta,  // Fecha de venta
+            //                 vendedor,
+            //                 venta.estado === 0 ? "Anulada" : "Confirmada",
+            //             ];
+            //         });
+            //     },
                 
-            },
+            // },
             
             resizable: true,
             sort: true,
@@ -147,6 +183,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 tr: 'tr',
             },
             style: {
+                table: {
+                    'border-collapse': 'collapse',
+                },
                 th: {
                     'background-color': '#fff',
                     'color' : 'grey',
@@ -167,34 +206,95 @@ document.addEventListener('DOMContentLoaded', function () {
         }).render(document.getElementById('ventas-table'));
     }
 
-    document.getElementById('apply-filters').addEventListener('click', function () {
-        const fechaVenta = document.getElementById('fecha_venta').value; // Fecha exacta
-        const mes = document.getElementById('select-mes').value; // Mes seleccionado
-        const anio = document.getElementById('year-select').value; // Año seleccionado
+    // document.getElementById('apply-filters').addEventListener('click', function () {
+    //     const fechaVenta = document.getElementById('fecha_venta').value; // Fecha exacta
+    //     const mes = document.getElementById('select-mes').value; // Mes seleccionado
+    //     const anio = document.getElementById('year-select').value; // Año seleccionado
     
-        // Crear el texto de búsqueda combinando los filtros seleccionados
-        let searchValue = '';
+    //     // Crear el texto de búsqueda combinando los filtros seleccionados
+    //     let searchValue = '';
     
-        if (fechaVenta) {
-            searchValue = `${fechaVenta}`;
-        } else if (mes && anio) {
-            searchValue = `${anio}-${mes}`; // Formato de año-mes (e.g., "2024-11")
-        } else if (mes) {
-            searchValue = `${anio}-${mes}`; // Si no hay año, buscar solo el mes
-        } else if (anio) {
-            searchValue = `${anio}`;
-        }
+    //     if (fechaVenta) {
+    //         searchValue = `${fechaVenta}`;
+    //     } else if (mes && anio) {
+    //         searchValue = `${anio}-${mes}`; // Formato de año-mes (e.g., "2024-11")
+    //     } else if (mes) {
+    //         searchValue = `${anio}-${mes}`; // Si no hay año, buscar solo el mes
+    //     } else if (anio) {
+    //         searchValue = `${anio}`;
+    //     }
     
-        // Obtener el cuadro de búsqueda de Grid.js y actualizar su valor
-        const searchInput = document.querySelector('.gridjs-search input'); // Encuentra el input de búsqueda
-        searchInput.value = searchValue;
+    //     // Obtener el cuadro de búsqueda de Grid.js y actualizar su valor
+    //     const searchInput = document.querySelector('.gridjs-search input'); // Encuentra el input de búsqueda
+    //     searchInput.value = searchValue;
     
-        // Disparar el evento "input" para que Grid.js actualice la tabla
-        searchInput.dispatchEvent(new Event('input'));
+    //     // Disparar el evento "input" para que Grid.js actualice la tabla
+    //     searchInput.dispatchEvent(new Event('input'));
+    // });
+
+    function ventasIndex() {
+        
+        console.log(ventasIndexUrl);
+        $.ajax({
+            url: ventasIndexUrl,
+            method: 'GET',
+            success: function (response) {
+                console.log(response);
+                renderVentasTable(response)
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al filtrar las ventas:', error);
+                console.log('Detalles del error:', xhr.responseText);
+            }
+        });
+    };
+    ventasIndex()
+    // Llamar a renderProductTable cuando se carga la página
+    // renderVentasTable();
+
+    const filtros = ['fecha_exacta', 'select-mes', 'year-select', 'fechaIni', 'fechaFin'];
+
+    filtros.forEach(filtroId => {
+        document.getElementById(filtroId).addEventListener('change', aplicarFiltros);
     });
 
-    // Llamar a renderProductTable cuando se carga la página
-    renderVentasTable();
+    function aplicarFiltros() {
+        const fechaExacta = document.getElementById('fecha_exacta').value;
+        const mesFiltro = document.getElementById('select-mes').value;
+        const anioFiltro = document.getElementById('year-select').value;
+        const fechaInicio = document.getElementById('fechaIni').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+
+        const filtrosSeleccionados = { fechaExacta, mesFiltro, anioFiltro, fechaInicio, fechaFin };
+
+        filtrarVentas(filtrosSeleccionados);
+    }
+
+    function filtrarVentas(filtros) {
+        console.log('Filtros aplicados:', filtros);
+        console.log('URL de filtrado:', ventasFiltradasUrl);
+
+        $.ajax({
+            url: ventasFiltradasUrl,
+            method: 'GET',
+            data: {
+                fecha_venta: filtros.fechaExacta,
+                year: filtros.anioFiltro,
+                month: filtros.mesFiltro,
+                fechaIni: filtros.fechaInicio,
+                fechaFin: filtros.fechaFin
+            },
+            success: function (response) {
+                console.log('Ventas filtradas:', response);
+                renderVentasTable(response); // Asegúrate de tener bien configurada esta función
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al filtrar ventas:', error);
+                console.log('Detalles del error:', xhr.responseText);
+            }
+        });
+    }
+
 
 
 });
@@ -280,28 +380,31 @@ function anularVenta(id) {
                 },
                 success: function(data) {
                     
-                        Swal.fire(
-                            'Anulada',
-                            'Venta anulada exitosamente.',
-                            'info'
-                        ).then(function() {
+                        Swal.fire({
+                            title: 'Anulada',
+                            text: 'Venta anulada exitosamente.',
+                            icon: 'info',
+                            confirmButtonColor: "#aed5b6",
+                        }).then(function() {
                             window.location.reload(); // Recargar la página después de 2 segundos
                         });
                     
                 },
                 error: function(xhr) {
                     if (xhr.status === 403) {
-                        Swal.fire(
-                            'Error',
-                            xhr.responseJSON.message, // Muestra "Ya no es posible anular la venta"
-                            'error'
-                        );
+                        Swal.fire({
+                            title: 'Error',
+                            text: xhr.responseJSON.message, // Muestra "Ya no es posible anular la venta"
+                            icon: 'error',
+                            confirmButtonColor: "#aed5b6",
+                    });
                     } else {
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al intentar anular la venta.',
-                            'error'
-                        );
+                        Swal.fire({
+                            title:'Error',
+                            text: 'Hubo un problema al intentar anular la venta.',
+                            icon: 'error',
+                            confirmButtonColor: "#aed5b6",
+                    });
                     }
                 }
             });

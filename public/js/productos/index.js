@@ -178,6 +178,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     'border-radius' : '0',   
                 },
                 th: {
+                    'text-align': 'center',
+                    'padding': '10px',
                     'background-color': '#fff',
                     'color' : 'grey',
                     'text-shadow': 'none',
@@ -250,6 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Actualizado!',
                         text: 'El producto se ha actualizado correctamente.',
+                        confirmButtonColor: "#aed5b6",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); 
@@ -283,6 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Actualizado!',
                         text: 'Precios actualizados correctamente.',
+                        confirmButtonColor: "#aed5b6",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); 
@@ -295,8 +299,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    // Función para manejar el formulario de agregar un producto mediante AJAX
     $('#addProductForm').on('submit', function (e) {
         /*AGREGAR PRODUCTO POR MODAL*/
         e.preventDefault();
@@ -317,15 +319,107 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Producto agregado!',
                         text: 'El producto se ha agregado correctamente.',
+                        confirmButtonColor: "#aed5b6",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); // Recargar la página después de 2 segundos
                     });
                 }
             },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Muestra los errores de la respuesta
+            error: function (xhr) {
+                console.log(xhr.status, xhr.responseText); // Ver qué devuelve el servidor
+                let response = xhr.responseJSON;
+            
+                if (xhr.status === 422) { 
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Producto duplicado',
+                        text: response?.message || 'Ya existe un producto con este código.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                } else if (xhr.status === 500 && response?.error.includes("Duplicate entry")) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error: Producto Duplicado',
+                        text: 'El código de producto ya existe. No se pueden agregar productos con el mismo código.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Hubo un problema al agregar el producto.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                }
             }
+            
+        });
+    });
+
+
+    // Función para manejar el formulario de agregar un producto mediante AJAX
+    $('#addProductFormModal').on('submit', function (e) {
+        /*AGREGAR PRODUCTO POR MODAL*/
+        e.preventDefault();
+
+        $.ajax({
+            url: productosStoreUrl,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            method: "POST",
+            data: $(this).serialize(),
+            success: function (response) {
+                if(response.success){
+                    $('#addProductModal').modal('hide'); // Cerrar el modal
+                    $('#addProductForm')[0].reset(); // Resetear el formulario
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Producto agregado!',
+                        text: 'El producto se ha agregado correctamente.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderProductTable(); // Recargar la página después de 2 segundos
+                    });
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.status, xhr.responseText); // Ver qué devuelve el servidor
+                let response = xhr.responseJSON;
+            
+                if (xhr.status === 422) { 
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Producto duplicado',
+                        text: response?.message || 'Ya existe un producto con este código.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                } else if (xhr.status === 500 && response?.error.includes("Duplicate entry")) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error: Producto Duplicado',
+                        text: 'El código de producto ya existe. No se pueden agregar productos con el mismo código.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error inesperado',
+                        text: 'Hubo un problema al agregar el producto.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+            
         });
     });
 
@@ -377,11 +471,12 @@ function disableProducto(codigo) {
                 },
                 success: function (data) {
                     if (data.message === 'Producto deshabilitado exitosamente') {
-                        Swal.fire(
-                            'Deshabilitado',
-                            'Producto deshabilitado exitosamente.',
-                            'info'
-                        ).then(function () {
+                        Swal.fire({
+                            title: 'Deshabilitado',
+                            text: 'Producto deshabilitado exitosamente.',
+                            icon: 'info',
+                            confirmButtonColor: "#aed5b6",
+                        }).then(function () {
                             window.location.reload(); // Recargar la página
                         });
                     } else {
@@ -420,11 +515,12 @@ function enableProducto(codigo) {
                 },
                 success: function (data) {
                     if (data.message === 'Producto habilitado exitosamente') {
-                        Swal.fire(
-                            'Habilitado',
-                            'Producto habilitado exitosamente.',
-                            'info'
-                        )
+                        Swal.fire({
+                            title: 'Habilitado',
+                            text: 'Producto habilitado exitosamente.',
+                            icon: 'info',
+                            confirmButtonColor: "#aed5b6",
+                    })
                         .then(function () {
                             window.location.reload(); // Recargar la página
                         });
@@ -454,17 +550,3 @@ $(document).on('click', '.btn-enable', function (e) {
     console.log(enableProductoUrl.replace("codigo", codigo));
     enableProducto(codigo);
 });
-
-function updateStockStep() {
-    const unidad = document.getElementById('unidad').value;
-    const stockInput = document.getElementById('stock');
-
-    if (unidad === 'KG') {
-        stockInput.step = '0.01';
-    } else {
-        stockInput.step = '1';
-    }
-}
-
-// Ejecutar función de actualización de stock cuando se cambie la unidad
-document.getElementById('unidad').addEventListener('change', updateStockStep);

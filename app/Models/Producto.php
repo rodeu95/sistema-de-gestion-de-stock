@@ -50,7 +50,7 @@ class Producto extends Model
     public function proveedores()
     {
         return $this->belongsToMany(Proveedor::class, 'producto_proveedor')
-                    ->withPivot('precio', 'tiempo_entrega')
+                    ->withPivot('precio')
                     ->withTimestamps();
     }
 

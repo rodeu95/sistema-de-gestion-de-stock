@@ -47,9 +47,9 @@
                                             @endcan
                                         </li>
                                         <li>
-                                            <!-- @can('ver-lotes') -->
+                                            @can('ver-proveedores')
                                                 <a class="dropdown-item" href="{{ route('proveedores.index') }}">Proveedores</a>
-                                            <!-- @endcan -->
+                                            @endcan
                                         </li>
                                     </ul>
                                 </li>

@@ -19,7 +19,7 @@
                         </div>
                     @endif
                     <!-- Formulario para agregar un nuevo producto -->
-                    <form action="{{ route('productos.store') }}" method="POST">
+                    <form method="POST" action="{{ route('productos.store') }}" id="addProductForm">
                         @csrf
                         <div class="row">
                             <!-- Primera columna -->
@@ -47,18 +47,12 @@
                                     </label>
                                     <div>
                                         
-                                        <input type="radio" id="unidad_un" name="unidad" value="UN" onchange="updateStockStep()" required>
+                                        <input type="radio" id="unidad_un" name="unidad" value="UN" required>
                                         <label for="unidad_un" style="margin-right:10px;">UN</label>
                                        
-                                        <input type="radio" id="unidad_kg" name="unidad" value="KG" onchange="updateStockStep()" required>
+                                        <input type="radio" id="unidad_kg" name="unidad" value="KG" required>
                                         <label for="unidad_kg">KG</label>
                                     </div>
-                                    
-                                    <!-- <select class="form-select" id="unidad" name="unidad" onchange="updateStockStep()"  required>
-                                        <option value="" selected disabled>Seleccione la unidad</option>
-                                        <option value="UN">UN</option>
-                                        <option value="KG">KG</option>
-                                    </select> -->
 
                                 </div>
 
@@ -89,43 +83,6 @@
                                         required
                                     >
                                 </div>
-                                
-                                <!-- <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="stock" class="form-label">
-                                                <i class="fa-solid fa-warehouse"></i> Stock
-                                            </label>
-                                            <input 
-                                                type="number" 
-                                                class="form-control" 
-                                                id="stock" 
-                                                name="stock"
-                                                title="Ingrese la cantidad de stock disponible" 
-                                                placeholder="Ingrese la cantidad de stock disponible"
-                                                step="0.01"
-                                                required
-                                            >
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="stock_minimo" class="form-label">
-                                                <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
-                                            </label>
-                                            <input 
-                                                type="number" 
-                                                class="form-control" 
-                                                id="stock_minimo" 
-                                                name="stock_minimo" 
-                                                title="Ingrese el stock mínimo"
-                                                placeholder="Ingrese el stock mínimo"
-                                                step="0.01"
-                                                required
-                                            >
-                                        </div>
-                                    </div>
-                                </div> -->
 
                                 <!-- Campo Categoría -->
                                 <div class="mb-3">
@@ -194,39 +151,6 @@
 
 
 <script>
-    // function menuPrecio() {
-        
-    //     Swal.fire({
-    //         title: 'Ingresar detalles del precio',
-    //         html:
-    //             `<label>Precio Costo:</label><input type="number" id="precioCosto" class="swal2-input" step="0.01" placeholder="Precio Costo" required>
-    //             <label>IVA (%):</label><input type="number" id="iva" class="swal2-input" step="0.01" placeholder="21%" readonly required>
-    //             <label>% de Utilidad:</label><input type="number" id="utilidad" class="swal2-input" step="0.01" placeholder="% Utilidad" required>`,
-    //         focusConfirm: false,
-    //         preConfirm: () => {
-    //             const precioCosto = parseFloat(document.getElementById('precioCosto').value);
-    //             const iva = 21 / 100;
-    //             const utilidad = parseFloat(document.getElementById('utilidad').value) / 100;
-
-    //             if (isNaN(precioCosto) || isNaN(iva) || isNaN(utilidad)) {
-    //                 Swal.showValidationMessage('Por favor, completa todos los campos requeridos.');
-    //                 return false;
-    //             }
-
-    //             const precioVenta = precioCosto * (1 + iva + utilidad);
-    //             document.getElementById('precioVenta').value = precioVenta.toFixed(2);
-
-    //             const hiddenInputs = document.getElementById('hidden-inputs');
-    //             hiddenInputs.innerHTML = `
-    //                 <input type="hidden" name="precio_costo" value="${precioCosto}">
-    //                 <input type="hidden" name="iva" value="${iva * 100}">
-    //                 <input type="hidden" name="utilidad" value="${utilidad * 100}">
-    //             `;
-    //         },
-    //         showCancelButton: true,
-    //         confirmButtonText: 'OK'
-    //     })
-    // }
 
     document.getElementById('precioCosto').addEventListener('input', updatePrecioVenta);
     document.getElementById('utilidad').addEventListener('input', updatePrecioVenta);
@@ -254,6 +178,10 @@
         }
     }
 </script>
+<script>
+    var productosStoreUrl = "{{ route('api.productos.store') }}";
+</script>
+<!-- <script src="{{ asset('js/productos/index.js') }}"></script> -->
 
 @push('js')
 @endpush

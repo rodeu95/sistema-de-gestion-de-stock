@@ -92,8 +92,8 @@
             text: "No podrás volver atrás",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            confirmButtonColor: "#aed5b6",
+            cancelButtonColor: "grey",
             confirmButtonText: "Eliminar de todas formas",
             cancelButtonText: "Cancelar"
         }).then((result) => {
