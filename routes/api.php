@@ -47,6 +47,8 @@ Route::get('/proveedores/filtrar', [ProveedorController::class, 'filtrarPorCateg
 
 // Route::post('lote/store', [LoteController::class, 'store'])->name('api.lotes.store');
 Route::get('lotes', [LoteController::class, 'index'])->name('api.lotes.index');
+Route::get('lotes/{numero_lote}/edit', [LoteController::class, 'edit'])->name('api.lotes.edit');
+Route::put('lotes/{numero_lote}', [LoteController::class, 'update'])->name('api.lotes.update');
 Route::delete('lotes/{numero_lote}', [LoteController::class, 'destroy'])->name('api.lotes.destroy');
 
 Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');

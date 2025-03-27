@@ -39,18 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     name: 'Acciones',
+                    width: '130px',
                     formatter: (cell, row) => {
 
                         const numero_lote = row.cells[1].data;
    
                         const deleteButtonHtml = document.getElementById('deleteButtonTemplate').innerHTML.replace('${numero_lote}', numero_lote);
+                        const editButtonHtml = document.getElementById('editButtonTemplate').innerHTML.replace('${numero_lote}', numero_lote);
 
                         return gridjs.html(`
-                            <form id="delete-form-lote" action="{{ route('api.lotes.destroy', ['numero_lote' => 'numero_lote']) }}" method="DELETE">
-                                <input type="hidden" name="_token" value="${csrfToken}">
-                                <input type="hidden" name="_method" value="DELETE">
-                                ${deleteButtonHtml}
-                            </form>
+                            ${editButtonHtml}${deleteButtonHtml}
                         `);
                     }
                 }
@@ -128,7 +126,69 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     renderLotesTable();
+
+    $('#editLoteModal').on('show.bs.modal', function (event) {
+        /*CARGA DATOS DEL LOTE EN EL MODAL DE EDICION*/
+        const button = $(event.relatedTarget);
+        const numero_lote = button.data('numero_lote');
+        let editLoteUrlFinal = editLoteUrl.replace('numero_lote', numero_lote);
+        console.log(editLoteUrlFinal);
+        $.ajax({
+            url: editLoteUrlFinal,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }, // Ruta para obtener los datos del producto
+            method: 'GET',
+            success: function (data) {
+                console.log(data);
+                const modal = $('#editLoteModal');
+                // Rellenar el formulario con los datos del producto
+                modal.find('#edit_producto_cod').val(data.producto_cod);
+                modal.find('#edit_numero-lote').val(data.numero_lote);
+                modal.find('#edit_cantidad-lote').val(data.cantidad);
+                modal.find('#edit_fecha-expiracion').val(data.fecha_vencimiento);
+                modal.find('#edit_fecha-ingreso').val(data.fecha_ingreso);
+            }
+        });
+    })
+
+    $('#editLoteForm').on('submit', function (e) {
+        /*EDICION DEL PRODUCTO DEL MODAL */
+        e.preventDefault();
+        const formData = $(this).serialize();
+        
+        const numero_lote = $('#edit_numero-lote').val();
+        let updateLoteUrlFinal = updateLoteUrl.replace('numero_lote', numero_lote);
+
+        $.ajax({
+            url: updateLoteUrlFinal, // URL del formulario establecida dinámicamente
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            data: formData,
+            success: function (response) {
+                if(response.success){
+                    $('#editLoteModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Actualizado!',
+                        text: 'El lote se ha actualizado correctamente.',
+                        confirmButtonColor: "#aed5b6",
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        renderLotesTable(); 
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText); // Muestra los errores de la respuesta
+            }
+        });
+    });
 });
+
+
 
 function eliminarLote(numero_lote) {
     Swal.fire({

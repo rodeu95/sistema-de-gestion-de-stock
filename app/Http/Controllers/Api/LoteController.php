@@ -69,6 +69,45 @@ class LoteController extends Controller
         return redirect()->back()->with('success', 'Lote agregado exitosamente.');
     }
 
+    public function edit($numero_lote){
+        $numero_lote = trim($numero_lote);
+        $lote = Lote::where('numero_lote', $numero_lote)->first();
+        return response()->json($lote);
+    }
+
+    public function update(Request $request, $numero_lote){
+        $numero_lote = trim($numero_lote);
+        $lote = Lote::where('numero_lote', $numero_lote)->first();
+
+        if($lote){
+            $producto = Producto::where('codigo', $lote->producto_cod)->first();
+            if($producto){
+                $diferencia = $request->cantidad - $lote->cantidad;                
+                $producto->stock += $diferencia;
+                $producto->save();
+            }
+            $lote->update($request->all());
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => 'Actualizado',
+                'text' => 'Lote actualizado correctamente',
+                'confirmButtonColor' => "#aed5b6",
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Lote actualizado exitosamente',
+                'lote' => $lote
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Lote no encontrado'
+            ], 404);
+        }
+
+
+    }
+
     public function destroy($numero_lote)
     {
         $numero_lote = trim($numero_lote);

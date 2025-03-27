@@ -125,7 +125,10 @@
 <script src="{{ asset('js/ventas.js') }}"></script>
 
 <script>
-    document.getElementById("fecha_venta").value = new Date().toISOString().split("T")[0];
+    const fecha = new Date();
+    fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la zona horaria
+    document.getElementById("fecha_venta").value = fecha.toISOString().split("T")[0];
+
 </script>
 
 @endpush

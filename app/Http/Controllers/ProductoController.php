@@ -110,7 +110,7 @@ class ProductoController extends Controller
         $caja = Caja::find(1);
         $cajaAbierta = $caja ? $caja->estado:false;
         $codigo = $producto->codigo;
-        // $producto = Producto::where('codigo', $codigo)->first();
+        $producto = Producto::where('codigo', $codigo)->first();
     
         if (!$producto) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
@@ -118,11 +118,6 @@ class ProductoController extends Controller
 
         return response()->json($producto);
 
-        // return view('productos.edit', [
-        //     'producto' => $producto,
-        //     'cajaAbierta' => $cajaAbierta,
-        //     'categorias' => $categorias
-        // ]);
     }
 
     public function update(UpdateProductRequest $request, Producto $producto){
