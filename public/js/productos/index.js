@@ -376,7 +376,12 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function (response) {
                 if(response.success){
                     $('#addProductModal').modal('hide'); // Cerrar el modal
-                    $('#addProductForm')[0].reset(); // Resetear el formulario
+                    let form = $('#addProductForm');
+                    if (form.length > 0) {
+                        form[0].reset();
+                    } else {
+                        console.error('Formulario no encontrado.');
+                    }
 
                     Swal.fire({
                         icon: 'success',

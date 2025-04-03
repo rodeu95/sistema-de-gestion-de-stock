@@ -20,7 +20,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     name: gridjs.html(`<span title="Precio de costo">Precio costo</span>`),
-                    
+                    formatter: (cell, row) => {
+                        const precioCosto = parseFloat(row.cells[3].data);
+                        const unidad = row.cells[6].data;
+                        
+                        // Formatea el precio con la unidad para mostrar
+                        const displayValue = unidad === 'UN' 
+                            ? `$${precioCosto} x UN` 
+                            : `$${precioCosto} x KG`;
+
+                        return gridjs.html(displayValue); 
+                    },
+                    sort: {
+
+                        compare: (a, b) => {
+                            console.log('Comparando:', { a, b });
+                            // Comparar usando los valores numéricos del atributo data-value
+                            const valueA = parseFloat(a);
+                            const valueB = parseFloat(b);
+
+                            // Si no son números, considera el orden
+                            if (isNaN(valueA) || isNaN(valueB)) return 0;
+
+                            // Ordena numéricamente
+                            return valueA - valueB;
+                        }
+                    }
                 },
 
                 {
