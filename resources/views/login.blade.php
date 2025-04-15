@@ -37,6 +37,10 @@
                 <div class="input-container">
                     <input type="password" id="passwordIni" name="password" placeholder="Contraseña" required><i class="fa-solid fa-eye icon" id="togglePasswordIni"></i>
                 </div>
+                <div class="text-end mb-3">
+                    <a href="{{ route('password.request') }}" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                </div>
+
                 
                 <button type="submit" >Entrar</button>
             </form>

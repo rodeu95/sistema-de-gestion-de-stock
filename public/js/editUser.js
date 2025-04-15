@@ -90,6 +90,7 @@ const passwordInputConfirm = document.getElementById('confirmPassword');
 const togglePassword = document.getElementById('togglePassword');
 const togglePasswordConfirm = document.getElementById('togglePasswordConfirm');
 
+
 togglePassword.addEventListener('click', () => {
     // Cambia el tipo del input entre 'password' y 'text'
     const type = passwordInput.type === 'password' ? 'text' : 'password';
@@ -105,9 +106,10 @@ togglePasswordConfirm.addEventListener('click', () => {
     // Cambia el tipo del input entre 'password' y 'text'
     const type = passwordInputConfirm.type === 'password' ? 'text' : 'password';
     passwordInputConfirm.type = type;
-
+    
     // Cambia el ícono entre 'fa-eye' y 'fa-eye-slash'
     togglePasswordConfirm.classList.toggle('fa-eye');
     togglePasswordConfirm.classList.toggle('fa-eye-slash');
 
 });
+

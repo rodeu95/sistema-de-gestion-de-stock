@@ -12,10 +12,59 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password;
+
 
 
 class AuthController extends Controller
 {
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        // Enviar el enlace para restablecer la contraseña
+        $status = Password::sendResetLink($request->only('email'));
+
+        return $status === Password::RESET_LINK_SENT
+                    ? back()->with('status', __($status))
+                    : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function showResetPasswordForm($token)
+    {
+        return view('auth.reset-password', ['token' => $token]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|confirmed|min:8',
+        ]);
+
+        // Intentar restablecer la contraseña
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    : back()->withErrors(['email' => __($status)]);
+    }
     public function showLoginForm(){
         return view('login');
     }
@@ -27,11 +76,11 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-    // Validación del formulario
+
         $request->validate([
-            'usuario' => 'required|string|max:100',
+            'usuario' => 'required|string|max:100|unique:users,usuario',
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
         ]);
         // dd($request);
@@ -55,6 +104,8 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ], 201);
+
+        
     }
 
     public function login(Request $request)

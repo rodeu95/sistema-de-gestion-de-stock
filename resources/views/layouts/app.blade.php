@@ -18,7 +18,13 @@
         <link href="{{ asset('css/productos/index.css') }}" rel="stylesheet">
     </head>
     <body>
-        @include('dashboard.partials.header')
+        @unless(request()->routeIs('password.request')|| request()->routeIs('password.update') || request()->routeIs('password.confirm'))
+            @if(auth()->check()) {{-- Verifica si el usuario está autenticado --}}
+                @include('dashboard.partials.header')
+            @else
+                {{-- Si el usuario no está autenticado, no cargar el header --}}
+            @endif
+        @endunless
 
         <!-- Modal para mostrar detalles del producto -->
         <div class="modal fade" id="barcodeModal" tabindex="-1" aria-labelledby="barcodeModalLabel" aria-hidden="true">

@@ -80,3 +80,5 @@ window.onload = function() {
         }, 5000); // Cambia 5000 por el tiempo en milisegundos que desees
     }
 };
+
+

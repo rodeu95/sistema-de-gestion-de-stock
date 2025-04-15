@@ -18,12 +18,20 @@ use App\Http\Controllers\VencimientosController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\ProveedorController;
 
+
+Auth::routes();
 Route::get('/', [GaleriaController::class, 'index'])->name('welcome');
 
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/user/register', [AuthController::class, 'store'])->name('user.store');
+Route::get('/register/form', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/user/registro', [AuthController::class, 'store'])->name('user.store');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/user/login', [AuthController::class, 'login'])->name('usuario.login');
+// Rutas para manejo de contraseñas
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio');

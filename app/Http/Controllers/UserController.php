@@ -59,7 +59,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        
+
         $input = $request->all();
         // dd($request->input('permissions'));
         $input['password'] = Hash::make($request->password);

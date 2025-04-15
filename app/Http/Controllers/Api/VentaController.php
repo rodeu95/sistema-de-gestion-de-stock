@@ -100,7 +100,7 @@ class VentaController extends Controller
                 $stockRestante = $cantidad; // Cantidad total que se debe vender
 
                 // Obtener lotes del producto ordenados por fecha de vencimiento (FIFO)
-                $lotes = Lote::where('producto_id', $producto_cod)
+                $lotes = Lote::where('producto_cod', $producto_cod)
                             ->where('cantidad', '>', 0) // Solo lotes con stock disponible
                             ->orderBy('fecha_vencimiento', 'asc') // FIFO por fecha de vencimiento
                             ->get();

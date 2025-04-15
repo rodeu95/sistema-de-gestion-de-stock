@@ -9,7 +9,7 @@
             <i class="fa-regular fa-thumbs-up"></i> No hay productos próximos a vencerse
         </p>
     @else
-        <table class="table shadow">
+        <table class="table shadow table-responsive">
             <thead>
                 <tr>
                     <th style="background-color:#fff; color:grey;">Código</th>

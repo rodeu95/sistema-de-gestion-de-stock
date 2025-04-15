@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function register(name, email, usuario, password){
         $.ajax({
-            url: "http://localhost/sistema/public/user/register",
+            url: "http://localhost/sistema/public/user/registro",
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json', 

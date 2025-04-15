@@ -123,5 +123,6 @@
         document.querySelector('.container-botones').classList.toggle('active');
     }
 </script>
+
 @endpush
 @endsection
