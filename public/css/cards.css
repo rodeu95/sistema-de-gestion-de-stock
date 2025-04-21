@@ -1,4 +1,12 @@
 h5, .badge{
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    /* text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6); */
     font-weight: bold;
 }
+.card-body p{
+    color: #0f4845;
+}
+
+.card-body{
+    background-color: #acd8b5;
+}
+

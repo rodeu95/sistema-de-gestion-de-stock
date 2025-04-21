@@ -9,9 +9,9 @@
             <table class="table mb-0">
                 <thead>
                     <tr class="table-warning text-center" >
-                        <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">ID venta</th>
-                        <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Fecha</th>
-                        <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Monto Total</th>
+                        <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">ID venta</th>
+                        <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Fecha</th>
+                        <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Monto Total</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">

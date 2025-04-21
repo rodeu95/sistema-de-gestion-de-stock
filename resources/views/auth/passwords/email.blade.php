@@ -18,7 +18,7 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label style="color:#aed5b6" for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
+                            <label style="color:#acd8b5" for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

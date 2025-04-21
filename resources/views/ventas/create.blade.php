@@ -49,7 +49,7 @@
                 <!-- Sección de productos seleccionados -->
                 <div class="card shadow mb-4">
                     <div class="card-header">
-                        <h5 class="mb-0 justify-content  text-dark text-center" style="text-shadow: none;">
+                        <h5 class="mb-0 justify-content text-center" style="text-shadow: none;">
                             <div class="icon-box">
                                 <i class="fa-solid fa-list"></i>
                             </div>
@@ -70,7 +70,7 @@
                 <!-- Sección de monto total -->
                 <div class="card shadow">
                     <div class="card-header">
-                        <h5 class="mb-0 justify-content text-dark text-center" style="text-shadow: none;">
+                        <h5 class="mb-0 justify-content text-center" style="text-shadow: none;">
                             <div class="icon-box">
                                 <i class="fa-solid fa-dollar"></i>
                             </div>
@@ -78,30 +78,33 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <label for="monto_total" class="form-label">Monto Total</label>
-                            <input type="number" name="monto_total" id="monto_total" class="form-control form-control-xl" style="font-size: 2.5rem;" readonly>
-                        </div>
+                        <section class="bg-light p-4 rounded shadow section-index">
+                            <div class="mb-3">
+                                <label for="monto_total" class="form-label">Monto Total</label>
+                                <input type="number" name="monto_total" id="monto_total" class="form-control form-control-xl" style="font-size: 2.5rem;" readonly>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="metodo_pago_id" class="form-label">Método de Pago</label>
-                            <select class="form-select" name="metodo_pago_id" id="metodo_pago_id">
-                                <option value="" disabled selected>Seleccione un método de pago</option>
-                                @foreach ($metodosdepago as $metododepago)
-                                    <option value="{{$metododepago->id}}">{{$metododepago->nombre}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <div class="mb-3">
+                                <label for="metodo_pago_id" class="form-label">Método de Pago</label>
+                                <select class="form-select" name="metodo_pago_id" id="metodo_pago_id">
+                                    <option value="" disabled selected>Seleccione un método de pago</option>
+                                    @foreach ($metodosdepago as $metododepago)
+                                        <option value="{{$metododepago->id}}">{{$metododepago->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="fecha_venta" class="form-label">Fecha de Venta</label>
-                            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
-                        </div>
+                            <div class="mb-3">
+                                <label for="fecha_venta" class="form-label">Fecha de Venta</label>
+                                <input type="date" name="fecha_venta" id="fecha_venta" class="form-control">
+                            </div>
 
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn" style="margin-right:10px" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
-                            <a href="javascript:history.back()" class="btn btn-secondary" style="background-color: grey">Cancelar</a>
-                        </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn" style="margin-right:10px" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
+                                <a href="javascript:history.back()" class="btn btn-secondary" style="background-color: grey">Cancelar</a>
+                            </div>
+                        </section>
+                        
                     </div>
                 </div>
             </div>
@@ -119,7 +122,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <label for="newQuantity" class="form-label" style="color:#aed5b6;">Nueva Cantidad:</label>
+        <label for="newQuantity" class="form-label">Nueva Cantidad:</label>
         <input type="number" id="newQuantity" class="form-control" min="0.1" step="0.1" required>
       </div>
       <div class="modal-footer">

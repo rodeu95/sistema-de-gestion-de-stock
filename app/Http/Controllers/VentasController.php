@@ -141,7 +141,7 @@ class VentasController extends Controller
             'icon' => 'success',
             'title' => 'Nueva venta',
             'text' => 'Venta agregada',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
     
         return redirect()->route('ventas.create');

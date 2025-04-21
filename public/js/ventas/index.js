@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'border-collapse': 'collapse',
                 },
                 th: {
-                    'background-color': '#aed5b6',
+                    'background-color': '#acd8b5',
                     'color' : '#fff',
                     'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
                     'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */
@@ -365,7 +365,7 @@ function anularVenta(id) {
         showCancelButton: true,
         confirmButtonText: 'Sí, anular',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#aed5b6",
+        confirmButtonColor: "#acd8b5",
         cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
@@ -384,7 +384,7 @@ function anularVenta(id) {
                             title: 'Anulada',
                             text: 'Venta anulada exitosamente.',
                             icon: 'info',
-                            confirmButtonColor: "#aed5b6",
+                            confirmButtonColor: "#acd8b5",
                         }).then(function() {
                             window.location.reload(); // Recargar la página después de 2 segundos
                         });
@@ -396,14 +396,14 @@ function anularVenta(id) {
                             title: 'Error',
                             text: xhr.responseJSON.message, // Muestra "Ya no es posible anular la venta"
                             icon: 'error',
-                            confirmButtonColor: "#aed5b6",
+                            confirmButtonColor: "#acd8b5",
                     });
                     } else {
                         Swal.fire({
                             title:'Error',
                             text: 'Hubo un problema al intentar anular la venta.',
                             icon: 'error',
-                            confirmButtonColor: "#aed5b6",
+                            confirmButtonColor: "#acd8b5",
                     });
                     }
                 }

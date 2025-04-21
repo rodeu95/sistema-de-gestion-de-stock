@@ -102,7 +102,7 @@ class UserController extends Controller
             'icon' => 'success',
             'title' => 'Agregado',
             'text' => 'Nuevo usuario agregado',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
 
         return redirect()->route('users.index');
@@ -206,7 +206,7 @@ class UserController extends Controller
             'icon' => 'success',
             'title' => 'Actualizado',
             'text' => 'Usuario actualizado correctamente',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
         // Redirecciona con un mensaje de éxito
         return redirect()->route('users.index');
@@ -231,7 +231,7 @@ class UserController extends Controller
             'icon' => 'success',
             'title' => 'Eliminado',
             'text' => 'Usuario eliminado correctamente',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
 
         return redirect()->route('users.index');

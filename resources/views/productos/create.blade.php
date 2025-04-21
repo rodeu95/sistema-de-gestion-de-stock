@@ -111,7 +111,7 @@
 
                                     <p>
                                         <div class="collapse" id="collapseExample">
-                                            <div class="card card-body" style="background-color:#aed5b6;">
+                                            <div class="card card-body" style="background-color:#acd8b5;">
                                                 <div class="mb-3">
                                                     <label for="precioCosto" class="form-label text-white label-toggle">Precio Costo</label>
                                                     <div class="input-group mb-3">
@@ -184,6 +184,11 @@
             stockInput.step = '1';
         }
     }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('codigo')?.focus();
+  });
 </script>
 <script>
     var productosStoreUrl = "{{ route('api.productos.store') }}";

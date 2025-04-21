@@ -71,7 +71,7 @@ class ProveedorController extends Controller
                 'icon' => 'success',
                 'title' => '¡Proveedor agregado!',
                 'text' => 'El proveedor se ha agregado correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
 
             // Asignar categorías al proveedor
@@ -83,7 +83,7 @@ class ProveedorController extends Controller
                 'icon' => 'error',
                 'title' => 'Error al agregar al proveedor',
                 'text' => 'El proveedor no se ha agregado correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
         }
         

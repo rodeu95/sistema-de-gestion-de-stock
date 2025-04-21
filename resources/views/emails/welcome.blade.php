@@ -14,7 +14,7 @@
             <h1 style="font-size: 24px;">¡Bienvenid@, {{ $user->name }}!</h1>
             <p>Te has registrado en el sistema de gestión de ventas e inventario de <strong>LA GRAN TIENDA</strong>.</p>
             <p>Por favor, asegúrate de que tu administrador te conceda los permisos necesarios.</p>
-            <a href="{{ url('/inicio') }}" style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #aed5b6; color: #000; text-decoration: none; border-radius: 5px;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Ir a la app</a>
+            <a href="{{ url('/inicio') }}" style="display: inline-block; margin-top: 20px; padding: 10px 15px; background-color: #acd8b5; color: #000; text-decoration: none; border-radius: 5px;" onmouseover="this.style.backgroundColor= '#d7f5dd';" onmouseout="this.style.backgroundColor='#aed6b5';">Ir a la app</a>
         </div>
         <div style="margin-top: 20px; text-align: center; font-size: 0.9em; color: #777;">
             <hr>

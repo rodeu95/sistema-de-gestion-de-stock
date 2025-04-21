@@ -7,7 +7,7 @@
             <div class="col-lg-6 col-md-12">
                 <div class="card shadow mb-4">
                     <div class="card-header text-center">
-                        <h5 class="mb-0 text-dark" style="text-shadow:none">
+                        <h5 class="mb-0" style="text-shadow:none">
                             <div class="icon-box">
                                 <i class="fas fa-chart-line"></i>
                             </div>
@@ -32,7 +32,7 @@
                 <div class="col-lg-12">
                     <div class="card shadow">
                         <div class="card-header text-center">
-                            <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                            <h5 class="mb-0" style="text-shadow: none;">
                                 <div class="icon-box">
                                     <i class="fas fa-calendar-week"></i>
                                 </div>
@@ -69,7 +69,7 @@
                 @endif
 
                 @if(count($bajoStock) > 0)
-                    <a href="{{ route('inventario.edit' ) }}" class="btn btn-warning text-white btn-sm w-100 d-flex justify-content-between align-items-center ">
+                    <a href="{{ route('inventario.edit' ) }}" class="btn btn-warning text-white btn-sm w-100 d-flex justify-content-between align-items-center " style="background-color:#F3B84F">
                         <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos con bajo stock</span>
                         <span class="badge bg-white text-warning cantidad">{{ count($bajoStock) }}</span>
                     </a>
@@ -77,7 +77,7 @@
  
                 <div class="card shadow">
                     <div class="card-header  text-center">
-                        <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                        <h5 class="mb-0" style="text-shadow: none;">
                             <div class="icon-box">
                                 <i class="fa-solid fa-chart-pie"></i> 
                             </div>
@@ -106,13 +106,13 @@
             <div class="col-lg-12">
                 <div class="card shadow border-0">
                     <div class="card-header">
-                        <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                        <h5 class="mb-0" style="text-shadow: none;">
                             <div class="icon-box">
                                 <i class="fas fa-bolt"></i>
                             </div>
                             Accesos Rápidos</h5>
                     </div>
-                    <div class="card-body d-flex justify-content-around">
+                    <div class="card-body bg-light d-flex justify-content-around">
                         @can('registrar-venta')
                             <a href="{{ route('ventas.create') }}" class="btn btn-access" >
                                 <i class="fas fa-cash-register me-2"></i>Registrar Venta

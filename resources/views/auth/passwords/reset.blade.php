@@ -14,7 +14,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="row mb-3">
-                            <label style="color:#aed5b6" for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
+                            <label style="color:#acd8b5" for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label style="color:#aed5b6" for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
+                            <label style="color:#acd8b5" for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
                                 <div class="input-container">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label style="color:#aed5b6" for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar Contraseña') }}</label>
+                            <label style="color:#acd8b5" for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar Contraseña') }}</label>
 
                             <div class="col-md-6">
                                 <div class="input-container">

@@ -2,9 +2,9 @@
 <table>
     <thead>
         <tr>
-            <th style="background-color: #aed5b6; font-size: 14px;">Método de Pago</th>
-            <th style="background-color: #aed5b6; font-size: 14px;">Monto Total</th>
-            <th style="background-color: #aed5b6; font-size: 14px;">Fecha de Venta</th>
+            <th style="background-color: #acd8b5; font-size: 14px;">Método de Pago</th>
+            <th style="background-color: #acd8b5; font-size: 14px;">Monto Total</th>
+            <th style="background-color: #acd8b5; font-size: 14px;">Fecha de Venta</th>
         </tr>
     </thead>
     <tbody>

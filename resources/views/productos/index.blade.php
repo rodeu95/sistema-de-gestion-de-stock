@@ -71,7 +71,7 @@
 </main>
 
 <!-- MODAL DE AGREGACIÓN -->
-<div class="modal fadae" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content" >
             <div class="modal-header ">
@@ -85,7 +85,7 @@
                         <label for="codigo" class="form-label">
                             <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-barcode"></i> Código
                         </label>
-                        <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese el código del producto" required>
+                        <input type="text" class="form-control" id="codigoAdd" name="codigo" placeholder="Ingrese el código del producto" required>
                     </div>
 
                     <!-- Campo Nombre -->
@@ -111,10 +111,10 @@
                         <div>
                                         
                             <input type="radio" id="unidad_un" name="unidad" value="UN" required>
-                            <label for="unidad_un" style="margin-right:10px; color:#0f6f70; text-shadow: none;">UN</label>
+                            <label for="unidad_un" style="margin-right:10px; text-shadow: none;">UN</label>
                             
                             <input type="radio" id="unidad_kg" name="unidad" value="KG" required>
-                            <label for="unidad_kg" style="color:#0f6f70; text-shadow: none;">KG</label>
+                            <label for="unidad_kg" style="text-shadow: none;">KG</label>
                         </div>
  
                     </div>
@@ -131,7 +131,7 @@
                         </div>
                         <p>
                             <div class="collapse" id="collapseExample">
-                                <div class="card card-body" style="background-color:#aed5b6;">
+                                <div class="card card-body" style="background-color:#acd8b5;">
                                     <div class="mb-3">
                                         <label for="precioCosto" class="form-label text-white label-toggle">Precio Costo</label>
                                         <div class="input-group mb-3">
@@ -291,7 +291,7 @@
             <div class="modal-body">
                 <form id="actualizarPreciosForm">
                     @method('POST')
-                    <label class="form-label" style="color: #aed5b6; ">Porcentaje de aumento</label>
+                    <label class="form-label">Porcentaje de aumento</label>
                     <div>El porcentaje de aumento será aplicado sobre todos los productos.</div>
                     <input type="number" name="porcentaje" class="form-control" min="0.01" step="0.01">
                     
@@ -324,6 +324,10 @@
     }
 </script>
 <script src="{{ asset('js/requiredField.js') }}"></script>
-
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('codigoAdd')?.focus();
+  });
+</script>
 @endpush
 @endsection

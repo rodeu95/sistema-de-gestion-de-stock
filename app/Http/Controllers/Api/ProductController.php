@@ -121,7 +121,7 @@ class ProductController extends Controller
                     'icon' => 'success',
                     'title' => 'Actualizado',
                     'text' => 'Producto actualizado correctamente',
-                    'confirmButtonColor' => "#aed5b6",
+                    'confirmButtonColor' => "#acd8b5",
                 ]);
                 return response()->json([
                     'success' => true,
@@ -154,7 +154,7 @@ class ProductController extends Controller
                 'icon' => 'success',
                 'title' => 'Eliminado',
                 'text' => 'Producto eliminado correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
             return response()->json(['message' => 'Producto eliminado exitosamente']);
         }else{
@@ -223,7 +223,7 @@ class ProductController extends Controller
                 'icon' => 'success',
                 'title' => 'Actualizados',
                 'text' => 'Precios actualizados correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
             return response()->json([
                 'success' => true,

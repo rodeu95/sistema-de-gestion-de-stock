@@ -136,7 +136,7 @@ class VentaController extends Controller
                 'icon' => 'success',
                 'title' => '¡Nueva Venta!',
                 'text' => 'Nueva venta registrada',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
 
             return response()->json([
@@ -258,7 +258,7 @@ class VentaController extends Controller
                 'icon' => 'success',
                 'title' => 'Actualizada',
                 'text' => 'Venta actualizada correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
     
             return response()->json([
@@ -284,7 +284,7 @@ class VentaController extends Controller
                 'icon' => 'success',
                 'title' => 'Eliminada',
                 'text' => 'Venta eliminada correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
             return response()->json(['message' => 'Venta eliminada exitosamente']);
         }else{

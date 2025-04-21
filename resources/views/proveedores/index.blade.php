@@ -77,56 +77,56 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="edit_id" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_id" class="form-label" style="color: #acd8b5; ">
                             ID Proveedor
                         </label>
                         <input type="text" class="form-control" id="edit_id" name="id" readonly required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_nombre" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_nombre" class="form-label" style="color: #acd8b5; ">
                             <i class="fa-solid fa-pencil"></i> Nombre
                         </label>
                         <input type="text" class="form-control" id="edit_nombre" name="nombre" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_contacto" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_contacto" class="form-label" style="color: #acd8b5; ">
                             <i class="fa-solid fa-address-book"></i> Contacto
                         </label>
                         <input type="text" class="form-control" id="edit_contacto" name="contacto"></input>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_telefono" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_telefono" class="form-label" style="color: #acd8b5; ">
                             <i class="fa-solid fa-square-phone"></i> Teléfono
                         </label>
                         <input type="text" class="form-control" id="edit_telefono" name="telefono"></input>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_email" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_email" class="form-label" style="color: #acd8b5; ">
                             <i class="fa-solid fa-at"></i> E-mail
                         </label>
                         <input type="text" class="form-control" id="edit_email" name="email" ></input>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_direccion" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_direccion" class="form-label" style="color: #acd8b5; ">
                             <i class="fa-solid fa-location-dot"></i> Dirección
                         </label>
                         <input type="text" class="form-control" id="edit_direccion" name="direccion"></input>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_cuit" class="form-label" style="color: #aed5b6;">
+                        <label for="edit_cuit" class="form-label" style="color: #acd8b5;">
                             <i class="fa-solid fa-id-card"></i> CUIT
                         </label>
                         <input type="cuit" class="form-control" id="edit_cuit" name="cuit">
                     </div>
 
-                    <label id="edit_cat_prov" class="form-label" style="margin-bottom:20px; color: #aed5b6;">Categorías</label>
-                    <div id="categorias-container"  style="overflow-y: auto; max-height: 250px; border-radius: 0.25rem; background: linear-gradient(to right, #aed5b6, #66a5ad); padding: 10px;">
+                    <label id="edit_cat_prov" class="form-label" style="margin-bottom:20px; color: #acd8b5;">Categorías</label>
+                    <div id="categorias-container"  style="overflow-y: auto; max-height: 250px; border-radius: 0.25rem; background: linear-gradient(to right, #acd8b5, #66a5ad); padding: 10px;">
                             
                             <!-- Las categorías se llenan aquí con AJAX -->
                     </div>

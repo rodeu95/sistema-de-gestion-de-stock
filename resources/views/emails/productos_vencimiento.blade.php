@@ -17,9 +17,9 @@
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
                 <tr>
-                    <th style="background: #aed5b6; color: #fff; padding: 10px; text-align: left;">Producto</th>
-                    <th style="background: #aed5b6; color: #fff; padding: 10px; text-align: left;">Lote</th>
-                    <th style="background: #aed5b6; color: #fff; padding: 10px; text-align: left;">Fecha de Vencimiento</th>
+                    <th style="background: #acd8b5; color: #fff; padding: 10px; text-align: left;">Producto</th>
+                    <th style="background: #acd8b5; color: #fff; padding: 10px; text-align: left;">Lote</th>
+                    <th style="background: #acd8b5; color: #fff; padding: 10px; text-align: left;">Fecha de Vencimiento</th>
                 </tr>
             </thead>
             <tbody>

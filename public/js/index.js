@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 datasets: [{
                     label: 'Ventas ($)',
                     data: data,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderWidth: 2,
+                    borderColor: '#0f4845',
+                    backgroundColor: '#0f4845',
+                    // borderWidth: 2,
                     fill: true
                 }]
             },
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 labels: labels,
                 datasets: [{
                     data: data,
-                    backgroundColor: ['#4CAF50', '#FF5722', '#FFC107'], // Colores para cada segmento
+                    backgroundColor: ['#E06D3F', '#F3B84F', '#2C6B5D'], // Colores para cada segmento
                     hoverOffset: 4
                 }]
             },

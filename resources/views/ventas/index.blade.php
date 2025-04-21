@@ -9,7 +9,7 @@
 
     <div class="row mb-4 text-center">
         <div class="form-group col-lg-3">
-            <label for="filtro-principal" class="mb-2" style="color: #0f6f70; text-shadow: none;">Filtrar por...</label>
+            <label for="filtro-principal" class="mb-2">Filtrar por...</label>
             <select id="filtro-principal" class="form-control">
                 <option value="" disabled selected>Seleccione un filtro</option>
                 <option value="fecha">Fecha exacta</option>
@@ -99,7 +99,7 @@
                 <p ><strong class="text-muted text-uppercase small mb-0">Fecha: </strong> <span id="venta-fecha" class="text-muted"></span></p>
                 <p ><strong class="text-muted text-uppercase small mb-0">Estado: </strong> <span id="venta-estado" class="text-muted"></span></p>
                 <hr>
-                <h5 style="color:#aed5b6">Productos</h5>
+                <h5>Productos</h5>
                 <ul id="lista-productos"></ul>
             </div>
         </div>

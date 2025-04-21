@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'border-radius' : '0',   
                 },
                 th: {
-                    'background-color': '#aed5b6',
+                    'background-color': '#acd8b5',
                     'color' : '#fff',
                     'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
                     'border-bottom': '1px solid #ddd',
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Actualizado!',
                         text: 'El proveedor se ha actualizado correctamente.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProveedoresTable(); 

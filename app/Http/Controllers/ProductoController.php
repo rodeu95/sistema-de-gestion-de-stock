@@ -55,7 +55,7 @@ class ProductoController extends Controller
                 'icon' => 'error',
                 'title' => 'Error: Producto Duplicado',
                 'text' => 'El código de producto ya existe. No se pueden agregar productos con el mismo código.',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
             return redirect()->route('productos.index');
         }
@@ -79,14 +79,14 @@ class ProductoController extends Controller
                 'icon' => 'success',
                 'title' => '¡Producto agregado!',
                 'text' => 'El producto se ha agregado correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
         }catch(\Exception $e){
             session()->flash('swal', [
                 'icon' => 'error',
                 'title' => 'Error al agregar el producto',
                 'text' => 'El producto no se ha agregado correctamente',
-                'confirmButtonColor' => "#aed5b6",
+                'confirmButtonColor' => "#acd8b5",
             ]);
         }
                
@@ -126,7 +126,7 @@ class ProductoController extends Controller
             'icon' => 'success',
             'title' => 'Actualizado',
             'text' => 'Producto actualizado correctamente',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
         return redirect()->back();
                 // ->withSuccess('Product is updated successfully.');
@@ -139,7 +139,7 @@ class ProductoController extends Controller
             'icon' => 'success',
             'title' => 'Eliminado',
             'text' => 'Producto eliminado correctamente',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
         return redirect()->route('productos.index');
                 // ->withSuccess('Product is deleted successfully.');

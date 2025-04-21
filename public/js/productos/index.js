@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 th: {
                     'text-align': 'center',
                     'padding': '10px',
-                    'background-color': '#aed5b6',
+                    'background-color': '#acd8b5',
                     'color' : '#fff',
                     'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
                     'border-bottom': '1px solid #ddd',
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Actualizado!',
                         text: 'El producto se ha actualizado correctamente.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); 
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Actualizado!',
                         text: 'Precios actualizados correctamente.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); 
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Producto agregado!',
                         text: 'El producto se ha agregado correctamente.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); // Recargar la página después de 2 segundos
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'warning',
                         title: 'Producto duplicado',
                         text: response?.message || 'Ya existe un producto con este código.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 } else if (xhr.status === 500 && response?.error.includes("Duplicate entry")) {
@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'error',
                         title: 'Error: Producto Duplicado',
                         text: 'El código de producto ya existe. No se pueden agregar productos con el mismo código.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 } else {
@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'error',
                         title: 'Error inesperado',
                         text: 'Hubo un problema al agregar el producto.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 }
@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'success',
                         title: '¡Producto agregado!',
                         text: 'El producto se ha agregado correctamente.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
                         renderProductTable(); // Recargar la página después de 2 segundos
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'warning',
                         title: 'Producto duplicado',
                         text: response?.message || 'Ya existe un producto con este código.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 } else if (xhr.status === 500 && response?.error.includes("Duplicate entry")) {
@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'error',
                         title: 'Error: Producto Duplicado',
                         text: 'El código de producto ya existe. No se pueden agregar productos con el mismo código.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 } else {
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         icon: 'error',
                         title: 'Error inesperado',
                         text: 'Hubo un problema al agregar el producto.',
-                        confirmButtonColor: "#aed5b6",
+                        confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     });
                 }
@@ -460,7 +460,7 @@ function disableProducto(codigo) {
         showCancelButton: true,
         confirmButtonText: 'Sí, deshabilitar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#aed5b6",
+        confirmButtonColor: "#acd8b5",
         cancelButtonColor: "#grey",
     }).then((result) => {
         if (result.isConfirmed) {
@@ -480,7 +480,7 @@ function disableProducto(codigo) {
                             title: 'Deshabilitado',
                             text: 'Producto deshabilitado exitosamente.',
                             icon: 'info',
-                            confirmButtonColor: "#aed5b6",
+                            confirmButtonColor: "#acd8b5",
                         }).then(function () {
                             window.location.reload(); // Recargar la página
                         });
@@ -505,7 +505,7 @@ function enableProducto(codigo) {
         showCancelButton: true,
         confirmButtonText: 'Sí, habilitar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: "#aed5b6",
+        confirmButtonColor: "#acd8b5",
         cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
@@ -524,7 +524,7 @@ function enableProducto(codigo) {
                             title: 'Habilitado',
                             text: 'Producto habilitado exitosamente.',
                             icon: 'info',
-                            confirmButtonColor: "#aed5b6",
+                            confirmButtonColor: "#acd8b5",
                     })
                         .then(function () {
                             window.location.reload(); // Recargar la página

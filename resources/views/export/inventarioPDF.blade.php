@@ -25,7 +25,7 @@
             text-align: left;
         }
         th {
-            background-color: #aed5b6;
+            background-color: #acd8b5;
             color: black;
         }
         tr:nth-child(even) {

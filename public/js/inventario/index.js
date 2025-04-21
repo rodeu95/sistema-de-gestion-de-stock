@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                 },
                 th: {
-                    'background-color': '#aed5b6',
+                    'background-color': '#acd8b5',
                     'color' : '#fff',
                     'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
                     'border-bottom': '1px solid #ddd', /* Aplica el borde horizontal */

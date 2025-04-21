@@ -36,31 +36,31 @@
                     @csrf
                     @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
                     <div class="mb-3">
-                                <label for="edit_producto_cod" class="form-label" style="color: #aed5b6;">
+                                <label for="edit_producto_cod" class="form-label">
                                     <i class="fa-solid fa-barcode"></i> Código de producto
                                 </label>
                                 <input type="text" class="form-control" id="edit_producto_cod" name="producto_cod" placeholder="Ingrese el código del producto" required readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="edit_numero-lote" class="form-label" style="color: #aed5b6;">
+                                <label for="edit_numero-lote" class="form-label" >
                                     <i class="fa-solid fa-dolly"></i> Número de Lote
                                 </label>
                                 <input type="text" id="edit_numero-lote" name="numero_lote" class="form-control" placeholder="Ingrese el número del lote" required readonly>
                             </div>
                             <div class="mb-3">
-                                <label for="edit_cantidad-lote" class="form-label" style="color: #aed5b6;">
+                                <label for="edit_cantidad-lote" class="form-label" >
                                     <i class="fa-solid fa-boxes-stacked"></i> Cantidad
                                 </label>
                                 <input type="number" id="edit_cantidad-lote" name="cantidad" class="form-control" placeholder="Ingrese la cantidad en el lote" required>
                             </div>
                             <div class="mb-3">
-                                <label for="edit_fecha-expiracion" class="form-label" style="color: #aed5b6;">
+                                <label for="edit_fecha-expiracion" class="form-label" >
                                     <i class="fa-regular fa-calendar"></i> Fecha de Expiración
                                 </label>
                                 <input type="date" id="edit_fecha-expiracion" name="fecha_vencimiento" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label for="edit_fecha-ingreso" class="form-label" style="color: #aed5b6;">
+                                <label for="edit_fecha-ingreso" class="form-label" >
                                     <i class="fa-regular fa-calendar"></i> Fecha de Ingreso
                                 </label>
                                 <input type="date" id="edit_fecha-ingreso" name="fecha_ingreso" class="form-control" required>

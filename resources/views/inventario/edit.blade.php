@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0 justify-content text-dark text-center" style="text-shadow:none">
+                    <h5 class="mb-0 justify-content text-center" style="text-shadow:none">
                         <div class="icon-box">
                             <i class="fa-solid fa-arrow-trend-down"></i>
                         </div>
@@ -17,22 +17,26 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <ul class="list-group">
-                            @forelse($bajoStock as $producto)
-                                <li class="list-group-item justify-content-between align-items-center">
-                                    <span>
-                                        <div class="text-muted text-uppercase large"><Strong>{{ $producto->nombre }}</Strong></div>
-                                        <hr>
-                                        <p class="text-muted text-uppercase small">Código: <span class="text-dark">{{ $producto->codigo }}</span></p>
-                                        <p class="text-muted text-uppercase small">Stock: <span class="text-dark">{{ $producto->stock }}</span></p>
-                                    </span>
-                                </li>
-                            @empty
-                                <li class="list-group-item text-center">No hay productos con bajo stock.</li>
-                            @endforelse
-                        </ul>
-                    </div>
+                    
+                        <div class="mb-3">
+                            <ul class="list-group bg-light rounded shadow">
+                                <div class="p-4">
+                                    @forelse($bajoStock as $producto)
+                                        <li class="list-group-item justify-content-between align-items-center">
+                                            <span>
+                                                <div class="text-muted text-uppercase large"><Strong>{{ $producto->nombre }}</Strong></div>
+                                                <hr>
+                                                <p class="text-muted text-uppercase small">Código: <span class="text-dark">{{ $producto->codigo }}</span></p>
+                                                <p class="text-muted text-uppercase small">Stock: <span class="text-dark">{{ $producto->stock }}</span></p>
+                                            </span>
+                                        </li>
+                                    @empty
+                                        <li class="list-group-item text-center">No hay productos con bajo stock.</li>
+                                    @endforelse
+                                </div>
+                                
+                            </ul>
+                        </div>
                 </div>
             </div>            
         </div>
@@ -40,7 +44,7 @@
         <div class="col-md-6">
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h5 class="mb-0 justify-content text-dark text-center" style="text-shadow:none; ">
+                    <h5 class="mb-0 justify-content text-center" style="text-shadow:none; ">
                         <div class="icon-box">
                             <i class="fa-solid fa-circle-plus"></i>
                         </div>
@@ -48,7 +52,8 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">            
+                    <section class="bg-light p-4 rounded shadow">
+                        <div class="mb-3">            
 
                         <form action="{{ route('lotes.store') }}" id="addLoteForm" method="POST">
                             @csrf
@@ -83,12 +88,14 @@
                                 <input type="date" id="fecha-ingreso" name="fecha_ingreso" class="form-control" required>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn" style="background-color: #aed6b5; color: white;">
+                                <button type="submit" class="btn">
                                     Agregar Lote
                                 </button>
                             </div>
                         </form>
-                    </div>
+                        </div>
+                    </section>
+                    
                 </div>
             </div>            
         </div>
@@ -106,5 +113,11 @@
     console.log(updateInventarioUrl);
     var productos = @json($productos);
 </script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('producto_cod')?.focus();
+  });
+</script>
+
 @endpush
 @endsection

@@ -9,14 +9,14 @@
                 <table class="table mb-0">
                     <thead >
                         <tr>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">ID</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Nombre</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Email</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Roles</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">ID</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Nombre</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Email</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Roles</th>
                             @role('Administrador')
-                                <th class="col-4" style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Permisos</th>
+                                <th class="col-4" style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Permisos</th>
                             @endrole
-                            <th class="col-2" style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Acciones</th>
+                            <th class="col-2" style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,11 +35,11 @@
                                     @if($user->getDirectPermissions()->isNotEmpty() || $user->hasRole('Administrador'))
                                         @if($user->hasRole('Administrador'))
                                             @foreach($user->permissions as $permission)
-                                                <span class="badge badgePermisos" style="background-color: #aed5b6;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->description }}</span>
+                                                <span class="badge shadow badgePermisos">{{ $permission->description }}</span>
                                             @endforeach
                                         @else
                                             @foreach($user->getDirectPermissions() as $permission)
-                                                <span class="badge badgePermisos" style="background-color: #aed5b6; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);">{{ $permission->description }}</span>
+                                                <span class="badge shadow badgePermisos">{{ $permission->description }}</span>
                                             @endforeach
                                         @endif
                                     @else
@@ -94,7 +94,7 @@
             text: "No podrás volver atrás",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#aed5b6",
+            confirmButtonColor: "#acd8b5",
             cancelButtonColor: "grey",
             confirmButtonText: "Eliminar de todas formas",
             cancelButtonText: "Cancelar"

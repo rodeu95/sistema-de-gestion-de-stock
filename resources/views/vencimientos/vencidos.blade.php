@@ -14,11 +14,11 @@
                 <table class="table mb-0">
                     <thead>
                         <tr>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Código</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Nombre</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Fecha de Vencimiento</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Número de lote</th>
-                            <th style="color:#fff; background-color:#aed5b6; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Cantidad</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Código</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Nombre</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Fecha de Vencimiento</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Número de lote</th>
+                            <th style="color:#fff; background-color:#acd8b5; text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);">Cantidad</th>
                         </tr>
                     </thead>
                     <tbody>

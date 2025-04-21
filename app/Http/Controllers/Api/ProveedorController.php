@@ -72,7 +72,7 @@ class ProveedorController extends Controller
             'icon' => 'success',
             'title' => '¡Proveedor agregado!',
             'text' => 'El proveedor se ha agregado correctamente',
-            'confirmButtonColor' => "#aed5b6",
+            'confirmButtonColor' => "#acd8b5",
         ]);
 
         // Asignar categorías al proveedor
@@ -127,7 +127,7 @@ class ProveedorController extends Controller
                     'icon' => 'success',
                     'title' => 'Actualizado',
                     'text' => 'Proveedor actualizado correctamente',
-                    'confirmButtonColor' => "#aed5b6",
+                    'confirmButtonColor' => "#acd8b5",
                 ]);
                 return response()->json([
                     'success' => true,
