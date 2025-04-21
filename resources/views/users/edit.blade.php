@@ -6,10 +6,10 @@
             <div class="col-lg-12">
                 
                     
-            <h3 class="justify-content text-white mb-4">Editar usuario</h3>
+            <h3 class="justify-content mb-4">Editar usuario</h3>
         
             
-                <section id="formulario1">
+                <section id="formSectionUserEdit" class="shadow formSection">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -26,7 +26,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="usuario" class="form-label">
-                                        <i class="fa-solid fa-user"></i>
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-user"></i>
                                         Nombre de Usuario
                                     </label>
                                     <input type="text" name="usuario" id="usuario" class="form-control" value="{{ $user->usuario }}" required>
@@ -37,7 +37,7 @@
                                 <!-- Correo electrónico -->
                                 <div class="form-group">
                                     <label for="email" class="form-label" style="margin-top:10px;">
-                                        <i class="fa-solid fa-envelope"></i> Correo Electrónico
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-envelope"></i> Correo Electrónico
                                     </label>
                                     <input type="email" name="email" id="email" class="form-control" value="{{ $user->email }}" required>
                                 </div>
@@ -46,13 +46,13 @@
                                 @if(auth()->user()->id == $user->id || auth()->user()->hasRole('Cajero'))
                                     <div class="form-group">
                                         <label for="password" class="form-label" style="margin-top:10px;">
-                                            <i class="fa-solid fa-lock"></i> Nueva Contraseña
+                                            <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-lock"></i> Nueva Contraseña
                                         </label>
                                         <div class="input-container">
                                             <input type="password" id="password" name="password" class="form-control" required><i class="fa-solid fa-eye icon" id="togglePassword"></i>
                                         </div>
-                                        <label for="password_confirmation" class="form-label" style="margin-top:10px;">
-                                            <i class="fa-solid fa-lock"></i> Confirmar Nueva Contraseña
+                                        <label for="confirmPassword" class="form-label" style="margin-top:10px;">
+                                            <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-lock"></i> Confirmar Nueva Contraseña
                                         </label>
                                         <div class="input-container">
                                             <input type="password" id="confirmPassword" name="password_confirmation" class="form-control" required><i class="fa-solid fa-eye icon" id="togglePasswordConfirm"></i>
@@ -66,7 +66,7 @@
                                 @if(auth()->user()->hasRole('Administrador'))
                                     <div class="form-group">
                                         <label for="tipoUsuario" class="form-label">
-                                            <i class="fa-solid fa-circle-user"></i> Roles
+                                            <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-circle-user"></i> Roles
                                         </label>
                                         <select id="tipoUsuario" name="roles[]" class="form-select">
                                         @foreach($roles as $role)
@@ -78,7 +78,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label id="atributos" for="atributos-container" class="form-label" style="margin-top:10px; text-decoration:underline; display:none;">Permisos</label>
+                                        <label id="atributos" for="atributos-container" class="form-label" style="margin-top:10px; display:none;"><i class="fa-solid fa-key"></i> Permisos</label>
                                         <div id="atributos-container" class="mb-3" style="overflow-y: auto; max-height: 230px; border-radius: 0.25rem; display:none;">
                                         @foreach ($permissions as $permission)
                                             <div class="form-check">
@@ -115,5 +115,6 @@
 
 @push('js')
 <script src="{{ asset('js/editUser.js') }}"></script>
+<script src="{{ asset('js/requiredField.js') }}"></script>
 @endpush
 @endsection

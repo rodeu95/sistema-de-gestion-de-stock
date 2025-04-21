@@ -5,40 +5,49 @@
         <div class="row g-4">
             <!-- Resumen de Ventas de Hoy -->
             <div class="col-lg-6 col-md-12">
-                <div class="card shadow border-0 mb-4">
-                    <div class="card-header text-center" style="background-color:#aed6b5">
-                        <h5 class="mb-0 text-white"><i class="fas fa-chart-line me-2"></i>Ventas de Hoy</h5>
-                    
-                        <div class="card-body">
-                            <section class="bg-light p-4 rounded shadow section-index">
-                                <p class="fs-5">Total de Ventas: <strong>{{ $totalVentasHoy }}</strong></p>
-                                <p class="fs-5">Monto Total: <strong>${{ number_format($montoTotalHoy, 2) }}</strong></p>
-                                <p class="fs-5">
-                                    @can('registrar-venta')
-                                        <a href="{{ route('ventas.create') }}" class="btn btn-access" >
-                                            <i class="fas fa-cash-register me-2"></i>Nueva venta
-                                        </a>
-                                    @endcan
-                                </p>
-                            </section>
-                        </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header text-center">
+                        <h5 class="mb-0 text-dark" style="text-shadow:none">
+                            <div class="icon-box">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        Ventas de Hoy
+                        </h5>
                     </div>
+                    <div class="card-body text-center">
+                        <section class="bg-light p-4 rounded shadow section-index">
+                            <p class="fs-5">Total de Ventas: <strong>{{ $totalVentasHoy }}</strong></p>
+                            <p class="fs-5">Monto Total: <strong>${{ number_format($montoTotalHoy, 2) }}</strong></p>
+                            <p class="fs-5">
+                                @can('registrar-venta')
+                                    <a href="{{ route('ventas.create') }}" class="btn btn-access" >
+                                        <i class="fas fa-cash-register me-2"></i>Nueva venta
+                                    </a>
+                                @endcan
+                            </p>
+                        </section>
+                    </div>
+
                 </div>
                 <div class="col-lg-12">
-                    <div class="card shadow border-0">
-                        <div class="card-header  text-center" style="background-color:#aed6b5">
-                            <h5 class="mb-0 text-white"><i class="fas fa-calendar-week me-2"></i>Ventas de los Últimos 7 Días</h5>
-                        
-                                <div class="card-body">
-                                    <section class="bg-light p-4 rounded shadow section-index">
-                                        <canvas id="ventasChart" 
-                                                data-labels="{{ json_encode($labels) }}" 
-                                                data-data="{{ json_encode($data) }}">
-                                        </canvas>
-                                    </section>
+                    <div class="card shadow">
+                        <div class="card-header text-center">
+                            <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                                <div class="icon-box">
+                                    <i class="fas fa-calendar-week"></i>
                                 </div>
-
+                                Ventas de los Últimos 7 Días
+                            </h5>
                         </div>
+                        <div class="card-body">
+                            <section class="bg-light p-4 rounded shadow section-index">
+                                <canvas id="ventasChart" 
+                                        data-labels="{{ json_encode($labels) }}" 
+                                        data-data="{{ json_encode($data) }}">
+                                </canvas>
+                            </section>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -66,21 +75,26 @@
                     </a>
                 @endif
  
-                <div class="card shadow border-0">
-                    <div class="card-header  text-center" style="background-color:#aed6b5">
-                        <h5 class="mb-0 text-white"><i class="fa-solid fa-chart-pie"></i> Top productos del mes</h5>
-
-                        <div class="card-body">
-                            <section class="bg-light p-4 rounded shadow section-index">
-                                <div style="width: 300px; height: 300px; margin: 0 auto;">
-                                    <canvas id="topProductosChart"
-                                    data-labels = "{{ json_encode($labelsTop) }}"
-                                    data-data = "{{ json_encode($dataTop) }}">
-                                    </canvas>
-                                </div>
-                            </section>
-                        </div>
+                <div class="card shadow">
+                    <div class="card-header  text-center">
+                        <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-chart-pie"></i> 
+                            </div>
+                            Top productos del mes
+                        </h5>
                     </div>
+                    <div class="card-body">
+                        <section class="bg-light p-4 rounded shadow section-index">
+                            <div style="width: 300px; height: 300px; margin: 0 auto;">
+                                <canvas id="topProductosChart"
+                                data-labels = "{{ json_encode($labelsTop) }}"
+                                data-data = "{{ json_encode($dataTop) }}">
+                                </canvas>
+                            </div>
+                        </section>
+                    </div>
+                    
                 </div>                    
                 
             </div>
@@ -91,8 +105,12 @@
         <div class="row g-4 mt-4 mb-5">
             <div class="col-lg-12">
                 <div class="card shadow border-0">
-                    <div class="card-header text-dark" style="background-color:#aed6b5">
-                        <h5 class="mb-0 text-white"><i class="fas fa-bolt me-2"></i>Accesos Rápidos</h5>
+                    <div class="card-header">
+                        <h5 class="mb-0 text-dark" style="text-shadow: none;">
+                            <div class="icon-box">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            Accesos Rápidos</h5>
                     </div>
                     <div class="card-body d-flex justify-content-around">
                         @can('registrar-venta')

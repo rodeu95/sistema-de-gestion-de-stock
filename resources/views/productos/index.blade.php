@@ -82,39 +82,39 @@
                 <form id="addProductFormModal">
                     @csrf
                     <div class="mb-3">
-                        <label for="codigo" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-barcode"></i> Código
+                        <label for="codigo" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-barcode"></i> Código
                         </label>
                         <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese el código del producto" required>
                     </div>
 
                     <!-- Campo Nombre -->
                     <div class="mb-3">
-                        <label for="nombre" class="form-label" style="color: #aed5b6;">
-                            <i class="fa-solid fa-pencil"></i> Nombre
+                        <label for="nombre" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-pencil"></i> Nombre
                         </label>
                         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" required>
                     </div>
 
                     <!-- Campo Descripción -->
                     <div class="mb-3">
-                        <label for="descripcion" class="form-label" style="color: #aed5b6; ">
+                        <label for="descripcion" class="form-label">
                             <i class="fa-solid fa-bars"></i> Descripción
                         </label>
                         <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción del producto"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="unidad" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-weight-hanging"></i> Unidad
+                        <label for="unidad" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-weight-hanging"></i> Unidad
                         </label>
                         <div>
                                         
                             <input type="radio" id="unidad_un" name="unidad" value="UN" required>
-                            <label for="unidad_un" style="margin-right:10px; color:grey;">UN</label>
+                            <label for="unidad_un" style="margin-right:10px; color:#0f6f70; text-shadow: none;">UN</label>
                             
                             <input type="radio" id="unidad_kg" name="unidad" value="KG" required>
-                            <label for="unidad_kg" style="color:grey;">KG</label>
+                            <label for="unidad_kg" style="color:#0f6f70; text-shadow: none;">KG</label>
                         </div>
  
                     </div>
@@ -122,8 +122,8 @@
                     <div id="hidden-inputs"></div>
                     <!-- Campo Precio -->
                     <div class="mb-3">
-                        <label for="precioVenta" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-dollar-sign"></i> Precio de venta
+                        <label for="precioVenta" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                         </label>
                         <div class="input-group">
                             <button class="btn"type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular precio de venta</button>                                
@@ -133,20 +133,28 @@
                             <div class="collapse" id="collapseExample">
                                 <div class="card card-body" style="background-color:#aed5b6;">
                                     <div class="mb-3">
-                                        <label for="precioCosto" class="form-label">Precio Costo</label>
-                                        <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo">
+                                        <label for="precioCosto" class="form-label text-white label-toggle">Precio Costo</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text dollar">$</span>
+                                            <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo">
+                                        </div>
+                                        
                                     </div>
                                     <div class="mb-3">
-                                        <label for="iva" class="form-label">IVA (%)</label>
+                                        <label for="iva" class="form-label text-white label-toggle">IVA (%)</label>
                                         <input type="number" name="iva" class="form-control" id="iva" value="21" readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="utilidad" class="form-label">% de Utilidad</label>
+                                        <label for="utilidad" class="form-label text-white label-toggle">% de Utilidad</label>
                                         <input type="number" class="form-control" name="utilidad" id="utilidad" step="0.01" placeholder="% de Utilidad">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="precioVenta" class="form-label">Precio de venta</label>
-                                        <input type="number" id="precioVenta" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
+                                        <label for="precioVenta" class="form-label text-white label-toggle">Precio de venta</label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text dollar">$</span>
+                                            <input type="number" id="precioVenta" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 
@@ -155,8 +163,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="stock_minimo" class="form-label" style="color: #aed5b6;">
-                            <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
+                        <label for="stock_minimo" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
                         </label>
                         <input 
                             type="number" 
@@ -171,8 +179,8 @@
 
                     <!-- Campo Categoría -->
                     <div class="mb-3">
-                        <label for="categoria_id" class="form-label" style="color: #aed5b6; ">
-                            <i class="fa-solid fa-table-columns"></i> Categoría
+                        <label for="categoria_id" class="form-label">
+                            <span class="asterisk" title="Campo requerido">*</span>  <i class="fa-solid fa-table-columns"></i> Categoría
                         </label>
                         <select class="form-select" id="categoria_id" name="categoria_id" required>
                             <option value="" selected disabled>Seleccione una categoría</option>
@@ -205,28 +213,28 @@
                     @csrf
                     @method('PUT') <!-- Esto es importante para enviar el método PUT en la actualización -->
                     <div class="mb-3">
-                        <label for="edit_codigo" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_codigo" class="form-label">
                             <i class="fa-solid fa-barcode"></i> Código
                         </label>
                         <input type="text" class="form-control" id="edit_codigo" name="codigo" value="{{old('codigo', $producto->codigo)  }}" readonly required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_nombre" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_nombre" class="form-label">
                             <i class="fa-solid fa-pencil"></i> Nombre
                         </label>
                         <input type="text" class="form-control" id="edit_nombre" name="nombre" value="{{ old('nombre', $producto->nombre) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_descripcion" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_descripcion" class="form-label">
                             <i class="fa-solid fa-bars"></i> Descripción
                         </label>
                         <textarea class="form-control" id="edit_descripcion" name="descripcion" value="{{ old('descripcion', $producto->descripcion) }}"  rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_unidad" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_unidad" class="form-label">
                             <i class="fa-solid fa-weight-hanging"></i> Unidad
                         </label>
                         <select class="form-select" id="edit_unidad" name="unidad" required>
@@ -239,21 +247,21 @@
                     <div id="edit_hidden_inputs"></div>
 
                     <div class="mb-3">
-                        <label for="edit_precioVenta" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_precioVenta" class="form-label"
                             <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                         </label>
                         <input type="number" class="form-control" id="edit_precioVenta" name="precio_venta" value="{{ old('precio_venta', $producto->precio_venta) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_stock" class="form-label" style="color: #aed5b6;">
+                        <label for="edit_stock" class="form-label">
                             <i class="fa-solid fa-warehouse"></i> Stock mínimo
                         </label>
                         <input type="number" class="form-control" id="edit_stock_minimo" name="stock_minimo" value="{{ old('stock', $producto->stock_minimo) }}"  required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="edit_categoria_id" class="form-label" style="color: #aed5b6; ">
+                        <label for="edit_categoria_id" class="form-label">
                             <i class="fa-solid fa-table-columns"></i> Categoría
                         </label>
                         <select class="form-select" id="edit_categoria_id" name="categoria_id" required>
@@ -315,7 +323,7 @@
         document.querySelector('.container-botones').classList.toggle('active');
     }
 </script>
-
+<script src="{{ asset('js/requiredField.js') }}"></script>
 
 @endpush
 @endsection

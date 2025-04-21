@@ -52,8 +52,8 @@ class ProveedorController extends Controller
             'contacto' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            'direccion' => 'required|string|max:255',
-            'cuit' => 'required|string|max:15|unique:proveedores',
+            'direccion' => 'string|max:255',
+            'cuit' => 'string|max:15|unique:proveedores',
             'categorias' => 'array', // Validación para categorías
             'categorias.*' => 'exists:categorias,id' // Cada categoría debe existir en la tabla 'categorias'
         ]);

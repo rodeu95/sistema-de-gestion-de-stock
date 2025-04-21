@@ -180,9 +180,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 th: {
                     'text-align': 'center',
                     'padding': '10px',
-                    'background-color': '#fff',
-                    'color' : 'grey',
-                    'text-shadow': 'none',
+                    'background-color': '#aed5b6',
+                    'color' : '#fff',
+                    'text-shadow': '2px 2px 2px rgba(0, 0, 0, 0.6)',
                     'border-bottom': '1px solid #ddd',
                     'border-top': 'none', /* Sin borde superior */
                     'border-left': 'none', /* Sin borde izquierdo */

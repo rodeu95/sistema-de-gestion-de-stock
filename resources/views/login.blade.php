@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=yes">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
@@ -14,18 +14,22 @@
 <body>
 
     <div class="container" id="container">
+        <div id="logoMobile" class="text-center d-md-none">
+            <img src="{{ asset('img/logo-sin fondo (1).png') }}" class="img-fluid" style="height:auto; width:150px">
+        </div>
         <div class="form-container sign-up">
             <form id="registerForm" method="POST" action="{{ route('user.store') }}" class="register">
                 @csrf
                 <h1>Registrarse</h1>
-                
                 <input type="text" placeholder="Nombre Completo" id="name" name="name" required>
                 <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Username" required>
                 <input type="email" id="email" name="email" placeholder="Email" required>
                 <div class="input-container">
                     <input type="password" id="passwordReg" name="password" placeholder="Contraseña" required><i class="fa-solid fa-eye icon" id="togglePasswordReg"></i>
                 </div>
-                <button type="submit">Registrar</button>
+                
+                <button type="submit" class="btn shadow">Registrar</button>
+
             </form>
         </div>
         <div class="form-container sign-in">
@@ -42,27 +46,27 @@
                 </div>
 
                 
-                <button type="submit" >Entrar</button>
+                <button type="submit" class="btn shadow">Entrar</button>
             </form>
         </div>
         <div class="toggle-container">
             <div class="toggle">
                 
                 <div class="toggle-panel toggle-left">
-                    <div id="logo" class="text-center">
-                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid" style="height:auto; width:150px">
+                    <div id="logoIni" class="text-center">
+                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid">
                     </div>
                     <h1>¡Bienvenido de nuevo!</h1>
                     <p>Presiona INICIAR SESIÓN para ingresar</p>
-                    <button class="hidden" id="login" onmouseout="this.style.backgroundColor='transparent';">Iniciar sesión</button>
+                    <button class="hidden btn shadow" id="login" onmouseout="this.style.backgroundColor='transparent';">Iniciar sesión</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <div id="logo" class="text-center">
-                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid" style="height:auto; width:150px">
+                    <div id="logoReg" class="text-center">
+                        <img src="{{asset('img/logo-sin fondo (1).png')}}" class="img-fluid">
                     </div>
                     <h1>¡Bienvenido!</h1>
                     <p>Presiona REGISTRARSE si es tu primera vez</p>
-                    <button class="hidden" id="register" onmouseout="this.style.backgroundColor='transparent';" >Registrarse</button>
+                    <button class="hidden btn shadow" id="register" onmouseout="this.style.backgroundColor='transparent';" >Registrarse</button>
                 </div>
             </div>
         </div>

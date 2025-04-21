@@ -8,8 +8,8 @@
 <main class="container-lg">
 
     <div class="row mb-4 text-center">
-        <div class="form-group col-3">
-            <label for="filtro-principal" class="mb-2">Filtrar por...</label>
+        <div class="form-group col-lg-3">
+            <label for="filtro-principal" class="mb-2" style="color: #0f6f70; text-shadow: none;">Filtrar por...</label>
             <select id="filtro-principal" class="form-control">
                 <option value="" disabled selected>Seleccione un filtro</option>
                 <option value="fecha">Fecha exacta</option>
@@ -19,12 +19,12 @@
             </select>
         </div>
         
-        <div class="form-group col-3 filtro" id="filtro_fecha" style="display: none;">
+        <div class="form-group col-lg-3 mt-4 mt-md-0 filtro" id="filtro_fecha" style="display: none;">
             <label class="mb-2">Fecha</label>
             <input type="date" name="fecha_venta" id="fecha_exacta" class="form-control">
         </div>
 
-        <div class="form-group col-3 filtro" id="filtro_mes" style="display: none;">
+        <div class="form-group col-lg-3 mt-4 mt-md-0 filtro" id="filtro_mes" style="display: none;">
             <label for="select-mes" class="mb-2">Mes</label>
             <select id="select-mes" name="month" class="form-control">
                 <option value="" disabled selected>Seleccione un mes</option>
@@ -44,25 +44,28 @@
             </select>
         </div>
 
-        <div class="form-group col-3 filtro" id="filtro_año" style="display: none;">
+        <div class="form-group col-lg-3 mt-4 mt-md-0 filtro" id="filtro_año" style="display: none;">
             <label for="year-select" class="mb-2">Año</label>
             <select id="year-select" name="year" class="form-control"></select>
         </div>
 
-        <div class="form-group col-8 filtro" id="filtro_rango" style="display: none;">
+        <div class="form-group col-lg-9 col-sm-12 mt-4 mt-md-0 filtro" id="filtro_rango" style="display: none;">
             <label>Rango de fechas</label>
-            <div class="form-group row d-flex mt-2">
-                <div class="d-flex align-items-center w-50">
-                    <label class="mr-2" style="margin-right: 10px;">Desde: </label>
-                    <input type="date" name="fechaIni" id="fechaIni" class="form-control ml-4">
+            <div class="row mt-2">
+                <div class="col-md-6 mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="mr-2">Desde: </label>
+                        <input type="date" name="fechaIni" id="fechaIni" class="form-control">
+                    </div>
                 </div>
-                <div class="d-flex align-items-center w-50 ml-3">
-                    <label class="mr-2" style="margin-right: 10px;">Hasta: </label>
-                    <input type="date" name="fechaFin" id="fechaFin" class="form-control ml-4">
+                <div class="col-md-6 mb-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="mr-2">Hasta: </label>
+                        <input type="date" name="fechaFin" id="fechaFin" class="form-control">                        
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
     
     <div id="ventas-table"></div>

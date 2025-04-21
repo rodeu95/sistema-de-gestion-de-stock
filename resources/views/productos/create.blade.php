@@ -4,11 +4,11 @@
 
     <div class="container" style="margin: 2%;">
         <!-- Título de la página -->
-        <h3 class="mb-2">Agregar nuevo producto</h3>
+        <h3 class="mb-4">Agregar nuevo producto</h3>
         <div class="row">
             <div class="col-lg-12">
 
-                <section id="formulario1" class="mt-4 ">
+                <section id="formSectionProd" class="shadow formSection">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -27,7 +27,7 @@
                                 <!-- Campo Código -->
                                 <div class="mb-3">
                                     <label for="codigo" class="form-label">
-                                        <i class="fa-solid fa-barcode"></i> Código
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-barcode"></i> Código
                                     </label>
                                     <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Ingrese el código del producto" required>
                                 </div>
@@ -35,7 +35,7 @@
                                 <!-- Campo Nombre -->
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">
-                                        <i class="fa-solid fa-pencil"></i> Nombre
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-pencil"></i>  Nombre
                                     </label>
                                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del producto" required>
                                 </div>
@@ -43,7 +43,7 @@
                                 <!-- Campo Unidad -->
                                 <div class="mb-3">
                                     <label for="unidad" class="form-label">
-                                        <i class="fa-solid fa-weight-hanging"></i> Unidad
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-weight-hanging"></i> Unidad
                                     </label>
                                     <div>
                                         
@@ -70,7 +70,7 @@
 
                                 <div class="mb-3">
                                     <label for="stock_minimo" class="form-label">
-                                        <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-boxes-stacked"></i> Stock mínimo
                                     </label>
                                     <input 
                                         type="number" 
@@ -87,7 +87,7 @@
                                 <!-- Campo Categoría -->
                                 <div class="mb-3">
                                     <label for="categoria_id" class="form-label">
-                                        <i class="fa-solid fa-table-columns"></i> Categoría
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-table-columns"></i> Categoría
                                     </label>
                                     <select class="form-select" id="categoria_id" name="categoria_id" required>
                                         <option value="" selected disabled>Seleccione una categoría</option>
@@ -101,32 +101,39 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="precioVenta" class="form-label">
-                                        <i class="fa-solid fa-dollar-sign"></i> Precio de venta
+                                        <span class="asterisk" title="Campo requerido">*</span> <i class="fa-solid fa-dollar-sign"></i> Precio de venta
                                     </label>
                                     <div class="input-group">
-                                        <button class="btn "   type="button"
+                                        <button class="btn" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Calcular Precio</button>
-                                        <input type="number" id="precioVenta" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
+                                        <input type="number" id="precioVenta" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>                                        
                                     </div>
 
                                     <p>
                                         <div class="collapse" id="collapseExample">
                                             <div class="card card-body" style="background-color:#aed5b6;">
                                                 <div class="mb-3">
-                                                    <label for="precioCosto" class="form-label">Precio Costo</label>
-                                                    <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo">
+                                                    <label for="precioCosto" class="form-label text-white label-toggle">Precio Costo</label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text dollar">$</span>
+                                                        <input type="number" class="form-control" name="precio_costo" id="precioCosto" step="0.01" placeholder="Precio Costo" required>
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="iva" class="form-label">IVA (%)</label>
+                                                    <label for="iva" class="form-label text-white label-toggle">IVA (%)</label>
                                                     <input type="number" name="iva" class="form-control" id="iva" value="21" readonly>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="utilidad" class="form-label">% de Utilidad</label>
+                                                    <label for="utilidad" class="form-label text-white label-toggle">% de Utilidad</label>
                                                     <input type="number" class="form-control" name="utilidad" id="utilidad" step="0.01" placeholder="% de Utilidad">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="precioVenta" class="form-label">Precio de venta</label>
-                                                    <input type="number" id="precioVentaMod" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
+                                                    <label for="precioVenta" class="form-label text-white label-toggle">Precio de venta</label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text dollar">$</span>
+                                                        <input type="number" id="precioVentaMod" class="form-control" step="0.01" name="precio_venta" placeholder="Precio Venta" required>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                             
@@ -184,5 +191,6 @@
 <!-- <script src="{{ asset('js/productos/index.js') }}"></script> -->
 
 @push('js')
+<script src="{{ asset('js/requiredField.js') }}"></script>
 @endpush
 @endsection

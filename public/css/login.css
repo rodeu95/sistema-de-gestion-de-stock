@@ -30,6 +30,10 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
+#logoReg img, #logoIni img{
+    height:auto; width:150px;
+}
+
 .icon {
     position: absolute;
     top: 50%;
@@ -75,7 +79,7 @@ input[type="text"] {
 .container button{
     background-color: #aed6b5;
     color: #fff;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
     font-size: 12px;
     padding: 10px 45px;
     border: 1px solid transparent;
@@ -86,11 +90,16 @@ input[type="text"] {
     margin-top: 10px;
     cursor: pointer;
 }
-
-button:hover{
+button[type="submit"]:hover{
+    background-color: #6fbf8d;
     color: #fff;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6) !important;
+}
+button:hover{
+    background-color: #6fbf8d;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6) !important;
 }
 
 
@@ -263,3 +272,90 @@ img{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+@media (max-width: 768px) {
+
+
+    body, html {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .container {
+        width: 90%;
+        min-height: 100vh;
+        border-radius: 20px;
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    .form-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sign-in,
+    .sign-up {
+        width: 100%;
+        position: static;
+        transform: none !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
+        display: block;
+    }
+
+    .toggle-container {
+        display: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        font-size: 16px;
+        padding: 12px 15px;
+    }
+
+    .container button {
+        font-size: 14px;
+        padding: 12px 25px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .container form.login,
+    .container form.register {
+        padding: 20px;
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 15px;
+        background-color: #fff;
+    }
+
+    .container input {
+        margin: 6px 0;
+    }
+    .form-container.sign-in {
+        order: 1;
+    }
+
+    .form-container.sign-up {
+        order: 2;
+    }
+
+    .container{
+        background: linear-gradient(to right, #aed6b5, #446b4b);
+        gap: 16px;
+    }
+}
+
