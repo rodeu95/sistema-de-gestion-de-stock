@@ -95,7 +95,7 @@
                     
                     <div class="d-flex justify-content-end" style="margin:10px;">
                         <button type="submit" class="btn" style="margin-top:20px; margin-right:10px">Crear</button>
-                        <button type="reset" class="btn" style="margin-top:20px; background-color:grey;" >Borrar</button>
+                        <button type="reset" class="btn btn-cancelar" style="margin-top:20px;" >Borrar</button>
                     </div>
                     
                 </form>

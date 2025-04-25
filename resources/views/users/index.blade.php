@@ -5,7 +5,7 @@
     <div class="container-lg">
         <h1 class="my-4">Lista de Usuarios</h2>
         <div class="table-wrapper mb-3 shadow">
-            <div class="table-responsive rounded-3 overflow-hidden">
+            <div class="table-responsive rounded-3 overflow-auto" style="max-width: 100%; overflow-x: auto;">
                 <table class="table mb-0">
                     <thead >
                         <tr>

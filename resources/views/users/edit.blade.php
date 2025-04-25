@@ -102,7 +102,7 @@
                             <button type="submit" class="btn" style="margin-right:10px; margin-top:20px;">
                                 Guardar Cambios
                             </button>
-                            <a href="javascript:history.back()" class="btn" style="margin-top:20px; background-color:grey;">Cancelar</a>
+                            <a href="javascript:history.back()" class="btn btn-cancelar" style="margin-top:20px;">Cancelar</a>
                         </div>
                     </form>
                 </section>

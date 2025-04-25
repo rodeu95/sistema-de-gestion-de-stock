@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 labels: labels,
                 datasets: [{
                     data: data,
-                    backgroundColor: ['#E06D3F', '#F3B84F', '#2C6B5D'], // Colores para cada segmento
+                    backgroundColor: ['#E06D3F', '#F3B84F', '#2C6B5D'],
+                    // backgroundColor: ['#acd8b5', '#916c80', '#114b5f'],
                     hoverOffset: 4
                 }]
             },

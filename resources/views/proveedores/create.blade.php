@@ -97,7 +97,7 @@
                         <!-- Botones de acción -->
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn" style="margin-right:10px" ">Guardar Proveedor</button>
-                            <a href="{{ route('proveedores.index') }}" class="btn btn-secondary" style="background-color:grey;">Cancelar</a>
+                            <a href="{{ route('proveedores.index') }}" class="btn btn-cancelar">Cancelar</a>
                         </div>
                     </form>
                 </section>

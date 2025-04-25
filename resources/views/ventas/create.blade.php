@@ -57,11 +57,13 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <ul id="product-list" class="list-group mb-3">
-                            <!-- Aquí se agregarán los productos seleccionados -->
-                        </ul>
+                        <section class="bg-light p-4 rounded shadow section-index">
+                            <ul id="product-list" class="list-group mb-3">
+                                <!-- Aquí se agregarán los productos seleccionados -->
+                            </ul>
 
-                        <div id="hidden-inputs"></div>
+                            <div id="hidden-inputs"></div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -101,7 +103,7 @@
 
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn" style="margin-right:10px" @if(!$cajaAbierta) disabled @endif> Agregar Venta </button>
-                                <a href="javascript:history.back()" class="btn btn-secondary" style="background-color: grey">Cancelar</a>
+                                <a href="javascript:history.back()" class="btn btn-cancelar">Cancelar</a>
                             </div>
                         </section>
                         

@@ -64,7 +64,7 @@
                 @if(count($productosProximosAVencer) > 0)
                     <a href="{{ route('productos.por-vencer') }}" class="btn text-white btn-mid-warning btn-sm w-100 d-flex justify-content-between align-items-center">
                         <span><i class="fas fa-exclamation-circle me-2"></i>Hay productos próximos a vencerse</span>
-                        <span class="badge bg-white text-warning cantidad">{{ count($productosProximosAVencer) }}</span>
+                        <span class="badge bg-white cantidad" style="color: #E06D3F">{{ count($productosProximosAVencer) }}</span>
                     </a>
                 @endif
 

@@ -461,7 +461,7 @@ function disableProducto(codigo) {
         confirmButtonText: 'Sí, deshabilitar',
         cancelButtonText: 'Cancelar',
         confirmButtonColor: "#acd8b5",
-        cancelButtonColor: "#grey",
+        cancelButtonColor: "grey",
     }).then((result) => {
         if (result.isConfirmed) {
             const disableProductoUrlFinal = disableProductoUrl.replace("codigo", codigo);

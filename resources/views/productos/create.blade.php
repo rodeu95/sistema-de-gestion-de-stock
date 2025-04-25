@@ -111,7 +111,7 @@
 
                                     <p>
                                         <div class="collapse" id="collapseExample">
-                                            <div class="card card-body" style="background-color:#acd8b5;">
+                                            <div class="card card-body" style="background-color:#0f4845;">
                                                 <div class="mb-3">
                                                     <label for="precioCosto" class="form-label text-white label-toggle">Precio Costo</label>
                                                     <div class="input-group mb-3">
@@ -121,11 +121,17 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="iva" class="form-label text-white label-toggle">IVA (%)</label>
-                                                    <input type="number" name="iva" class="form-control" id="iva" value="21" readonly>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text porcentaje">%</span>
+                                                        <input type="number" name="iva" class="form-control" id="iva" value="21" readonly>
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="utilidad" class="form-label text-white label-toggle">% de Utilidad</label>
-                                                    <input type="number" class="form-control" name="utilidad" id="utilidad" step="0.01" placeholder="% de Utilidad">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text porcentaje">%</span>
+                                                        <input type="number" class="form-control" name="utilidad" id="utilidad" step="0.01" placeholder="% de Utilidad">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="precioVenta" class="form-label text-white label-toggle">Precio de venta</label>
@@ -147,7 +153,7 @@
                         <!-- Botones de acción -->
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn" style="margin-right:10px" ">Guardar Producto</button>
-                            <a href="{{ route('productos.index') }}" class="btn btn-secondary" style="background-color:grey;">Cancelar</a>
+                            <a href="{{ route('productos.index') }}" class="btn btn-cancelar">Cancelar</a>
                         </div>
                     </form>
                 </section>

@@ -122,18 +122,21 @@ class ProveedorController extends Controller
     {
         $proveedor = Proveedor::where('id', $id)->first();
         if($proveedor){
-            $proveedor->update($request->all());
-                session()->flash('swal', [
-                    'icon' => 'success',
-                    'title' => 'Actualizado',
-                    'text' => 'Proveedor actualizado correctamente',
-                    'confirmButtonColor' => "#acd8b5",
-                ]);
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Producto actualizado exitosamente',
-                    'proveedor' => $proveedor
-                ]);
+            $proveedor->update($request->except('categorias'));
+            if ($request->has('categorias')) {
+                $proveedor->categorias()->sync($request->input('categorias'));
+            }
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => 'Actualizado',
+                'text' => 'Proveedor actualizado correctamente',
+                'confirmButtonColor' => "#acd8b5",
+            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto actualizado exitosamente',
+                'proveedor' => $proveedor
+            ]);
         }else{
             return response()->json([
                 'success' => false,

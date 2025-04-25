@@ -264,7 +264,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         confirmButtonColor: "#acd8b5",
                         confirmButtonText: 'OK'
                     }).then(function() {
-                        renderProveedoresTable(); 
+                        $.ajax({
+                            url: proveedoresIndexUrl,
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            success: function (res) {
+                                console.log(res);
+                                renderProveedoresTable(res); // Asegurate que devuelva un array
+                            },
+                            error: function (err) {
+                                console.error("Error al obtener proveedores:", err.responseText);
+                            }
+                        });
                     });
                 }
             },
